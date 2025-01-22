@@ -1,1 +1,1 @@
-# FED_Asst2_MokeSell
+# MokeSell - A Gamified Marketplace
