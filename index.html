@@ -6,9 +6,118 @@
     <link rel="icon" href="Images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
-</head>
 <body>
-    
-    <script src="script.js"></script>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <!-- Logo on the right -->
+            <div class="logo">
+                <img src="Images/MokeSell_logo.png" alt="Logo">
+            </div>
+
+            <!-- Following and Categories (Button with Hamburger) -->
+            <div class="nav-links">
+                <a href="#">Following</a>
+                <div class="categories-btn">
+                    <button class="categories-toggle-btn" onclick="toggleMenu()">
+                        <span class="hamburger">&#9776;</span> Categories
+                    </button>
+                    <div id="dropdownMenu" class="dropdown-menu">
+                        <a href="#">
+                            <img src="Images/free.png" alt="Free Items" class="dropdown-img">
+                            Free Items
+                        </a>
+                        <a href="#">
+                            <img src="Images/women_fashion.png" alt="Women's Fashion" class="dropdown-img">
+                            Women's Fashion
+                        </a>
+                        <a href="#">
+                            <img src="Images/men_fashion.png" alt="Men's Fashion" class="dropdown-img">
+                            Men's Fashion
+                        </a>
+                        <a href="#">
+                            <img src="Images/cosmetics.png" alt="Beauty & Health" class="dropdown-img">
+                            Beauty & Health
+                        </a>
+                        <a href="#">
+                            <img src="Images/gadgets.png" alt="Electronics" class="dropdown-img">
+                            Electronics
+                        </a>
+                        <a href="#">
+                            <img src="Images/baby.png" alt="Babies & Kids" class="dropdown-img">
+                            Babies & Kids
+                        </a>
+                        <a href="#">
+                            <img src="Images/learning.png" alt="Learning & Enrichment" class="dropdown-img">
+                            Learning & Enrichment
+                        </a>
+                        <a href="#">
+                            <img src="Images/services.png" alt="Services" class="dropdown-img">
+                            Services
+                        </a>
+                        <a href="#">
+                            <img src="Images/application.png" alt="Others" class="dropdown-img">
+                            Others
+                        </a>
+                    </div>
+                </div>
+
+                <div class="icons">
+                    <img src="Images/favourites.png" alt="Favourites">
+                    <img src="Images/notification.png" alt="Notifications">
+                    <img src="Images/messages.png" alt="Chats">
+                </div>
+
+                <div class="auth-buttons">
+                    <button id="openModalBtn" class="login-btn">Login</button>
+                    <button class="sell-btn">Sell</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+<!-- Login Modal (popup) -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <!-- Close Button -->
+        <span class="close-btn" id="closeModalBtn">&times;</span>
+        
+        <!-- Title -->
+        <h2>Login</h2>
+        
+        <!-- Form -->
+        <form>
+            <!-- Email Address -->
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            
+            <!-- Password -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <a href="#" class="forgot-password">Forgot Password?</a>
+            
+            <!-- Sign In Button -->
+            <button type="submit" class="sign-in-btn">Sign In</button>
+        </form>
+        
+        <!-- Divider -->
+        <div class="divider">
+            <span>OR</span>
+        </div>
+        
+        <!-- Google Sign In -->
+        <button class="google-signin-btn">
+            <img src="Images/google.png" alt="Google Icon">
+            Sign In with Google
+        </button>
+        
+        <!-- Create Account -->
+        <p class="create-account">
+            Don’t have an account yet? <a href="#" class="create-account-link">Create Account</a>
+        </p>
+    </div>
+</div>
+
+  <script src="script.js"></script>
 </body>
 </html>

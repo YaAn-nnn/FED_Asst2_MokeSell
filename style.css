@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    border-bottom: 1px solid #D3D3D3;
+}
+
+/* Logo on the right */
+.logo img {
+    width: 150px; /* Adjust size as needed */
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 1vw;
+}
+
+.nav-links a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.2vw;
+}
+
+/* Categories Button (with Hamburger Icon) */
+.categories-btn {
+    position: relative;
+}
+
+.categories-toggle-btn {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: black;
+    font-size: 1.2vw;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: #5271FF;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    width: 20vw;
+}
+
+.dropdown-menu a {
+    color: white;
+    padding: 8px 10px;
+    display: block;
+}
+ 
+.dropdown-img {
+    width: 20px; /* Adjust size as needed */
+    height: 20px; /* Adjust size as needed */
+    margin-right: 10px; /* Space between image and text */
+}
+
+
+.dropdown-menu a:hover {
+    background-color: #304BB8;
+    border-radius: 5px;
+}
+
+.icons img {
+    width: 24px;
+    height: 24px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.auth-buttons button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #5271FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.auth-buttons button:hover {
+    background-color: #304BB8;
+}
+
+/* Modal (pop-up) background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    position: absolute; /* Position it absolutely within the modal */
+    top: 50%; /* Move it down to the middle */
+    left: 50%; /* Move it to the middle */
+    transform: translate(-50%, -50%); /* Offset by half of the width and height to center it */
+    width: 30%; /* Set the modal width */
+    text-align: center;
+}
+
+
+
+/* Close button */
+.close-btn {
+    color: #aaa;
+    font-size: 40px;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 25px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: black;
+}
+
+/* Form inputs */
+form {
+    margin-top: 20px;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #5271FF;
+}
+
+form label {
+    display: block; /* Makes the label take up the full width */
+    font-size: 14px; /* Set label font size */
+    font-weight: 600; /* Semi-bold for labels */
+    text-align: left; /* Aligns the text to the left */
+    margin-bottom: 5px; /* Adds a small gap between the label and input box */
+    font-family: 'Open Sans', sans-serif; /* Ensures consistent font */
+}
+
+/* Forgot password link */
+.forgot-password {
+    display: block;
+    margin: 5px 0 15px;
+    font-size: 14px;
+    color: #5271FF;
+    text-decoration: none;
+    text-align: left;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Sign In button */
+.sign-in-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #5271FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sign-in-btn:hover {
+    background-color: #304BB8; /* Darker blue for hover */
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.divider span {
+    font-size: 14px;
+    color: #aaa;
+    margin: 0 10px;
+}
+
+.divider:before,
+.divider:after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #ccc;
+}
+
+/* Google Sign In button */
+.google-signin-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.google-signin-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.google-signin-btn:hover {
+    background-color: #f9f9f9;
+}
+
+/* Create Account */
+.create-account {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.create-account-link {
+    color: #5271FF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.create-account-link:hover {
+    text-decoration: underline;
+}
