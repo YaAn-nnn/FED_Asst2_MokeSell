@@ -103,6 +103,48 @@ body {
     background-color: #304BB8;
 }
 
+/*Search bar*/
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #D3D3D3;
+}
+
+.search-bar {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 70%;
+    margin-right: 10px;
+}
+
+.search-btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #5271FF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #304BB8;
+}
+
+.location-filter {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    background-color: #fff;
+    width: 25%;
+}
+
 /* Modal (pop-up) background */
 .modal {
     display: none; /* Hidden by default */
@@ -192,7 +234,7 @@ form label {
 }
 
 /* Sign In button */
-.sign-in-btn {
+.btn {
     width: 100%;
     padding: 10px;
     background-color: #5271FF;
@@ -203,7 +245,7 @@ form label {
     font-size: 16px;
 }
 
-.sign-in-btn:hover {
+.btn:hover {
     background-color: #304BB8; /* Darker blue for hover */
 }
 
@@ -229,7 +271,7 @@ form label {
 }
 
 /* Google Sign In button */
-.google-signin-btn {
+.google-btn {
     width: 100%;
     padding: 10px;
     background-color: white;
@@ -243,12 +285,12 @@ form label {
     gap: 10px;
 }
 
-.google-signin-btn img {
+.google-btn img {
     width: 20px;
     height: 20px;
 }
 
-.google-signin-btn:hover {
+.google-btn:hover {
     background-color: #f9f9f9;
 }
 
@@ -266,5 +308,22 @@ form label {
 }
 
 .create-account-link:hover {
+    text-decoration: underline;
+}
+
+/*Login Account*/
+.login-account {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.login-account-link {
+    color: #5271FF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.login-account-link:hover {
     text-decoration: underline;
 }
