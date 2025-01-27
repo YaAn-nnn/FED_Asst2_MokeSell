@@ -6,6 +6,19 @@
     box-sizing: border-box;
 }
 
+.topbar{
+    position: fixed;
+    width:100%;
+    z-index: 3;
+    background-color: white;
+}
+
+.fullbody{
+    position:relative; 
+    padding-top:150px;
+    width:auto
+}
+
 body {
     font-family: 'Open Sans', sans-serif;
 }
@@ -110,6 +123,11 @@ body {
     justify-content: center;
     padding: 10px 20px;
     border-bottom: 1px solid #D3D3D3;
+    position: fixed;
+    border-top: 200px;
+    width:100%;
+    z-index: 1;
+    background-color: white;
 }
 
 .search-bar {
@@ -119,6 +137,7 @@ body {
     border-radius: 4px;
     width: 70%;
     margin-right: 10px;
+
 }
 
 .search-btn {
@@ -149,6 +168,7 @@ body {
 .modal {
     display: none; /* Hidden by default */
     position: fixed;
+    padding-top: 200px;
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
@@ -326,4 +346,33 @@ form label {
 
 .login-account-link:hover {
     text-decoration: underline;
+}
+/* To make a box*/
+.listingbox {
+    width: 220px; 
+    height: 220px;
+    margin: 10px; 
+    background-color: #D9D9D9; 
+    display: inline-block;  
+    border-radius: 5px; 
+}
+
+.profilepicture{
+    width:45px;
+    height:45px;
+    margin-right: 0px;
+    background-color: #D9D9D9; 
+    display: inline-block; 
+    border-radius: 50%;
+}
+/* Container to wrap boxes */
+.listingcontainer {
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content:center; 
+}
+.listedcontainer{
+    width:220px;
+    display: flex; 
+    flex-wrap: wrap; 
 }

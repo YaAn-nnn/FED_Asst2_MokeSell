@@ -109,3 +109,28 @@ document.getElementById("search-btn").addEventListener("click", () => {
         alert("Please enter something to search.");
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const listingcontainer = document.getElementById('listingcontainer');
+    const numberOfBoxes = 20;
+
+
+    for (let i = 1; i <= numberOfBoxes; i++) {
+        const profilepicture = document.createElement('div');
+        profilepicture.className = 'profilepicture';
+        listingcontainer.appendChild(profilepicture);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const listingcontainer = document.getElementById('listingboxcontainer');
+    const numberOfBoxes = 20;
+
+
+    for (let i = 1; i <= numberOfBoxes; i++) {
+        const listingbox = document.createElement('div');
+        listingbox.className = 'listingbox';
+        listingcontainer.appendChild(listingbox);
+
+    }
+});
