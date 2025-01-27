@@ -12,12 +12,12 @@
         <nav class="navbar">
             <!-- Logo on the right -->
             <div class="logo">
-                <a href="index.html"><img src="Images/MokeSell_logo.png" alt="Logo"></a>
-            </div>
-            <!-- Following and Categories (Button with Hamburger) -->
-            <div class="nav-links">
+                <a href="index.html">
+                    <img src="Images/MokeSell_logo.png" alt="Logo">
+                </a>
+            </div> 
 
-                <a href="#">Following</a>
+            <div class="nav-links">
                 <div class="categories-btn">
                     <button class="categories-toggle-btn" onclick="toggleMenu()">
                         <span class="hamburger">&#9776;</span> Categories
@@ -63,10 +63,23 @@
                 </div>
 
                 <div class="icons">
-                    <img src="Images/favourites.png" alt="Favourites">
-                    <img src="Images/notification.png" alt="Notifications">
-                    <img src="Images/messages.png" alt="Chats">
+                    <a href="following.html">
+                        <img src="Images/add-friend.png" alt="Favourites">
+                    </a>
+                    <a href="favourites.html">
+                        <img src="Images/favourites.png" alt="Favourites">
+                    </a>
+                    <a href="notifications.html">
+                        <img src="Images/notification.png" alt="Notifications">
+                    </a>
+                    <a href="chats.html">
+                        <img src="Images/messages.png" alt="Chats">
+                    </a>
+                    <a href="Mokefarm.html">
+                        <img src="Images/sprout.png" alt="MokeFarm">
+                    </a>
                 </div>
+                
 
                 <div class="auth-buttons">
                     <button id="openModalBtn" class="login-btn">Login</button>
@@ -75,21 +88,6 @@
             </div>
         </nav>
     </header>
-
-    <!-- Search Bar Section -->
-    <div class="search-container" style="padding-top: 90px;">
-        <input type="text" id="search-bar" class="search-bar" placeholder="Search for something">
-        <!-- Location Filter Dropdown -->
-        <select id="location-filter" class="location-filter">
-            <option value="">All of Singapore</option>
-            <option value="North">North</option>
-            <option value="South">South</option>
-            <option value="East">East</option>
-            <option value="West">West</option>
-            <option value="West">Central</option>
-        </select>
-        <button id="search-btn" class="search-btn">Search</button>
-    </div>
 
     <!-- Login Modal (popup) -->
     <div id="loginModal" class="modal">

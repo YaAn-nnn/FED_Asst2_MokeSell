@@ -12,13 +12,12 @@
         <nav class="navbar">
             <!-- Logo on the right -->
             <div class="logo">
-                <img src="Images/MokeSell_logo.png" alt="Logo">
-            </div>
+                <a href="index.html">
+                    <img src="Images/MokeSell_logo.png" alt="Logo">
+                </a>
+            </div>            
 
-            <!-- Following and Categories (Button with Hamburger) -->
             <div class="nav-links">
-                <a href="MokeFarm.html">MokeFarm</a>
-                <a>Following</a>
                 <div class="categories-btn">
                     <button class="categories-toggle-btn" onclick="toggleMenu()">
                         <span class="hamburger">&#9776;</span> Categories
@@ -64,10 +63,23 @@
                 </div>
 
                 <div class="icons">
-                    <img src="Images/favourites.png" alt="Favourites">
-                    <img src="Images/notification.png" alt="Notifications">
-                    <img src="Images/messages.png" alt="Chats">
+                    <a href="following.html">
+                        <img src="Images/add-friend.png" alt="Favourites">
+                    </a>
+                    <a href="favourites.html">
+                        <img src="Images/favourites.png" alt="Favourites">
+                    </a>
+                    <a href="notifications.html">
+                        <img src="Images/notification.png" alt="Notifications">
+                    </a>
+                    <a href="chats.html">
+                        <img src="Images/messages.png" alt="Chats">
+                    </a>
+                    <a href="Mokefarm.html">
+                        <img src="Images/sprout.png" alt="MokeFarm">
+                    </a>
                 </div>
+                
 
                 <div class="auth-buttons">
                     <button id="openModalBtn" class="login-btn">Login</button>
@@ -169,6 +181,7 @@
             </p>     
         </div>
     </div>
+    
     <div class="fullbody">
         <h2 style="padding-left: 30px;">Trending now</h2>
         <br>
