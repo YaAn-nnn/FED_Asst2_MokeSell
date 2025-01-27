@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>MokeSell</title>
+    <link rel="icon" href="Images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="topbar">
+        <nav class="navbar">
+            <!-- Logo on the right -->
+            <div class="logo">
+                <img src="Images/MokeSell_logo.png" alt="Logo">
+            </div>
+
+            <!-- Following and Categories (Button with Hamburger) -->
+            <div class="nav-links">
+                <a href="#">Following</a>
+                <div class="categories-btn">
+                    <button class="categories-toggle-btn" onclick="toggleMenu()">
+                        <span class="hamburger">&#9776;</span> Categories
+                    </button>
+                    <div id="dropdownMenu" class="dropdown-menu">
+                        <a href="#">
+                            <img src="Images/free.png" alt="Free Items" class="dropdown-img">
+                            Free Items
+                        </a>
+                        <a href="#">
+                            <img src="Images/women_fashion.png" alt="Women's Fashion" class="dropdown-img">
+                            Women's Fashion
+                        </a>
+                        <a href="#">
+                            <img src="Images/men_fashion.png" alt="Men's Fashion" class="dropdown-img">
+                            Men's Fashion
+                        </a>
+                        <a href="#">
+                            <img src="Images/cosmetics.png" alt="Beauty & Health" class="dropdown-img">
+                            Beauty & Health
+                        </a>
+                        <a href="#">
+                            <img src="Images/gadgets.png" alt="Electronics" class="dropdown-img">
+                            Electronics
+                        </a>
+                        <a href="#">
+                            <img src="Images/baby.png" alt="Babies & Kids" class="dropdown-img">
+                            Babies & Kids
+                        </a>
+                        <a href="#">
+                            <img src="Images/learning.png" alt="Learning & Enrichment" class="dropdown-img">
+                            Learning & Enrichment
+                        </a>
+                        <a href="#">
+                            <img src="Images/services.png" alt="Services" class="dropdown-img">
+                            Services
+                        </a>
+                        <a href="#">
+                            <img src="Images/application.png" alt="Others" class="dropdown-img">
+                            Others
+                        </a>
+                    </div>
+                </div>
+
+                <div class="icons">
+                    <img src="Images/favourites.png" alt="Favourites">
+                    <img src="Images/notification.png" alt="Notifications">
+                    <img src="Images/messages.png" alt="Chats">
+                </div>
+
+                <div class="auth-buttons">
+                    <button id="openModalBtn" class="login-btn">Login</button>
+                    <button class="sell-btn">Sell</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Search Bar Section -->
+    <div class="search-container" style="padding-top: 90px;">
+        <input type="text" id="search-bar" class="search-bar" placeholder="Search for something">
+        <!-- Location Filter Dropdown -->
+        <select id="location-filter" class="location-filter">
+            <option value="">All of Singapore</option>
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+            <option value="West">Central</option>
+        </select>
+        <button id="search-btn" class="search-btn">Search</button>
+    </div>
+
+    <!-- Login Modal (popup) -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <!-- Close Button -->
+            <span class="close-btn" id="closeModalBtn">&times;</span>
+            
+            <!-- Title -->
+            <h2>Login</h2>
+            
+            <!-- Form -->
+            <form>
+                <!-- Email Address -->
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                
+                <!-- Password -->
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+                
+                <!-- Sign In Button -->
+                <button type="submit" class="btn">Sign In</button>
+            </form>
+            
+            <!-- Divider -->
+            <div class="divider">
+                <span>OR</span>
+            </div>
+            
+            <!-- Google Sign In -->
+            <button class="google-btn">
+                <img src="Images/google.png" alt="Google Icon">
+                Sign In with Google
+            </button>
+            
+            <!-- Create Account -->
+            <p class="create-account">
+                Don't have an account yet? <a href="#" id="createAccountLink" class="create-account-link">Create Account</a>
+            </p>        
+        </div>
+    </div>
+
+    <!-- Register Modal (popup) -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeRegisterModalBtn">&times;</span>
+            <h2>Register</h2>
+            <form>
+                <label for="full-name">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                
+                <label for="register-email">Email Address</label>
+                <input type="email" id="register-email" name="register-email" placeholder="Enter your email" required>
+                
+                <label for="register-password">Password</label>
+                <input type="password" id="register-password" name="register-password" placeholder="Enter your password" required>
+                
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <button class="google-btn">
+                <img src="Images/google.png" alt="Google Icon">
+                Sign Up with Google
+            </button>
+            
+            <p class="login-account">
+                Already have an account? <a href="#" id="loginAccountLink" class="login-account-link">Login Account</a>
+            </p>     
+        </div>
+    </div>
+
+    
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>

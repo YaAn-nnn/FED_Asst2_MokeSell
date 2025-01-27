@@ -16,11 +16,12 @@
 .fullbody{
     position:relative; 
     padding-top:150px;
-    width:auto
+    width:100%;
 }
 
 body {
     font-family: 'Open Sans', sans-serif;
+    font-weight: 1000;
 }
 
 /* Navbar Styles */
@@ -350,29 +351,43 @@ form label {
 /* To make a box*/
 .listingbox {
     width: 220px; 
-    height: 220px;
-    margin: 10px; 
+    height: 220px; 
+    margin-top: 60px;
+    justify-content:center;
     background-color: #D9D9D9; 
     display: inline-block;  
     border-radius: 5px; 
 }
 
+.container{
+    display: flex; 
+    flex-wrap: wrap;
+    width:220px;
+    height:350px;
+    margin:10px;
+}
+
+.username{
+    padding-left: 5px;
+    padding-top: 10px;
+}
+
 .profilepicture{
     width:45px;
     height:45px;
-    margin-right: 0px;
+    margin-left: 0px;
     background-color: #D9D9D9; 
     display: inline-block; 
     border-radius: 50%;
 }
+
 /* Container to wrap boxes */
 .listingcontainer {
     display: flex; 
     flex-wrap: wrap;
     justify-content:center; 
 }
-.listedcontainer{
-    width:220px;
-    display: flex; 
-    flex-wrap: wrap; 
+
+.itemmoney{
+    padding-top: 240px;
 }
