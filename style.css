@@ -391,3 +391,19 @@ form label {
 .itemmoney{
     padding-top: 240px;
 }
+
+.farmgrid-container {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(5, 125px); /* 5 columns, 125px each */
+    gap: 0px; /* Space between boxes */
+    padding: 20px;
+  }
+
+  .farmbox {
+    width: 125px; /* Fixed size */
+    height: 125px; /* Fixed size */
+    background-color: #5271FF; /* Box color */
+    border: 1px solid #000000; /* White border */
+    display: flex;
+  }

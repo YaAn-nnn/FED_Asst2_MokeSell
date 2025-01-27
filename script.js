@@ -111,3 +111,11 @@ document.getElementById("search-btn").addEventListener("click", () => {
 });
 
 
+const farmgridContainer = document.getElementById('farmgrid');
+
+// Generate 5x5 grid dynamically
+for (let i = 1; i <= 25; i++) {
+  const farmbox = document.createElement('div'); // Create a new div
+  farmbox.classList.add('farmbox'); // Add the 'box' class
+  farmgridContainer.appendChild(farmbox); // Append the box to the grid container
+}
