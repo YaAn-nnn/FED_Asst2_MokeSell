@@ -403,7 +403,8 @@ form label {
   .farmbox {
     width: 125px; /* Fixed size */
     height: 125px; /* Fixed size */
-    background-color: #5271FF; /* Box color */
+    background-color: #006400; /* Box color */
     border: 1px solid #000000; /* White border */
     display: flex;
   }
+  
