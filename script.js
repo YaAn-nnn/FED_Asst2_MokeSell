@@ -1,57 +1,127 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Get the modals
+document.addEventListener("DOMContentLoaded", function () {
+    const APIKEY = "67932aa4270cfe68c9c3ceec";
+
+    // Form submission event
+    document.getElementById("contact-submit").addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent the form from submitting the default way
+
+        // Get the form data
+        const username = document.getElementById("signupusername").value.trim();
+        const email = document.getElementById("signupemail").value.trim();
+        const password = document.getElementById("signuppassword").value.trim();
+
+        // Validate password length
+        if (password.length < 8) {
+            alert("Password must be at least 8 characters long!");
+            return; // Stop submission
+        }
+
+        // Function to check if email or username exists in RestDB
+        function checkExistingRecords() {
+            const filter = `{"$or":[{"email":"${email}"},{"username":"${username}"}]}`;
+            const settings = {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-apikey": APIKEY,
+                    "Cache-Control": "no-cache",
+                },
+            };
+
+            return fetch(`https://mokeselldb-1246.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, settings)
+                .then((response) => response.json());
+        }
+
+        // Perform the check and register if unique
+        checkExistingRecords()
+            .then((data) => {
+                if (data.length > 0) {
+                    // Username or email already exists
+                    alert("Username or email is already taken. Please choose another.");
+                } else {
+                    // Create an object to send to the database
+                    const jsondata = {
+                        email: email,
+                        username: username,
+                        password: password,
+                    };
+
+                    // Fetch options for the POST request
+                    const settings = {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "x-apikey": APIKEY,
+                            "Cache-Control": "no-cache",
+                        },
+                        body: JSON.stringify(jsondata),
+                    };
+
+                    // Send the data to RestDB
+                    fetch("https://mokeselldb-1246.restdb.io/rest/accounts", settings)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            console.log("Data successfully sent:", data);
+                            alert("Account registered successfully!");
+                            document.getElementById("add-contact-form").reset(); // Clear form fields
+                        })
+                        .catch((error) => {
+                            console.error("Error:", error);
+                            alert("There was an error creating your account."); // Optional: Show error message
+                        });
+                }
+            })
+            .catch((error) => {
+                console.error("Error during uniqueness check:", error);
+                alert("Unable to validate uniqueness at the moment. Please try again later.");
+            });
+    });
+
+    // Modal handling and validation logic
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
 
-    // Get the buttons for opening the modals
     const openModalBtn = document.getElementById("openModalBtn");
     const createAccountLink = document.getElementById("createAccountLink");
     const loginAccountLink = document.getElementById("loginAccountLink");
 
-    // Get the close buttons for both modals
     const closeLoginModalBtn = document.getElementById("closeModalBtn");
     const closeRegisterModalBtn = document.getElementById("closeRegisterModalBtn");
 
-    // Open the login modal when the login button is clicked
     if (openModalBtn) {
         openModalBtn.addEventListener("click", () => {
             loginModal.style.display = "block";
         });
     }
 
-    // Open the register modal when "Create Account" is clicked
     if (createAccountLink) {
         createAccountLink.addEventListener("click", (event) => {
-            event.preventDefault(); // Prevent default link behavior
-            loginModal.style.display = "none"; // Close the login modal
-            registerModal.style.display = "block"; // Open the register modal
+            event.preventDefault();
+            loginModal.style.display = "none";
+            registerModal.style.display = "block";
         });
     }
 
-    // Go back to the login modal when "Login Account" is clicked
     if (loginAccountLink) {
         loginAccountLink.addEventListener("click", (event) => {
-            event.preventDefault(); // Prevent default link behavior
-            registerModal.style.display = "none"; // Close the register modal
-            loginModal.style.display = "block"; // Open the login modal
+            event.preventDefault();
+            registerModal.style.display = "none";
+            loginModal.style.display = "block";
         });
     }
 
-    // Close the login modal when the close button is clicked
     if (closeLoginModalBtn) {
         closeLoginModalBtn.addEventListener("click", () => {
             loginModal.style.display = "none";
         });
     }
 
-    // Close the register modal when the close button is clicked
     if (closeRegisterModalBtn) {
         closeRegisterModalBtn.addEventListener("click", () => {
             registerModal.style.display = "none";
         });
     }
 
-    // Close modals when clicking outside of them
     window.addEventListener("click", (event) => {
         if (event.target === loginModal) {
             loginModal.style.display = "none";
@@ -60,44 +130,36 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Handle form submission and password validation for register form
     const registerForm = document.querySelector("#registerModal form");
     const passwordField = document.getElementById("register-password");
     const confirmPasswordField = document.getElementById("confirm-password");
     const errorMessage = document.createElement("p");
-    errorMessage.style.color = "red"; // Red color for error messages
-    registerForm.appendChild(errorMessage); // Append error message below the form
+    errorMessage.style.color = "red";
+    registerForm.appendChild(errorMessage);
 
-    // When the user submits the form
     registerForm.addEventListener("submit", (event) => {
-        // Clear any previous error message
         errorMessage.textContent = "";
 
-        // Check if password and confirm password match
         if (passwordField.value !== confirmPasswordField.value) {
-            // Display error message if passwords don't match
             errorMessage.textContent = "Passwords do not match!";
-            event.preventDefault(); // Prevent form submission
-            return; // Exit the function early
+            event.preventDefault();
+            return;
         }
 
-        // Check if password is at least 8 characters long
         if (passwordField.value.length < 8) {
             errorMessage.textContent = "Password must be at least 8 characters long!";
-            event.preventDefault(); // Prevent form submission
+            event.preventDefault();
         }
     });
 
-    // Function to toggle the dropdown menu for categories
     function toggleMenu() {
-        const menu = document.getElementById('dropdownMenu');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        const menu = document.getElementById("dropdownMenu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
     }
 
-    // Handle category dropdown menu toggle
-    const categoriesToggleBtn = document.querySelector('.categories-toggle-btn');
+    const categoriesToggleBtn = document.querySelector(".categories-toggle-btn");
     if (categoriesToggleBtn) {
-        categoriesToggleBtn.addEventListener('click', toggleMenu);
+        categoriesToggleBtn.addEventListener("click", toggleMenu);
     }
 });
 
@@ -110,12 +172,10 @@ document.getElementById("search-btn").addEventListener("click", () => {
     }
 });
 
+const farmgridContainer = document.getElementById("farmgrid");
 
-const farmgridContainer = document.getElementById('farmgrid');
-
-// Generate 5x5 grid dynamically
 for (let i = 1; i <= 25; i++) {
-  const farmbox = document.createElement('div'); // Create a new div
-  farmbox.classList.add('farmbox'); // Add the 'box' class
-  farmgridContainer.appendChild(farmbox); // Append the box to the grid container
+    const farmbox = document.createElement("div");
+    farmbox.classList.add("farmbox");
+    farmgridContainer.appendChild(farmbox);
 }

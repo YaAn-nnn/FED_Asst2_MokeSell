@@ -9,8 +9,8 @@
 .topbar{
     position: fixed;
     width:100%;
-    z-index: 3;
-    background-color: white;
+    z-index: 2;
+    background-color: white;    
 }
 
 .fullbody{
@@ -170,7 +170,7 @@ body {
     display: none; /* Hidden by default */
     position: fixed;
     padding-top: 200px;
-    z-index: 1; /* Sit on top */
+    z-index: 3; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%;
