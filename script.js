@@ -179,3 +179,156 @@ for (let i = 1; i <= 25; i++) {
     farmbox.classList.add("farmbox");
     farmgridContainer.appendChild(farmbox);
 }
+document.addEventListener("DOMContentLoaded", () => {
+    const boardElement = document.getElementById("board");
+    const scoreElement = document.getElementById("score");
+    const bestScoreElement = document.getElementById("best-score");
+    let board = Array(4).fill().map(() => Array(4).fill(0));
+    let tileElements = {};
+    let score = 0;
+    let bestScore = localStorage.getItem("bestScore") || 0;
+    bestScoreElement.textContent = bestScore;
+
+    // Tile colors based on number
+    const tileColors = {
+        2: "#eee4da",
+        4: "#ede0c8",
+        8: "#f2b179",
+        16: "#f59563",
+        32: "#f67c5f",
+        64: "#f65e3b",
+        128: "#edcf72",
+        256: "#FFE600",
+        512: "#edc850",
+        1024: "#edc53f",
+        2048: "#edc22e",
+    };
+
+
+    function updateScore(points) {
+        score += points;
+        scoreElement.textContent = score;
+        if (score > bestScore) {
+            bestScore = score;
+            bestScoreElement.textContent = bestScore;
+            localStorage.setItem("bestScore", bestScore);
+        }
+    }
+
+    function drawBoard() {
+        Object.values(tileElements).forEach(tile => tile.remove());
+        tileElements = {};
+        board.forEach((row, r) => {
+            row.forEach((value, c) => {
+                if (value !== 0) {
+                    let tile = document.createElement("div");
+                    tile.classList.add("tile");
+                    tile.textContent = value;
+                    tile.style.transform = `translate(${c * 110}px, ${r * 110}px)`;
+                    tile.style.backgroundColor = tileColors[value] || "#ccc"; // Set color based on value
+                    boardElement.appendChild(tile);
+                    tileElements[`${r}-${c}`] = tile;
+                }
+            });
+        });
+    }
+
+    function updateTilePositions() {
+        Object.entries(tileElements).forEach(([key, tile]) => {
+            const [r, c] = key.split('-').map(Number);
+            tile.style.transform = `translate(${c * 110}px, ${r * 110}px)`;
+        });
+    }
+
+    function addRandomTile() {
+        let emptyCells = [];
+        for (let r = 0; r < 4; r++) {
+            for (let c = 0; c < 4; c++) {
+                if (board[r][c] === 0) emptyCells.push({ r, c });
+            }
+        }
+        if (emptyCells.length > 0) {
+            let { r, c } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            board[r][c] = Math.random() < 0.9 ? 2 : 4;
+        }
+    }
+
+    function slide(row) {
+        let newRow = row.filter(val => val);
+        for (let i = 0; i < newRow.length - 1; i++) {
+            if (newRow[i] === newRow[i + 1]) {
+                newRow[i] *= 2;
+                updateScore(newRow[i]);
+                newRow[i + 1] = 0;
+            }
+        }
+        newRow = newRow.filter(val => val);
+        while (newRow.length < 4) newRow.push(0);
+        return newRow;
+    }
+
+    function reverse(row) {
+        return row.reverse();
+    }
+
+    function rotateBoardClockwise() {
+        let newBoard = Array(4).fill().map(() => Array(4).fill(0));
+        for (let r = 0; r < 4; r++) {
+            for (let c = 0; c < 4; c++) {
+                newBoard[c][3 - r] = board[r][c];
+            }
+        }
+        return newBoard;
+    }
+
+    function rotateBoardCounterClockwise() {
+        let newBoard = Array(4).fill().map(() => Array(4).fill(0));
+        for (let r = 0; r < 4; r++) {
+            for (let c = 0; c < 4; c++) {
+                newBoard[3 - c][r] = board[r][c];
+            }
+        }
+        return newBoard;
+    }
+
+    function moveBoard(direction) {
+        let moved = false;
+        if (direction === "ArrowUp") {
+            board = rotateBoardCounterClockwise();
+        } else if (direction === "ArrowDown") {
+            board = rotateBoardClockwise();
+        } else if (direction === "ArrowRight") {
+            board = board.map(reverse);
+        }
+        
+        for (let i = 0; i < 4; i++) {
+            let newRow = slide(board[i]);
+            if (newRow.toString() !== board[i].toString()) moved = true;
+            board[i] = newRow;
+        }
+        
+        if (direction === "ArrowUp") {
+            board = rotateBoardClockwise();
+        } else if (direction === "ArrowDown") {
+            board = rotateBoardCounterClockwise();
+        } else if (direction === "ArrowRight") {
+            board = board.map(reverse);
+        }
+        
+        if (moved) {
+            addRandomTile();
+            updateTilePositions();
+            setTimeout(drawBoard, 150);
+        }
+    }
+
+    document.addEventListener("keydown", (event) => {
+        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+            moveBoard(event.key);
+        }
+    });
+
+    addRandomTile();
+    addRandomTile();
+    drawBoard();
+});
