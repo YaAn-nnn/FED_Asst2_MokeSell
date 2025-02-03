@@ -63,19 +63,19 @@
                 </div>
 
                 <div class="icons">
-                    <a href="following.html">
+                    <a href="following.html" class="protected-link">
                         <img src="Images/add-friend.png" alt="Favourites">
                     </a>
-                    <a href="favourites.html">
+                    <a href="favourites.html" class="protected-link">
                         <img src="Images/favourites.png" alt="Favourites">
                     </a>
-                    <a href="notifications.html">
+                    <a href="notifications.html" class="protected-link">
                         <img src="Images/notification.png" alt="Notifications">
                     </a>
-                    <a href="chats.html">
+                    <a href="chats.html" class="protected-link">
                         <img src="Images/messages.png" alt="Chats">
                     </a>
-                    <a href="MokeGame.html">
+                    <a href="MokeGame.html" class="protected-link">
                         <img src="Images/game.png" alt="MokeFarm" style="width:40px;height:40px;">
                     </a>
                 </div>
@@ -83,6 +83,17 @@
 
                 <div class="auth-buttons">
                     <button id="openModalBtn" class="login-btn">Login</button>
+
+                    <div id="profilePicContainer" style="display: none; align-items: center;">
+                        <img id="profilePic" src="" alt="Profile Picture" />
+                        <div id="profileDropdownMenu" class="dropdown-menu" style="display: none;">
+                            <a href="profile.html">Profile</a>
+                            <a href="settings.html">Settings</a>
+                            <a href="logout.html" id="logoutLink">Logout</a>
+                        </div>
+                    </div>
+                    
+                                  
                     <button class="sell-btn">Sell</button>
                 </div>
             </div>
@@ -114,7 +125,7 @@
             <h2>Login</h2>
             
             <!-- Form -->
-            <form>
+            <form id = "loginForm">
                 <!-- Email Address -->
                 <label for="email">Email Address:</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -377,7 +388,6 @@
 
 
   <script src="script.js"></script>
-  
 </body>
 
 </html>

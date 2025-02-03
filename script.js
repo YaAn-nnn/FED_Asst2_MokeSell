@@ -2,22 +2,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const APIKEY = "67932aa4270cfe68c9c3ceec";
 
     // Form submission event
-    document.getElementById("contact-submit").addEventListener("click", function (e) {
+    document.getElementById("contact-submit").addEventListener("click", async function (e) {
         e.preventDefault(); // Prevent the form from submitting the default way
 
         // Get the form data
         const username = document.getElementById("signupusername").value.trim();
         const email = document.getElementById("signupemail").value.trim();
         const password = document.getElementById("signuppassword").value.trim();
-
-        // Validate password length
-        if (password.length < 8) {
-            alert("Password must be at least 8 characters long!");
-            return; // Stop submission
-        }
+        const confirmPassword = document.getElementById("confirm-password").value.trim();
 
         // Function to check if email or username exists in RestDB
-        function checkExistingRecords() {
+        async function checkExistingRecords() {
             const filter = `{"$or":[{"email":"${email}"},{"username":"${username}"}]}`;
             const settings = {
                 method: "GET",
@@ -28,56 +23,58 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
             };
 
-            return fetch(`https://mokeselldb-1246.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, settings)
-                .then((response) => response.json());
+            const response = await fetch(`https://mokeselldb-1246.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, settings);
+            const data = await response.json();
+            return data;
         }
 
         // Perform the check and register if unique
-        checkExistingRecords()
-            .then((data) => {
-                if (data.length > 0) {
-                    // Username or email already exists
-                    alert("Username or email is already taken. Please choose another.");
-                } else {
-                    // Create an object to send to the database
-                    const jsondata = {
-                        email: email,
-                        username: username,
-                        password: password,
-                    };
+        try {
+            const data = await checkExistingRecords();
+            if (data.length > 0) {
+                // Username or email already exists
+                alert("Username or email is already taken. Please choose another.");
+            }
+            // Validate password
+            else if (password.length < 8) {
+                alert("Password must be at least 8 characters long!");
+            }
+            else if (password !== confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+            }
+            else {
+                // Create an object to send to the database
+                const jsondata = {
+                    email: email,
+                    username: username,
+                    password: password,
+                    profileImageUrl: "Images/Default_pfp.jpg", // Default profile picture URL
+                };
 
-                    // Fetch options for the POST request
-                    const settings = {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "x-apikey": APIKEY,
-                            "Cache-Control": "no-cache",
-                        },
-                        body: JSON.stringify(jsondata),
-                    };
+                // Fetch options for the POST request
+                const settings = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-apikey": APIKEY,
+                        "Cache-Control": "no-cache",
+                    },
+                    body: JSON.stringify(jsondata),
+                };
 
-                    // Send the data to RestDB
-                    fetch("https://mokeselldb-1246.restdb.io/rest/accounts", settings)
-                        .then((response) => response.json())
-                        .then((data) => {
-                            console.log("Data successfully sent:", data);
-                            alert("Account registered successfully!");
-                            document.getElementById("add-contact-form").reset(); // Clear form fields
-                        })
-                        .catch((error) => {
-                            console.error("Error:", error);
-                            alert("There was an error creating your account."); // Optional: Show error message
-                        });
-                }
-            })
-            .catch((error) => {
-                console.error("Error during uniqueness check:", error);
-                alert("Unable to validate uniqueness at the moment. Please try again later.");
-            });
+                // Send the data to RestDB
+                const response = await fetch("https://mokeselldb-1246.restdb.io/rest/accounts", settings);
+                const result = await response.json();
+                console.log("Data successfully sent:", result);
+                alert("Account registered successfully!");
+                document.getElementById("add-contact-form").reset(); // Clear form fields
+            }
+        } catch (error) {
+            console.error("Error during uniqueness check:", error);
+            alert("Unable to validate uniqueness at the moment. Please try again later.");
+        }
     });
 
-    // Modal handling and validation logic
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
 
@@ -88,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeLoginModalBtn = document.getElementById("closeModalBtn");
     const closeRegisterModalBtn = document.getElementById("closeRegisterModalBtn");
 
+    // Modal control
     if (openModalBtn) {
         openModalBtn.addEventListener("click", () => {
             loginModal.style.display = "block";
@@ -130,28 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    const registerForm = document.querySelector("#registerModal form");
-    const passwordField = document.getElementById("register-password");
-    const confirmPasswordField = document.getElementById("confirm-password");
-    const errorMessage = document.createElement("p");
-    errorMessage.style.color = "red";
-    registerForm.appendChild(errorMessage);
-
-    registerForm.addEventListener("submit", (event) => {
-        errorMessage.textContent = "";
-
-        if (passwordField.value !== confirmPasswordField.value) {
-            errorMessage.textContent = "Passwords do not match!";
-            event.preventDefault();
-            return;
-        }
-
-        if (passwordField.value.length < 8) {
-            errorMessage.textContent = "Password must be at least 8 characters long!";
-            event.preventDefault();
-        }
-    });
-
     function toggleMenu() {
         const menu = document.getElementById("dropdownMenu");
         menu.style.display = menu.style.display === "block" ? "none" : "block";
@@ -161,7 +137,109 @@ document.addEventListener("DOMContentLoaded", function () {
     if (categoriesToggleBtn) {
         categoriesToggleBtn.addEventListener("click", toggleMenu);
     }
+
+    // Login check and profile picture display
+    const profilePic = document.getElementById("profilePic");
+    const profilePicContainer = document.getElementById("profilePicContainer");
+
+    // Check if user is logged in
+    function checkLoginStatus() {
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        if (loggedInUser) {
+            // Replace Login button with Profile Picture
+            document.getElementById("openModalBtn").style.display = "none"; // Hide login button
+            document.getElementById("profilePicContainer").style.display = "block"; // Show profile picture container
+
+            const profileImageUrl = localStorage.getItem("profileImageUrl");
+            const profilePic = document.getElementById("profilePic");
+    
+            if (profileImageUrl) {
+                profilePic.src = profileImageUrl; // Set the profile picture
+            } else {
+                profilePic.src = "Images/Default_pfp.jpg"; // Use default image if no profile image URL
+            }
+        }
+    }
+
+    // Handle login form submission
+    const loginForm = document.getElementById("loginForm");
+    loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        try {
+            const filter = `{"email": "${email}"}`;
+            const response = await fetch(`https://mokeselldb-1246.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-apikey": APIKEY,
+                    "Cache-Control": "no-cache",
+                }
+            });
+
+            const users = await response.json();
+
+            if (users.length === 0) {
+                alert("Email not found. Please sign up.");
+                return;
+            }
+
+            // Check if password matches
+            const user = users[0]; // First user found with the email
+            if (user.password !== password) {
+                alert("Incorrect password. Please try again.");
+                return;
+            }
+
+            // Successful login
+            localStorage.setItem("loggedInUser", user.email); // Store login state
+            localStorage.setItem("profileImageUrl", user.profileImageUrl || "Images/Default_pfp.jpg"); // Store profile picture URL
+            alert("Login successful!");
+            window.location.href = "index.html"; // Redirect to main page
+
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("Error connecting to server. Please try again.");
+        }
+    });
+
+    checkLoginStatus();
+
+    const profileDropdownMenu = document.getElementById("profileDropdownMenu");
+
+    // Toggle the profile dropdown when the profile picture is clicked
+    if (profilePic) {
+        profilePic.addEventListener("click", function () {
+            // Toggle the visibility of the profile dropdown menu
+            profileDropdownMenu.style.display = (profileDropdownMenu.style.display === "block") ? "none" : "block";
+        });
+    }
+
+    // Close the profile dropdown if the user clicks outside of it
+    window.addEventListener("click", function (event) {
+        if (!profilePic.contains(event.target) && !profileDropdownMenu.contains(event.target)) {
+            profileDropdownMenu.style.display = "none";
+        }
+    });
+
+    // Handle logout
+    const logoutLink = document.getElementById("logoutLink");
+    if (logoutLink) {
+        logoutLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            // Clear the session data (e.g., localStorage or sessionStorage)
+            localStorage.removeItem("loggedInUser");
+            localStorage.removeItem("profileImageUrl");
+            alert("Logged out successfully!");
+            window.location.href = "index.html"; // Redirect to the homepage or login page
+        });
+    }
 });
+
+
 
 document.getElementById("search-btn").addEventListener("click", () => {
     const searchQuery = document.getElementById("search-bar").value;

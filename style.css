@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;300;600;700&display=swap');
 
 * {
     margin: 0;
@@ -36,7 +36,6 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 1000;
 }
 
 /* Navbar Styles */
@@ -91,6 +90,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding: 10px;
     width: 20vw;
+    font-weight: 600;
 }
 
 .dropdown-menu a {
@@ -116,6 +116,11 @@ body {
     height: 24px;
     margin: 0 10px;
     cursor: pointer;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
 }
 
 .auth-buttons button {
@@ -226,6 +231,35 @@ body {
 .close-btn:hover {
     color: black;
 }
+
+#profilePicContainer img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* To make it round */
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+/* Add hover effect for profile picture */
+#profilePicContainer:hover #profilePic {
+    cursor: pointer;
+    opacity: 0.8; /* Slightly fade the profile picture on hover to indicate it's clickable */
+}
+
+
+#profilePicContainer {
+    position: relative; /* Ensure the dropdown is positioned relative to this container */
+}
+
+#profileDropdownMenu {
+    width: auto;
+}
+
+#profileDropdownMenu a:hover {
+    background-color: #304BB8;
+}
+
+
 
 /* Form inputs */
 form {
