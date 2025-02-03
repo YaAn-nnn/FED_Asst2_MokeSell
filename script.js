@@ -405,8 +405,25 @@ document.addEventListener("DOMContentLoaded", () => {
             moveBoard(event.key);
         }
     });
+    restartButton.addEventListener("click", () => {
+        board = Array(4).fill().map(() => Array(4).fill(0)); // Reset board
+        score = 0; // Reset score
+        scoreElement.textContent = score;
+
+        addRandomTile(); // Add two new random tiles
+        addRandomTile();
+        drawBoard();
+    });
 
     addRandomTile();
     addRandomTile();
     drawBoard();
 });
+function showNotification() {
+    document.getElementById("notificationBar").style.right = "0"; // Slide In
+}
+
+
+function hideNotification() {
+    document.getElementById("notificationBar").style.right = "-400px"; // Slide Out
+}

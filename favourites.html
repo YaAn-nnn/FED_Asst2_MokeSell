@@ -69,9 +69,14 @@
                     <a href="favourites.html">
                         <img src="Images/favourites.png" alt="Favourites">
                     </a>
-                    <a href="notifications.html">
-                        <img src="Images/notification.png" alt="Notifications">
-                    </a>
+                    <button onclick="showNotification()" style="border: 0; background-color: white;"><img src="Images/notification.png"></button>
+
+
+                    <!-- 🔹 Slide-Out Notification -->
+                    <div id="notificationBar">
+                        <span class="close-button" onclick="hideNotification()"><img src="Images/close.png"></span>
+                        <p><strong>Notification</strong></p>
+                    </div>
                     <a href="chats.html">
                         <img src="Images/messages.png" alt="Chats">
                     </a>

@@ -69,9 +69,14 @@
                     <a href="favourites.html">
                         <img src="Images/favourites.png" alt="Favourites">
                     </a>
-                    <a href="notifications.html">
-                        <img src="Images/notification.png" alt="Notifications">
-                    </a>
+                    <button onclick="showNotification()" style="border: 0; background-color: white;"><img src="Images/notification.png"></button>
+
+
+                    <!-- 🔹 Slide-Out Notification -->
+                    <div id="notificationBar">
+                        <span class="close-button" onclick="hideNotification()"><img src="Images/close.png"></span>
+                        <p><strong>Notification</strong></p>
+                    </div>
                     <a href="chats.html">
                         <img src="Images/messages.png" alt="Chats">
                     </a>
@@ -89,20 +94,6 @@
         </nav>
     </header>
 
-    <!-- Search Bar Section -->
-    <div class="search-container" style="padding-top: 90px;">
-        <input type="text" id="search-bar" class="search-bar" placeholder="Search for something">
-        <!-- Location Filter Dropdown -->
-        <select id="location-filter" class="location-filter">
-            <option value="">All of Singapore</option>
-            <option value="North">North</option>
-            <option value="South">South</option>
-            <option value="East">East</option>
-            <option value="West">West</option>
-            <option value="West">Central</option>
-        </select>
-        <button id="search-btn" class="search-btn">Search</button>
-    </div>
 
     <!-- Login Modal (popup) -->
     <div id="loginModal" class="modal">
@@ -181,14 +172,12 @@
             </p>     
         </div>
     </div>
-    <div id="chat-container">
-        <p><strong>Chat ID:</strong> <span id="chat-id">Loading...</span></p>
-        <p><strong>Buyer ID:</strong> <span id="buyer-id">Loading...</span></p>
-        <p><strong>Seller ID:</strong> <span id="seller-id">Loading...</span></p>
-
-        <!-- Chat Messages -->
-        <div id="messages"></div>
+    <div class="chatsbody">
+        <div class="chatsboxing" href="chat.html">
+            <div id="chatsprofilepicture"><p id="chatname">Name</p></div>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
