@@ -199,6 +199,62 @@ body {
 }
 
 
+.modal-content h2 {
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+/* Lottie Animation container below the modal content */
+.lottie-container {
+    margin-top: 305px; /* Space between modal content and animation */
+    display: flex;
+    justify-content: center;
+}
+
+/* Button container to display the buttons side by side */
+.button-container {
+    display: flex;
+    gap: 20px; 
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.confirm-btn {
+    width: 40%;
+    padding: 10px;
+    background-color: #5271FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cancel-btn {
+    width: 40%;
+    padding: 10px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.confirm-btn:hover {
+    background-color: #304BB8;
+    transform: scale(1.05);
+}
+
+.cancel-btn:hover {
+    background-color: #555555;
+    transform: scale(1.05);
+}
+
+.modal-content dotlottie-player {
+    display: block;
+    margin: 0 auto;
+}
 
 /* Close button */
 .close-btn {
@@ -379,6 +435,23 @@ form label {
 
 .login-account-link:hover {
     text-decoration: underline;
+}
+
+/* Close button */
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 /* To make a box*/
 .listingbox {

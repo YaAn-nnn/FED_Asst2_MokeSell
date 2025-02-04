@@ -206,8 +206,11 @@ document.addEventListener("DOMContentLoaded", function () {
             // Successful login
             localStorage.setItem("loggedInUser", user.email); // Store login state
             localStorage.setItem("profileImageUrl", user.profileImageUrl || "Images/Default_pfp.jpg"); // Store profile picture URL
-            alert("Login successful!");
-            window.location.href = "index.html"; // Redirect to main page
+            document.getElementById("loginSuccessModal").style.display = "block";
+            setTimeout(function () {
+                document.getElementById("loginModal").style.display = "none"; // Hide the login modal
+                window.location.href = "index.html"; // Redirect to main page
+            }, 3000);
 
         } catch (error) {
             alert("Error connecting to server. Please try again.");
@@ -233,18 +236,70 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Handle logout
     const logoutLink = document.getElementById("logoutLink");
+    const logoutConfirmModal = document.getElementById("logoutConfirmModal");
+    const closeLogoutConfirmModal = document.getElementById("closeLogoutConfirmModal");
+    const confirmLogoutBtn = document.getElementById("confirmLogoutBtn");
+    const cancelLogoutBtn = document.getElementById("cancelLogoutBtn");
+    const logoutSuccessModal = document.getElementById("logoutSuccessModal");
+    const closeLogOutSuccessModal = document.getElementById("closeLogOutSuccessModal");
+    const closeLoginSuccessModal = document.getElementById("closeLoginSuccessModal");
+    
     if (logoutLink) {
         logoutLink.addEventListener("click", function (event) {
             event.preventDefault();
-            // Clear the session data (e.g., localStorage or sessionStorage)
-            localStorage.removeItem("loggedInUser");
-            localStorage.removeItem("profileImageUrl");
-            alert("Logged out successfully!");
-            window.location.href = "index.html"; // Redirect to the homepage or login page
+            logoutConfirmModal.style.display = "block";
         });
     }
+    
+    //Cancel (x) button on log out confirmation page
+    if (closeLogoutConfirmModal) {
+        closeLogoutConfirmModal.addEventListener("click", function () {
+            logoutConfirmModal.style.display = "none";
+        });
+    }
+    
+    //Cancel button
+    if (cancelLogoutBtn) {
+        cancelLogoutBtn.addEventListener("click", function () {
+            logoutConfirmModal.style.display = "none";
+        });
+    }
+    
+    //Log out button
+    if (confirmLogoutBtn) {
+        confirmLogoutBtn.addEventListener("click", function () {
+            // Close the confirmation modal
+            document.getElementById("logoutConfirmModal").style.display = "none";
+    
+            // Clear session data
+            localStorage.removeItem("loggedInUser");
+            localStorage.removeItem("profileImageUrl");
+    
+            // Show logout success modal
+            logoutSuccessModal.style.display = "block";
+    
+            // Automatically redirect after showing the success message
+            setTimeout(function () {
+                logoutSuccessModal.style.display = "none";
+                window.location.href = "index.html"; // Redirect to homepage
+            }, 3000);
+        });
+    }
+
+    if (closeLogOutSuccessModal) {
+        closeLogOutSuccessModal.addEventListener("click", function () {
+            logoutSuccessModal.style.display = "none"; 
+            window.location.href = "index.html";
+        });
+    }    
+
+    if (closeLoginSuccessModal) {
+        closeLoginSuccessModal.addEventListener("click", function () {
+            logoutSuccessModal.style.display = "none"; 
+            window.location.href = "index.html";
+        });
+    }    
 
     restrictAccess();
 
