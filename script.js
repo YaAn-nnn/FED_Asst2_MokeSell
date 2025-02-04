@@ -385,15 +385,27 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
+    let voucherAwarded = false; // Prevent multiple popups
+
     function updateScore(points) {
         score += points;
         scoreElement.textContent = score;
+    
         if (score > bestScore) {
             bestScore = score;
             bestScoreElement.textContent = bestScore;
             localStorage.setItem("bestScore", bestScore);
         }
+    
+        // ✅ Show voucher popup if 5000+ points
+        if (score >= 5000 && !voucherAwarded) {
+            voucherAwarded = true; // Prevent multiple alerts
+            setTimeout(() => {
+                alert("🎉 Congratulations! You’ve won a voucher! 🎟️"); 
+            }, 300); // Small delay to prevent merge glitches
+        }
     }
+    
 
     function drawBoard() {
         Object.values(tileElements).forEach(tile => tile.remove());
@@ -500,6 +512,24 @@ document.addEventListener("DOMContentLoaded", () => {
             updateTilePositions();
             setTimeout(drawBoard, 150);
         }
+    
+        // ✅ Check for game over
+        if (isGameOver()) {
+            setTimeout(() => {
+                document.getElementById("try-again").style.display = "block"; // Show button
+                alert("Game Over! Try Again?");
+            }, 300);
+        }
+    }
+    function isGameOver() {
+        for (let r = 0; r < 4; r++) {
+            for (let c = 0; c < 4; c++) {
+                if (board[r][c] === 0) return false; // Empty cell exists
+                if (c < 3 && board[r][c] === board[r][c + 1]) return false; // Can merge right
+                if (r < 3 && board[r][c] === board[r + 1][c]) return false; // Can merge down
+            }
+        }
+        return true; // No moves left
     }
 
     document.addEventListener("keydown", (event) => {
@@ -507,15 +537,17 @@ document.addEventListener("DOMContentLoaded", () => {
             moveBoard(event.key);
         }
     });
-    restartButton.addEventListener("click", () => {
+    function restartGame() {
         board = Array(4).fill().map(() => Array(4).fill(0)); // Reset board
-        score = 0; // Reset score
-        scoreElement.textContent = score;
-
-        addRandomTile(); // Add two new random tiles
+        score = 0;
+        voucherAwarded = false; // Reset voucher flag
+        scoreElement.textContent = "0";
+        document.getElementById("try-again").style.display = "none"; // Hide button
+    
+        addRandomTile();
         addRandomTile();
         drawBoard();
-    });
+    }
 
     addRandomTile();
     addRandomTile();

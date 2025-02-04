@@ -522,7 +522,7 @@ form label {
     background-color: #bbada0;
     padding: 10px;
     border-radius: 10px;
-    position: relative;
+    position: relative; /* 🔥 Fixes tile positioning */
     width: 440px;
     height: 440px;
 }
