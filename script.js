@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = document.getElementById("signuppassword").value.trim();
         const confirmPassword = document.getElementById("confirm-password").value.trim();
 
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+
         // Function to check if email or username exists in RestDB
         async function checkExistingRecords() {
             const filter = `{"$or":[{"email":"${email}"},{"username":"${username}"}]}`;
@@ -64,10 +71,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Send the data to RestDB
                 const response = await fetch("https://mokeselldb-1246.restdb.io/rest/accounts", settings);
-                const result = await response.json();
-                console.log("Data successfully sent:", result);
                 alert("Account registered successfully!");
-                document.getElementById("add-contact-form").reset(); // Clear form fields
+                document.getElementById("add-contact-form").reset();
+                document.getElementById("registerModal").style.display = "none";
+                document.getElementById("loginModal").style.display = "block";
             }
         } catch (error) {
             console.error("Error during uniqueness check:", error);
@@ -184,6 +191,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (users.length === 0) {
                 alert("Email not found. Please sign up.");
+                document.getElementById("loginModal").style.display = "none";
+                document.getElementById("registerModal").style.display = "block";
                 return;
             }
 
@@ -201,7 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "index.html"; // Redirect to main page
 
         } catch (error) {
-            console.error("Login error:", error);
             alert("Error connecting to server. Please try again.");
         }
     });
