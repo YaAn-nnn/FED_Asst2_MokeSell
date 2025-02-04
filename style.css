@@ -467,22 +467,23 @@ form label {
 }
 
 
-        #notificationBar {
-            position: fixed;
-            top: 0px;
-            right: -400px; /* Start hidden outside the screen */
-            width: 400px;
-            height:100%;
-            background-color: white;
-            color: black;
-            padding: 15px;
-            border-radius: 10px 0 0 10px;
-            box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
-            transition: right 0.5s ease-in-out;
-        }
+#notificationBar {
+    position: fixed;
+    top: 0px;
+    right: -400px; /* Start hidden outside the screen */
+    width: 400px;
+    height:100%;
+    background-color: white;
+    color: black;
+    padding: 15px;
+    border-radius: 10px 0 0 10px;
+    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.5s ease-in-out;
+    z-index: 5;
+}
 
 
-        /* 🔹 Close Button */
+        /* Close Button */
         .close-button {
             position: absolute;
             top: 5px;

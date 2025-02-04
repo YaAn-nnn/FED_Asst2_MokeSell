@@ -237,6 +237,45 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "index.html"; // Redirect to the homepage or login page
         });
     }
+
+    restrictAccess();
+
+    const notificationBtn = document.querySelector(".notificationBtn");
+    const notificationBar = document.getElementById("notificationBar");
+    const loggedInUser = localStorage.getItem("loggedInUser");
+
+    // Set initial opacity for the notification button based on login status.
+    if (!loggedInUser) {
+        // Not logged in: set opacity to 50%
+        if (notificationBtn) {
+            notificationBtn.style.opacity = "0.5";
+        }
+    } else {
+        // Logged in: ensure full opacity
+        if (notificationBtn) {
+            notificationBtn.style.opacity = "1";
+        }
+    }
+
+    if (notificationBtn) {
+        notificationBtn.addEventListener("click", function (event) {
+            const loggedInUser = localStorage.getItem("loggedInUser");
+            if (!loggedInUser) {
+                event.preventDefault();
+                alert("You must log in to access this feature.");
+            } else {
+                // Show notification bar if logged in
+                notificationBar.style.right = "0px"; // Slide in
+            }
+        });
+    }
+
+    // Function to slide out (hide) the notification bar
+    window.hideNotification = function () {
+        if (notificationBar) {
+            notificationBar.style.right = "-400px"; // Slide out
+        }
+    };
 });
 
 
@@ -419,11 +458,35 @@ document.addEventListener("DOMContentLoaded", () => {
     addRandomTile();
     drawBoard();
 });
-function showNotification() {
-    document.getElementById("notificationBar").style.right = "0"; // Slide In
+
+
+//If user has not logged in, prevent access to certain functions
+function restrictAccess() {
+    const loggedInUser = localStorage.getItem("loggedInUser");
+
+    // Get all protected elements
+    const protectedLinks = document.querySelectorAll(".protected-link");
+    const sellButton = document.querySelector(".sell-btn");
+
+    if (!loggedInUser) {
+        // Disable protected links
+        protectedLinks.forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                alert("You must log in to access this feature.");
+            });
+            link.style.opacity = "0.5"; // Grey out for visibility
+        });
+
+        // Disable the sell button
+        if (sellButton) {
+            sellButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                alert("You must log in to sell items.");
+            });
+            sellButton.style.opacity = "0.5";
+        }
+    }
 }
 
 
-function hideNotification() {
-    document.getElementById("notificationBar").style.right = "-400px"; // Slide Out
-}
