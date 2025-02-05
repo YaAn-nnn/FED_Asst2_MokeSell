@@ -585,3 +585,30 @@ function restrictAccess() {
 }
 
 
+function uploadImage() {
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput.files.length === 0) {
+        alert("Please select a file!");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+
+    // Preview the image before upload
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        document.getElementById('preview').src = e.target.result;
+        document.getElementById('preview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+
+    fetch('https://mokeselldb-1246.restdb.io/rest/accounts', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => alert("Upload successful: " + JSON.stringify(data)))
+    .catch(error => alert("Error uploading: " + error));
+}

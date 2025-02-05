@@ -314,7 +314,20 @@ form input {
     font-size: 16px;
 }
 
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
 form input:focus {
+    outline: none;
+    border-color: #5271FF;
+}
+form textarea:focus{
     outline: none;
     border-color: #5271FF;
 }
@@ -494,7 +507,8 @@ form label {
 }
 
 .itemmoney{
-    padding-top: 240px;
+    padding-top: 220px;
+    margin-right: 80px;
 }
 
 .containers {
@@ -658,4 +672,46 @@ form label {
 }
 #restart-btn:hover {
     background-color: #a28c77;
+}
+.seller-btn{
+    width: 200px;
+    height: 200px;
+    margin-right: 10px;
+    background-color: #007bff;
+    border-radius: 10px;
+    color: white;
+    border: 0px;
+}
+.sell-containers {
+    height: 100vh;
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    padding-top: 80px; 
+    padding-left: 20px;
+}
+.categories-menu {
+    display: block;
+    position: relative;
+    top: 40px;
+    left: 0;
+    background-color: #5271FF;
+    border-radius: 5px;
+    padding: 10px;
+    width: 300px;
+    font-size: large;
+    font-weight: 600;
+    color: white;
+}
+.sidelisting{
+    width: 700px;
+    margin-left:400px;
+    display: flexbox;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+}
+.description{
+    width:100%;
+    font-family: 'Open Sans', sans-serif;
 }
