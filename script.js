@@ -39,8 +39,13 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const data = await checkExistingRecords();
             if (data.length > 0) {
-                // Username or email already exists
-                alert("Username or email is already taken. Please choose another.");
+                let usernameExists = data.some(user => user.username === username);
+                let emailExists = data.some(user => user.email === email);
+                if (usernameExists) {
+                    alert("Username is already taken. Please choose another.");
+                } else if (emailExists) {
+                    alert("Email is already taken. Please choose another.");
+                }
             }
             // Validate password
             else if (password.length < 8) {
