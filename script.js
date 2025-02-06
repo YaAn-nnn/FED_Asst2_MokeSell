@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+
     if (createAccountLink) {
         createAccountLink.addEventListener("click", (event) => {
             event.preventDefault();
@@ -380,13 +381,6 @@ document.getElementById("search-btn").addEventListener("click", () => {
     }
 });
 
-const farmgridContainer = document.getElementById("farmgrid");
-
-for (let i = 1; i <= 25; i++) {
-    const farmbox = document.createElement("div");
-    farmbox.classList.add("farmbox");
-    farmgridContainer.appendChild(farmbox);
-}
 document.addEventListener("DOMContentLoaded", () => {
     const boardElement = document.getElementById("board");
     const scoreElement = document.getElementById("score");
@@ -613,6 +607,16 @@ function restrictAccess() {
 }
 
 
+function openPopup() {
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
 function uploadImage() {
     const fileInput = document.getElementById('fileInput');
     if (fileInput.files.length === 0) {
@@ -632,7 +636,8 @@ function uploadImage() {
     };
     reader.readAsDataURL(file);
 
-    fetch('https://mokeselldb-1246.restdb.io/rest/accounts', {
+    // Simulating an API call (Replace this with actual API URL)
+    fetch('https://your-api-endpoint.com/upload', {
         method: 'POST',
         body: formData
     })
@@ -640,3 +645,25 @@ function uploadImage() {
     .then(data => alert("Upload successful: " + JSON.stringify(data)))
     .catch(error => alert("Error uploading: " + error));
 }
+function toggleDropdown() {
+    let menu = document.getElementById("selldropdown-menu");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+function selectCategory(name, imgSrc) {
+    // Update the button text to show the selected category
+    let selectedCategory = document.getElementById("selectedCategory");
+    selectedCategory.innerHTML = `<img src="${imgSrc}" class="dropdown-img"> ${name}`;
+
+    // Hide the dropdown menu
+    document.getElementById("selldropdown-menu").style.display = "none";
+}
+
+// Close dropdown when clicking outside
+document.addEventListener("click", function(event) {
+    let dropdown = document.getElementById("selldropdown-menu");
+    let button = document.querySelector(".sellcategories-toggle-btn");
+    if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.style.display = "none";
+    }
+});

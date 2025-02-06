@@ -681,37 +681,143 @@ form label {
     border-radius: 10px;
     color: white;
     border: 0px;
+    z-index: 10;
 }
 .sell-containers {
-    height: 100vh;
+    max-height: 10000px;
     display: flex;
-    position: fixed;
+    position: relative;
     flex-direction: column;
     padding-top: 80px; 
     padding-left: 20px;
 }
-.categories-menu {
-    display: block;
-    position: relative;
-    top: 40px;
-    left: 0;
-    background-color: #5271FF;
-    border-radius: 5px;
-    padding: 10px;
-    width: 300px;
-    font-size: large;
-    font-weight: 600;
-    color: white;
-}
+
 .sidelisting{
     width: 700px;
+    max-height: 10000px;
     margin-left:400px;
+    top:100px;
     display: flexbox;
     position: fixed;
     align-items: center;
     justify-content: center;
+    z-index: 10;
 }
-.description{
+
+.selldropdownmenu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: #5271FF;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    width: 20vw;
+    font-weight: 600;
+}
+
+.selldropdownmenu a {
+    color: white;
+    padding: 8px 10px;
+    display: block;
+}
+
+
+.selldropdownmenu a:hover {
+    background-color: #304BB8;
+    border-radius: 5px;
+}
+.sellcategories-btn {
+    position: relative;
+    display: inline-block;
+    border-radius: 10px;
+    text-align: center;
+    height:40px;
+    width:200px;
+    background-color: #007bff;
+}
+
+.sellcategories-toggle-btn {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    font-size: xx-large;
+    border: none;
+    cursor: pointer;
+}
+
+.sellnav-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.sellnav-links a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.2vw;
+}
+.leftsidelisting{
+    width: 300px;
+    max-height: 10000px;
+    margin-left:0px;
+    display: flexbox;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+#preview { margin-top: 20px; max-width: 300px; display: block; }
+        
+/* Popup Styling */
+.popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 13;
+    text-align: center;
+}
+
+/* Overlay Background */
+.overlay {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 11;
+}
+
+/* Close Button */
+.close-btn {
+    background: red;
+    width:40px;
+    height:30px;
+    color: white;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+}
+.sellbar{
+    position: fixed;
     width:100%;
     font-family: 'Open Sans', sans-serif;
 }
