@@ -7,17 +7,18 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <!-- Navbar -->
-        <header class="sellbar">
+        <header class="topbar">
             <nav class="navbar">
                 <!-- Logo on the right -->
                 <div class="logo">
                     <a href="index.html">
                         <img src="Images/MokeSell_logo.png" alt="Logo">
-        
-                </div>            
+                    </a>
+                </div>      
+            </nav>
+        </header>    
+                
                 <div class="auth-buttons">
-    
                     <div id="profilePicContainer" style="display: none; align-items: center;">
                         <img id="profilePic" src="" alt="Profile Picture" />
                         <div id="profileDropdownMenu" class="dropdown-menu" style="display: none;">
@@ -28,7 +29,6 @@
                     </div>
                 </div>
             </nav>
-        </header>
 
 
         <!-- Logout Modal -->
@@ -81,44 +81,43 @@
                 </div>
             </div>
             <br>
-            <div class="sellnav-links">
-                <div class="sellcategories-btn">
+            <div class="nav-links">
+                <div class="categories-btn">
                     <!-- Button that shows the selected category -->
-                    <button class="sellcategories-toggle-btn" onclick="toggleDropdown()">
+                    <button class="sellcategories-toggle-btn" onclick="sellToggleMenu()">
                         <span id="selectedCategory">Categories</span>
                     </button>
         
-                    <!-- Dropdown Menu -->
-                    <div id="selldropdown-menu" class="selldropdownmenu">
-                        <div class="dropdown-item" onclick="selectCategory('Free Items', 'Images/free.png')">
+                    <div id="sellDropdownMenu" class="dropdown-menu">
+                        <a href="javascript:void(0);" onclick="selectCategory('Free Items', 'Images/free.png')">
                             <img src="Images/free.png" alt="Free Items" class="dropdown-img"> Free Items
-                        </div>
-                        <div class="dropdown-item" onclick="selectCategory('Women\'s Fashion', 'Images/women_fashion.png')">
+                        </a>
+                        <a href="javascript:void(0);" onclick="selectCategory('Women\'s Fashion', 'Images/women_fashion.png')">
                             <img src="Images/women_fashion.png" alt="Women's Fashion" class="dropdown-img"> Women's Fashion
-                        </div>
-                        <div class="dropdown-item" onclick="selectCategory('Men\'s Fashion', 'Images/men_fashion.png')">
+                        </a>
+                        <a href="javascript:void(0);" onclick="selectCategory('Men\'s Fashion', 'Images/men_fashion.png')">
                             <img src="Images/men_fashion.png" alt="Men's Fashion" class="dropdown-img"> Men's Fashion
-                        </div>
-                        <div class="dropdown-item" onclick="selectCategory('Beauty & Health', 'Images/cosmetics.png')">
+                        </a>
+                        <a href="javascript:void(0);" onclick="selectCategory('Beauty & Health', 'Images/cosmetics.png')">
                             <img src="Images/cosmetics.png" alt="Beauty & Health" class="dropdown-img"> Beauty & Health
-                        </div>
-                        <div class="dropdown-item" onclick="selectCategory('Electronics', 'Images/gadgets.png')">
+                        </a>
+                        <a href="javascript:void(0);" onclick="selectCategory('Electronics', 'Images/gadgets.png')">
                             <img src="Images/gadgets.png" alt="Electronics" class="dropdown-img"> Electronics
-                        </div>
-                        <div class="dropdown-item" onclick="selectCategory('Babies & Kids', 'Images/baby.png')">
+                        </a>
+                        <a href="javascript:void(0);" onclick="selectCategory('Babies & Kids', 'Images/baby.png')">
                             <img src="Images/baby.png" alt="Babies & Kids" class="dropdown-img"> Babies & Kids
-                        </div>
-                        <div class="dropdown-item" onclick="selectCategory('Learning & Enrichment', 'Images/learning.png')">
+                        </a>
+                        <a href="javascript:void(0);" onclick="selectCategory('Learning & Enrichment', 'Images/learning.png')">
                             <img src="Images/learning.png" alt="Learning & Enrichment" class="dropdown-img"> Learning & Enrichment
-                        </div>
-                        <div class="dropdown-item" onclick="selectCategory('Services', 'Images/services.png')">
+                        </a>
+                        <a href="javascript:void(0);" onclick="selectCategory('Services', 'Images/services.png')">
                             <img src="Images/services.png" alt="Services" class="dropdown-img"> Services
-                        </div>
-                        <div class="dropdown-item" onclick="selectCategory('Others', 'Images/application.png')">
+                        </a>
+                        <a href="javascript:void(0);" onclick="selectCategory('Others', 'Images/application.png')">
                             <img src="Images/application.png" alt="Others" class="dropdown-img"> Others
-                        </div>
+                        </a>
                     </div>
-                </div>
+                    
             </div>
         </div>
         <div class="sidelisting">
@@ -141,5 +140,5 @@
 
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <script src="script.js"></script>
-    
+    </body>
 </html>

@@ -645,25 +645,23 @@ function uploadImage() {
     .then(data => alert("Upload successful: " + JSON.stringify(data)))
     .catch(error => alert("Error uploading: " + error));
 }
-function toggleDropdown() {
-    let menu = document.getElementById("selldropdown-menu");
-    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+
+
+function sellToggleMenu() {
+    const sellMenu = document.getElementById("sellDropdownMenu");
+    sellMenu.style.display = sellMenu.style.display === "block" ? "none" : "block";
+}
+
+const sellCategoriesToggleBtn = document.querySelector(".sellcategories-toggle-btn");
+if (sellCategoriesToggleBtn) {
+    sellCategoriesToggleBtn.addEventListener("click", sellToggleMenu);
 }
 
 function selectCategory(name, imgSrc) {
     // Update the button text to show the selected category
     let selectedCategory = document.getElementById("selectedCategory");
     selectedCategory.innerHTML = `<img src="${imgSrc}" class="dropdown-img"> ${name}`;
-
+    
     // Hide the dropdown menu
-    document.getElementById("selldropdown-menu").style.display = "none";
+    document.getElementById("sellDropdownMenu").style.display = "none";
 }
-
-// Close dropdown when clicking outside
-document.addEventListener("click", function(event) {
-    let dropdown = document.getElementById("selldropdown-menu");
-    let button = document.querySelector(".sellcategories-toggle-btn");
-    if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.style.display = "none";
-    }
-});

@@ -677,7 +677,7 @@ form label {
     width: 200px;
     height: 200px;
     margin-right: 10px;
-    background-color: #007bff;
+    background-color: #5271FF;
     border-radius: 10px;
     color: white;
     border: 0px;
@@ -704,60 +704,22 @@ form label {
     z-index: 10;
 }
 
-.selldropdownmenu {
-    display: none;
-    position: absolute;
-    top: 40px;
-    left: 0;
+.sellcategories-toggle-btn {
+    padding: 10px 15px;
+    font-size: 16px;
     background-color: #5271FF;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    width: 20vw;
-    font-weight: 600;
-}
-
-.selldropdownmenu a {
     color: white;
-    padding: 8px 10px;
-    display: block;
-}
-
-
-.selldropdownmenu a:hover {
-    background-color: #304BB8;
-    border-radius: 5px;
-}
-.sellcategories-btn {
-    position: relative;
-    display: inline-block;
+    border: none;
     border-radius: 10px;
-    text-align: center;
+    cursor: pointer;
     height:40px;
     width:200px;
-    background-color: #007bff;
 }
 
-.sellcategories-toggle-btn {
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    color: white;
-    font-size: xx-large;
-    border: none;
-    cursor: pointer;
+.sellcategories-toggle-btn:hover {
+    background-color: #304BB8;
 }
 
-.sellnav-links {
-    display: flex;
-    flex-direction: column;
-}
-
-.sellnav-links a {
-    color: black;
-    text-decoration: none;
-    font-size: 1.2vw;
-}
 .leftsidelisting{
     width: 300px;
     max-height: 10000px;
@@ -809,13 +771,7 @@ form label {
     cursor: pointer;
     margin-top: 10px;
 }
-.dropdown-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-    color: white;
-}
+
 .sellbar{
     position: fixed;
     width:100%;
