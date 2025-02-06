@@ -8,7 +8,7 @@
     </head>
     <body>
         <!-- Navbar -->
-        <header class="topbar">
+        <header class="sellbar">
             <nav class="navbar">
                 <!-- Logo on the right -->
                 <div class="logo">
@@ -62,25 +62,65 @@
         </div>
     </div>
     <div class="sell-containers">
-        <h1>Sell</h1>
-        <br>
-        <div>
-            <button id="openModalBtn" class="seller-btn"><img src="Images/camera.png" style="height: 50px;"><br><br>Upload photo(s)</button>
+        <div class="leftsidelisting">
+            <h1>Sell</h1>
+            <br>
+            <div>
+                <button class="seller-btn" onclick="openPopup()"><img src="Images/camera.png" style="height: 100px;"><br><br>Upload Photo</button>
+    
+                <!-- Overlay Background -->
+                <div class="overlay" id="overlay" onclick="closePopup()"></div>
             
-        </div>
-        <!-- div id="sellModal" class="modal">
-            <div class="modal-content">
-
-                <span class="close-btn" id="closeModalBtn">&times;</span>
-
-                <h2>Login</h2>
-
-                <h2>Upload a Photo</h2>
-                <input type="file" id="fileInput" accept="image/*">
-                <button onclick="uploadImage()">Upload</button>
-                <img id="preview" src="" alt="Image Preview" style="display: none;width:100px;height: 100px;">
+                <!-- Popup Container -->
+                <div class="popup" id="popup">
+                    <h2>Upload a Photo</h2>
+                    <input type="file" id="fileInput" accept="image/*">
+                    <button onclick="uploadImage()">Upload</button>
+                    <img id="preview" src="" alt="Image Preview" style="display: none;">
+                    <button class="close-btn" onclick="closePopup()">&times;</button>
+                </div>
             </div>
-        </div -->
+            <br>
+            <div class="sellnav-links">
+                <div class="sellcategories-btn">
+                    <!-- Button that shows the selected category -->
+                    <button class="sellcategories-toggle-btn" onclick="toggleDropdown()">
+                        <span id="selectedCategory">Categories</span>
+                    </button>
+        
+                    <!-- Dropdown Menu -->
+                    <div id="selldropdown-menu" class="selldropdownmenu">
+                        <div class="dropdown-item" onclick="selectCategory('Free Items', 'Images/free.png')">
+                            <img src="Images/free.png" alt="Free Items" class="dropdown-img"> Free Items
+                        </div>
+                        <div class="dropdown-item" onclick="selectCategory('Women\'s Fashion', 'Images/women_fashion.png')">
+                            <img src="Images/women_fashion.png" alt="Women's Fashion" class="dropdown-img"> Women's Fashion
+                        </div>
+                        <div class="dropdown-item" onclick="selectCategory('Men\'s Fashion', 'Images/men_fashion.png')">
+                            <img src="Images/men_fashion.png" alt="Men's Fashion" class="dropdown-img"> Men's Fashion
+                        </div>
+                        <div class="dropdown-item" onclick="selectCategory('Beauty & Health', 'Images/cosmetics.png')">
+                            <img src="Images/cosmetics.png" alt="Beauty & Health" class="dropdown-img"> Beauty & Health
+                        </div>
+                        <div class="dropdown-item" onclick="selectCategory('Electronics', 'Images/gadgets.png')">
+                            <img src="Images/gadgets.png" alt="Electronics" class="dropdown-img"> Electronics
+                        </div>
+                        <div class="dropdown-item" onclick="selectCategory('Babies & Kids', 'Images/baby.png')">
+                            <img src="Images/baby.png" alt="Babies & Kids" class="dropdown-img"> Babies & Kids
+                        </div>
+                        <div class="dropdown-item" onclick="selectCategory('Learning & Enrichment', 'Images/learning.png')">
+                            <img src="Images/learning.png" alt="Learning & Enrichment" class="dropdown-img"> Learning & Enrichment
+                        </div>
+                        <div class="dropdown-item" onclick="selectCategory('Services', 'Images/services.png')">
+                            <img src="Images/services.png" alt="Services" class="dropdown-img"> Services
+                        </div>
+                        <div class="dropdown-item" onclick="selectCategory('Others', 'Images/application.png')">
+                            <img src="Images/application.png" alt="Others" class="dropdown-img"> Others
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="sidelisting">
             <form id = "loginForm">
                 <!-- Product name -->
@@ -89,41 +129,11 @@
                 
                 <!-- Password -->
                 <label for="password">Description:</label>
-                <textarea type="description" id="description" name="description" placeholder="Your product's description (size, colour, etc.)" rows="10" class="description"></textarea>
+                <input type="description" id="description" name="description" placeholder="Your product's description (size, colour, etc.)">
                 <label for="price">Product name:</label>
                 <input type="price" id="price" name="price" placeholder="Price (in $)" required>
                 <button type="submit" class="btn">Post</button>
             </form>
-
-        </div>
-        <div class="categories-menu" style="margin-bottom:500px;">
-            <div style="font-size: x-large;">Categories</div>
-            <img src="Images/free.png" alt="Free Items" class="dropdown-img">
-            Free Items
-            <br>
-            <img src="Images/women_fashion.png" alt="Women's Fashion" class="dropdown-img">
-            Women's Fashion
-            <br>
-            <img src="Images/men_fashion.png" alt="Men's Fashion" class="dropdown-img">
-            Men's Fashion
-            <br>
-            <img src="Images/cosmetics.png" alt="Beauty & Health" class="dropdown-img">
-            Beauty & Health
-            <br>
-            <img src="Images/gadgets.png" alt="Electronics" class="dropdown-img">
-            Electronics
-            <br>
-            <img src="Images/baby.png" alt="Babies & Kids" class="dropdown-img">
-            Babies & Kids
-            <br>
-            <img src="Images/learning.png" alt="Learning & Enrichment" class="dropdown-img">
-            Learning & Enrichment
-            <br>
-            <img src="Images/services.png" alt="Services" class="dropdown-img">
-            Services
-            <br>
-            <img src="Images/application.png" alt="Others" class="dropdown-img">
-            Others
 
         </div>
     </div>
