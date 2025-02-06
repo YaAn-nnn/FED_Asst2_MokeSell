@@ -74,8 +74,8 @@
                 <!-- Popup Container -->
                 <div class="popup" id="popup">
                     <h2>Upload a Photo</h2>
-                    <input type="file" id="fileInput" accept="image/*">
-                    <button onclick="uploadImage()">Upload</button>
+                    <input type="file" id="fileInput">
+                    <button onclick="handleImageUpload()">Upload</button>
                     <img id="preview" src="" alt="Image Preview" style="display: none;">
                     <button class="close-btn" onclick="closePopup()">&times;</button>
                 </div>
@@ -125,7 +125,6 @@
                 <!-- Product name -->
                 <label for="name">Product name:</label>
                 <input type="name" id="listingname" name="listingname" placeholder="Type your product name here" required>
-                
                 <!-- Password -->
                 <label for="password">Description:</label>
                 <input type="description" id="description" name="description" placeholder="Your product's description (size, colour, etc.)">
@@ -133,12 +132,11 @@
                 <input type="price" id="price" name="price" placeholder="Price (in $)" required>
                 <button type="submit" class="btn">Post</button>
             </form>
-
         </div>
     </div>
-    <br>
 
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <script src="script.js"></script>
+    <script async src="https://imgbb.com/upload.js"></script>
     </body>
 </html>

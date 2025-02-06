@@ -373,6 +373,118 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error fetching user data:", error);
         });
     }
+
+    const RESTDB_COLLECTION_URL = "https://mokeselldb-1246.restdb.io/rest/listings";
+
+    // Global variable to store the uploaded image URL
+    let uploadedImageUrl = '';
+
+    // Preview image when file is selected
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('preview');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+        }
+    });
+
+    // Handle image upload to ImgBB
+    async function handleImageUpload() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        
+        if (!file) {
+            alert('Please select an image first.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const response = await fetch('https://api.imgbb.com/1/upload?key=3286f0772d31453eec96537ca4512061', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            
+            if (result.success) {
+                uploadedImageUrl = result.data.url; // Store the uploaded image URL
+                alert('Image uploaded successfully!');
+                closePopup(); // Close the popup after successful upload
+            } else {
+                alert('Image upload failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            alert('Image upload failed. Please try again.');
+        }
+    }
+
+    // Updated form submission handler
+    document.getElementById("loginForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        // Get form values
+        const title = document.getElementById("listingname").value.trim();
+        const description = document.getElementById("description").value.trim();
+        const price = parseFloat(document.getElementById("price").value) || 0;
+        const sellerUsername = localStorage.getItem("loggedInUser");
+        const category = document.getElementById("selectedCategory").textContent;
+
+        // Check required fields including the uploaded image
+        if (!title || !category || !sellerUsername || !uploadedImageUrl) {
+            alert("Please fill all required fields and upload an image.");
+            return;
+        }
+
+        // Fetch the highest listingID to increment
+        try {
+            const response = await fetch(`${RESTDB_COLLECTION_URL}?max=1&sort=listingID&dir=-1`, {
+                method: "GET",
+                headers: { "x-apikey": APIKEY, "Content-Type": "application/json" }
+            });
+            const data = await response.json();
+            const newListingID = data.length > 0 ? data[0].listingID + 1 : 1;
+
+            // Post new listing to RESTDB
+            const newListing = {
+                listingID: newListingID,
+                title: title,
+                description: description,
+                price: price,
+                sellerUsername: sellerUsername,
+                status: "available",
+                bumpStatus: "none",
+                createdOn: new Date().toISOString(),
+                images: [uploadedImageUrl], // Use the stored image URL
+                category: category
+            };
+
+            const postResponse = await fetch(RESTDB_COLLECTION_URL, {
+                method: "POST",
+                headers: { "x-apikey": APIKEY, "Content-Type": "application/json" },
+                body: JSON.stringify(newListing)
+            });
+
+            if (postResponse.ok) {
+                alert("Listing successfully posted!");
+                window.location.reload();
+            } else {
+                throw new Error('Failed to post listing');
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again.");
+        }
+    });
 });
 
 
@@ -621,36 +733,6 @@ function closePopup() {
     document.getElementById('popup').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
 }
-
-function uploadImage() {
-    const fileInput = document.getElementById('fileInput');
-    if (fileInput.files.length === 0) {
-        alert("Please select a file!");
-        return;
-    }
-
-    const file = fileInput.files[0];
-    const formData = new FormData();
-    formData.append('image', file);
-
-    // Preview the image before upload
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        document.getElementById('preview').src = e.target.result;
-        document.getElementById('preview').style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-
-    // Simulating an API call (Replace this with actual API URL)
-    fetch('https://your-api-endpoint.com/upload', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => alert("Upload successful: " + JSON.stringify(data)))
-    .catch(error => alert("Error uploading: " + error));
-}
-
 
 function sellToggleMenu() {
     const sellMenu = document.getElementById("sellDropdownMenu");
