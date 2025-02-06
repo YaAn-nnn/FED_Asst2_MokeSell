@@ -9,16 +9,18 @@
     position: fixed;
     width:100%;
     z-index: 2;
-    background-color: white;   
-}
-.fullbody{
-    position:relative; 
-    padding-top:150px;
-    width:100%;
+    background-color: white;
+    height: 80px;
 }
 
 body {
     font-family: 'Open Sans', sans-serif;
+}
+
+.fullbody{
+    position:relative; 
+    padding-top:150px;
+    width:100%;
 }
 
 /* Navbar Styles */
@@ -32,7 +34,7 @@ body {
 
 /* Logo on the right */
 .logo img {
-    width: 150px; /* Adjust size as needed */
+    width: 150px;
 }
 
 .nav-links {
@@ -83,8 +85,8 @@ body {
 }
  
 .dropdown-img {
-    width: 20px; /* Adjust size as needed */
-    height: 20px; /* Adjust size as needed */
+    width: 20px;
+    height: 20px;
     margin-right: 10px; /* Space between image and text */
 }
 
@@ -128,7 +130,6 @@ body {
     padding: 10px 20px;
     border-bottom: 1px solid #D3D3D3;
     position: fixed;
-    border-top: 200px;
     width:100%;
     z-index: 1;
     background-color: white;
@@ -141,7 +142,6 @@ body {
     border-radius: 4px;
     width: 70%;
     margin-right: 10px;
-
 }
 
 .search-btn {
@@ -714,4 +714,41 @@ form label {
 .description{
     width:100%;
     font-family: 'Open Sans', sans-serif;
+}
+
+/* Profile Container */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    align-items: center;
+    padding-top: 10%;
+    margin-left: 2%;
+    height: 20%
+}
+
+/* Profile Picture */
+.profile-pic {
+    width: 150px;
+    height: 150px; 
+    border-radius: 50%; 
+    margin-bottom: 20px;
+}
+
+/* Edit Button */
+#editProfileBtn {
+    padding: 10px 20px;
+    background-color: #5271FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#editProfileBtn:hover {
+    background-color: #3d56c5; /* Slightly darker on hover */
 }

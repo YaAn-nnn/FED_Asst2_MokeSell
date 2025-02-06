@@ -339,6 +339,34 @@ document.addEventListener("DOMContentLoaded", function () {
             notificationBar.style.right = "-400px"; // Slide out
         }
     };
+
+    const userEmail = localStorage.getItem("loggedInUser"); // Get email from localStorage
+
+    if (userEmail) {
+        const url = `https://mokeselldb-1246.restdb.io/rest/accounts?q={"email":"${userEmail}"}`;
+
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "x-apikey": APIKEY,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const user = data[0]; // Assuming the user is in the first element
+                // Set the username and profile picture
+                document.getElementById("userName").textContent = user.username;
+                document.getElementById("profilePic").src = user.profileImageUrl || "Images/Default_pfp.jpg"; // Default image if not found
+            } else {
+                console.log("User not found");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching user data:", error);
+        });
+    }
 });
 
 
