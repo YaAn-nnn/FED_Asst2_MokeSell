@@ -437,21 +437,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let data = await response.json();
             let newListingID = data.length > 0 ? data[0].listingID + 1 : 1;
-
+            let createdDate = new Date().toLocaleString("en-SG", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+                timeZone: "Asia/Singapore"
+            });
+            
             // Construct new listing object
             let newListing = {
                 listingID: newListingID,
                 title: listingName,
                 description: description,
                 price: price,
-                sellerUsername: localStorage.getItem("loggedInUser"), // Ensure user is logged in
+                sellerEmail: localStorage.getItem("loggedInUser"), // Ensure user is logged in
                 status: "available",
                 bumpStatus: "none",
-                createdOn: new Date().toISOString(),
-                images: [uploadedImageUrl],  // Image URL goes here
+                createdOn: createdDate,
+                image: [uploadedImageUrl],  // Image URL goes here
                 category: selectedCategory
             };
-
 
             // Submit listing to RestDB
             let postResponse = await fetch(RESTDB_COLLECTION_URL, {
