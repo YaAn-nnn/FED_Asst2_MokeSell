@@ -323,6 +323,110 @@
                     moveBoard(event.key);
                 }
             });
+            const tryAgainButton = document.getElementById("try-again");
+
+            // Function to check if moves are possible
+            function hasValidMoves() {
+                for (let r = 0; r < 4; r++) {
+                    for (let c = 0; c < 4; c++) {
+                        if (board[r][c] === 0) return true; // Empty space available
+
+                    // Check horizontal and vertical moves
+                        if (c < 3 && board[r][c] === board[r][c + 1]) return true;
+                        if (r < 3 && board[r][c] === board[r + 1][c]) return true;
+                    }
+                }
+                return false; // No valid moves left
+            }
+
+            // Function to check game over
+            function checkGameOver() {
+                if (!hasValidMoves()) {
+                    tryAgainButton.style.display = "block"; // Show the button
+                }
+            }
+
+            // Function to restart the game
+            function restartGame() {
+                board = Array(4).fill().map(() => Array(4).fill(0));
+                score = 0;
+                scoreElement.textContent = score;
+                tryAgainButton.style.display = "none"; // Hide button
+                drawBoard();
+            }
+
+            // Add event listener for try again button
+            tryAgainButton.addEventListener("click", restartGame);
+
+            // Modify moveBoard function to check for game over after each move
+            function moveBoard(direction) {
+                let moved = false;
+
+                if (direction === "ArrowUp") {
+                    board = rotateBoardCounterClockwise();
+                } else if (direction === "ArrowDown") {
+                    board = rotateBoardClockwise();
+                } else if (direction === "ArrowRight") {
+                    board = board.map(reverse);
+                }
+
+                for (let i = 0; i < 4; i++) {
+                    let newRow = slide(board[i]);
+                    if (newRow.toString() !== board[i].toString()) moved = true;
+                    board[i] = newRow;
+                }
+
+                if (direction === "ArrowUp") {
+                    board = rotateBoardClockwise();
+                } else if (direction === "ArrowDown") {
+                    board = rotateBoardCounterClockwise();
+                } else if (direction === "ArrowRight") {
+                    board = board.map(reverse);
+                }
+
+                if (moved) {
+                    addRandomTile();
+                    updateTilePositions();
+                    setTimeout(drawBoard, 150);
+                }
+
+                setTimeout(checkGameOver, 200); // Check for game over after move
+            }
+
+            let lastMilestone = 0; // Tracks last 1000-point milestone
+
+            function updateScore(points) {
+            score += points;
+            scoreElement.textContent = score;
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestScoreElement.textContent = bestScore;
+                    localStorage.setItem("bestScore", bestScore);
+                }
+
+                // Check if the user reached a new 1000-point milestone
+                if (Math.floor(score / 1000) > lastMilestone) {
+                    lastMilestone = Math.floor(score / 1000);
+                    awardBonusPoints();
+                }
+            }
+
+            function awardBonusPoints() {
+                score += 10; // Add 10 bonus points
+                scoreElement.textContent = score;
+            
+                // Show alert
+                alert(`🎉 Congrats! You've earned 10 bonus points for reaching ${lastMilestone * 1000} points!`);
+
+                // Simulate API call to update user points
+                saveUserPoints(userID, score);
+            }
+
+            function saveUserPoints(userID, score) {
+                console.log(`✅ Saving points for ${userID}: ${score}`); 
+                // Here, you’d send a request to your backend API to update user points.
+            }
             addRandomTile();
             addRandomTile();
             drawBoard();

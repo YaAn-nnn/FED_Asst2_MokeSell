@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("sdfafntentLoaded", function () {
     const APIKEY = "67932aa4270cfe68c9c3ceec";
 
     checkLoginStatus();
