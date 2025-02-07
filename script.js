@@ -1,92 +1,96 @@
 document.addEventListener("DOMContentLoaded", function () {
     const APIKEY = "67932aa4270cfe68c9c3ceec";
 
-    // Form submission event
-    document.getElementById("contact-submit").addEventListener("click", async function (e) {
-        e.preventDefault(); // Prevent the form from submitting the default way
+    checkLoginStatus();
 
-        // Get the form data
-        const username = document.getElementById("signupusername").value.trim();
-        const email = document.getElementById("signupemail").value.trim();
-        const password = document.getElementById("signuppassword").value.trim();
-        const confirmPassword = document.getElementById("confirm-password").value.trim();
-
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            alert("Please enter a valid email address.");
-            return;
-        }
-
-
-        // Function to check if email or username exists in RestDB
-        async function checkExistingRecords() {
-            const filter = `{"$or":[{"email":"${email}"},{"username":"${username}"}]}`;
-            const settings = {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-apikey": APIKEY,
-                    "Cache-Control": "no-cache",
-                },
-            };
-
-            const response = await fetch(`https://mokeselldb-1246.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, settings);
-            const data = await response.json();
-            return data;
-        }
-
-        // Perform the check and register if unique
-        try {
-            const data = await checkExistingRecords();
-            if (data.length > 0) {
-                let usernameExists = data.some(user => user.username === username);
-                let emailExists = data.some(user => user.email === email);
-                if (usernameExists) {
-                    alert("Username is already taken. Please choose another.");
-                } else if (emailExists) {
-                    alert("Email is already taken. Please choose another.");
-                }
+    const contactSubmit = document.getElementById("contact-submit");
+    if (contactSubmit) {
+        contactSubmit.addEventListener("click", async function (e) {
+            e.preventDefault(); // Prevent the form from submitting the default way
+    
+            // Get the form data
+            const username = document.getElementById("signupusername").value.trim();
+            const email = document.getElementById("signupemail").value.trim();
+            const password = document.getElementById("signuppassword").value.trim();
+            const confirmPassword = document.getElementById("confirm-password").value.trim();
+    
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
             }
-            // Validate password
-            else if (password.length < 8) {
-                alert("Password must be at least 8 characters long!");
-            }
-            else if (password !== confirmPassword) {
-                alert("Passwords do not match. Please try again.");
-            }
-            else {
-                // Create an object to send to the database
-                const jsondata = {
-                    email: email,
-                    username: username,
-                    password: password,
-                    profileImageUrl: "Images/Default_pfp.jpg", // Default profile picture URL
-                };
-
-                // Fetch options for the POST request
+    
+    
+            // Function to check if email or username exists in RestDB
+            async function checkExistingRecords() {
+                const filter = `{"$or":[{"email":"${email}"},{"username":"${username}"}]}`;
                 const settings = {
-                    method: "POST",
+                    method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                         "x-apikey": APIKEY,
                         "Cache-Control": "no-cache",
                     },
-                    body: JSON.stringify(jsondata),
                 };
-
-                // Send the data to RestDB
-                const response = await fetch("https://mokeselldb-1246.restdb.io/rest/accounts", settings);
-                alert("Account registered successfully!");
-                document.getElementById("add-contact-form").reset();
-                document.getElementById("registerModal").style.display = "none";
-                document.getElementById("loginModal").style.display = "block";
+    
+                const response = await fetch(`https://mokeselldb-1246.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, settings);
+                const data = await response.json();
+                return data;
             }
-        } catch (error) {
-            console.error("Error during uniqueness check:", error);
-            alert("Unable to validate uniqueness at the moment. Please try again later.");
-        }
-    });
-
+    
+            // Perform the check and register if unique
+            try {
+                const data = await checkExistingRecords();
+                if (data.length > 0) {
+                    let usernameExists = data.some(user => user.username === username);
+                    let emailExists = data.some(user => user.email === email);
+                    if (usernameExists) {
+                        alert("Username is already taken. Please choose another.");
+                    } else if (emailExists) {
+                        alert("Email is already taken. Please choose another.");
+                    }
+                }
+                // Validate password
+                else if (password.length < 8) {
+                    alert("Password must be at least 8 characters long!");
+                }
+                else if (password !== confirmPassword) {
+                    alert("Passwords do not match. Please try again.");
+                }
+                else {
+                    // Create an object to send to the database
+                    const jsondata = {
+                        email: email,
+                        username: username,
+                        password: password,
+                        profileImageUrl: "Images/Default_pfp.jpg", // Default profile picture URL
+                    };
+    
+                    // Fetch options for the POST request
+                    const settings = {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "x-apikey": APIKEY,
+                            "Cache-Control": "no-cache",
+                        },
+                        body: JSON.stringify(jsondata),
+                    };
+    
+                    // Send the data to RestDB
+                    const response = await fetch("https://mokeselldb-1246.restdb.io/rest/accounts", settings);
+                    alert("Account registered successfully!");
+                    document.getElementById("add-contact-form").reset();
+                    document.getElementById("registerModal").style.display = "none";
+                    document.getElementById("loginModal").style.display = "block";
+                }
+            } catch (error) {
+                console.error("Error during uniqueness check:", error);
+                alert("Unable to validate uniqueness at the moment. Please try again later.");
+            }
+        });
+    }
+    
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
 
@@ -153,7 +157,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Login check and profile picture display
     const profilePic = document.getElementById("profilePic");
-    const profilePicContainer = document.getElementById("profilePicContainer");
 
     // Check if user is logged in
     function checkLoginStatus() {
@@ -176,54 +179,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Handle login form submission
     const loginForm = document.getElementById("loginForm");
-    loginForm.addEventListener("submit", async function (event) {
-        event.preventDefault(); // Prevent form submission
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        try {
-            const filter = `{"email": "${email}"}`;
-            const response = await fetch(`https://mokeselldb-1246.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-apikey": APIKEY,
-                    "Cache-Control": "no-cache",
+    if (loginForm) {
+        loginForm.addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent form submission
+    
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+    
+            try {
+                const filter = `{"email": "${email}"}`;
+                const response = await fetch(`https://mokeselldb-1246.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-apikey": APIKEY,
+                        "Cache-Control": "no-cache",
+                    }
+                });
+    
+                const users = await response.json();
+    
+                if (users.length === 0) {
+                    alert("Email not found. Please sign up.");
+                    document.getElementById("loginModal").style.display = "none";
+                    document.getElementById("registerModal").style.display = "block";
+                    return;
                 }
-            });
-
-            const users = await response.json();
-
-            if (users.length === 0) {
-                alert("Email not found. Please sign up.");
-                document.getElementById("loginModal").style.display = "none";
-                document.getElementById("registerModal").style.display = "block";
-                return;
+    
+                // Check if password matches
+                const user = users[0]; // First user found with the email
+                if (user.password !== password) {
+                    alert("Incorrect password. Please try again.");
+                    return;
+                }
+    
+                // Successful login
+                localStorage.setItem("loggedInUser", user.email); // Store login state
+                localStorage.setItem("profileImageUrl", user.profileImageUrl || "Images/Default_pfp.jpg"); // Store profile picture URL
+                document.getElementById("loginSuccessModal").style.display = "block";
+                setTimeout(function () {
+                    document.getElementById("loginModal").style.display = "none"; // Hide the login modal
+                    window.location.href = "index.html"; // Redirect to main page
+                }, 3000);
+    
+            } catch (error) {
+                alert("Error connecting to server. Please try again.");
             }
-
-            // Check if password matches
-            const user = users[0]; // First user found with the email
-            if (user.password !== password) {
-                alert("Incorrect password. Please try again.");
-                return;
-            }
-
-            // Successful login
-            localStorage.setItem("loggedInUser", user.email); // Store login state
-            localStorage.setItem("profileImageUrl", user.profileImageUrl || "Images/Default_pfp.jpg"); // Store profile picture URL
-            document.getElementById("loginSuccessModal").style.display = "block";
-            setTimeout(function () {
-                document.getElementById("loginModal").style.display = "none"; // Hide the login modal
-                window.location.href = "index.html"; // Redirect to main page
-            }, 3000);
-
-        } catch (error) {
-            alert("Error connecting to server. Please try again.");
-        }
-    });
-
-    checkLoginStatus();
+        });
+    }
 
     const profileDropdownMenu = document.getElementById("profileDropdownMenu");
 
@@ -350,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (userEmail) {
         const url = `https://mokeselldb-1246.restdb.io/rest/accounts?q={"email":"${userEmail}"}`;
-
+    
         fetch(url, {
             method: "GET",
             headers: {
@@ -362,9 +365,18 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             if (data.length > 0) {
                 const user = data[0]; // Assuming the user is in the first element
-                // Set the username and profile picture
-                document.getElementById("userName").textContent = user.username;
-                document.getElementById("profilePic").src = user.profileImageUrl || "Images/Default_pfp.jpg"; // Default image if not found
+                
+                // Check if the elements exist before trying to set their properties
+                const userNameElement = document.getElementById("userName");
+                const profilePicElement = document.getElementById("profilePic");
+    
+                if (userNameElement) {
+                    userNameElement.textContent = user.username;
+                }
+                
+                if (profilePicElement) {
+                    profilePicElement.src = user.profileImageUrl || "Images/Default_pfp.jpg"; // Default image if not found
+                }
             } else {
                 console.log("User not found");
             }
@@ -373,13 +385,13 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error fetching user data:", error);
         });
     }
+    
 
+
+    //listings
     const RESTDB_COLLECTION_URL = "https://mokeselldb-1246.restdb.io/rest/listings";
-
-    // Global variable to store the uploaded image URL
-    let uploadedImageUrl = '';
-
-    // Preview image when file is selected
+    
+    // Image preview handling
     document.getElementById('fileInput').addEventListener('change', function(e) {
         const file = e.target.files[0];
         const preview = document.getElementById('preview');
@@ -395,134 +407,186 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Handle image upload to ImgBB
-    async function handleImageUpload() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
+    let uploadedImageUrl = "";  // Define this variable globally or within the function that handles the image upload
+
+    // Form submission handler
+    document.getElementById("listingForm").addEventListener("submit", async function (event) {
+        event.preventDefault();  // Prevent default form submission
+
+        console.log("Form submitted!"); // Debugging log
+
+        let listingName = document.getElementById("listingname").value.trim();
+        let description = document.getElementById("description").value.trim();
+        let price = parseFloat(document.getElementById("price").value) || 0;
+        let selectedCategory = document.getElementById("selectedCategory").value; // Use .value to get selected option
         
-        if (!file) {
-            alert('Please select an image first.');
-            return;
+        // Ensure an image is uploaded before submission
+        if (!uploadedImageUrl) {
+            alert("Please upload an image before submitting.");
+            return;  // Stop submission if no image is uploaded
         }
 
-        const formData = new FormData();
-        formData.append('image', file);
+        // Ensure a category is selected (not default "Categories")
+        if (selectedCategory === "Categories") {
+            alert("Please select a category before submitting.");
+            return;  // Stop submission if no category is selected
+        }
 
         try {
-            const response = await fetch('https://api.imgbb.com/1/upload?key=3286f0772d31453eec96537ca4512061', {
-                method: 'POST',
-                body: formData
-            });
-            const result = await response.json();
-            
-            if (result.success) {
-                uploadedImageUrl = result.data.url; // Store the uploaded image URL
-                alert('Image uploaded successfully!');
-                closePopup(); // Close the popup after successful upload
-            } else {
-                alert('Image upload failed. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            alert('Image upload failed. Please try again.');
-        }
-    }
-
-    // Updated form submission handler
-    document.getElementById("loginForm").addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        // Get form values
-        const title = document.getElementById("listingname").value.trim();
-        const description = document.getElementById("description").value.trim();
-        const price = parseFloat(document.getElementById("price").value) || 0;
-        const sellerUsername = localStorage.getItem("loggedInUser");
-        const category = document.getElementById("selectedCategory").textContent;
-
-        // Check required fields including the uploaded image
-        if (!title || !category || !sellerUsername || !uploadedImageUrl) {
-            alert("Please fill all required fields and upload an image.");
-            return;
-        }
-
-        // Fetch the highest listingID to increment
-        try {
+            // Fetch the last listing ID to generate a new unique ID
             const response = await fetch(`${RESTDB_COLLECTION_URL}?max=1&sort=listingID&dir=-1`, {
                 method: "GET",
                 headers: { "x-apikey": APIKEY, "Content-Type": "application/json" }
             });
-            const data = await response.json();
-            const newListingID = data.length > 0 ? data[0].listingID + 1 : 1;
 
-            // Post new listing to RESTDB
-            const newListing = {
+            let data = await response.json();
+            let newListingID = data.length > 0 ? data[0].listingID + 1 : 1;
+
+            // Construct new listing object
+            let newListing = {
                 listingID: newListingID,
-                title: title,
+                title: listingName,
                 description: description,
                 price: price,
-                sellerUsername: sellerUsername,
+                sellerUsername: localStorage.getItem("loggedInUser"), // Ensure user is logged in
                 status: "available",
                 bumpStatus: "none",
                 createdOn: new Date().toISOString(),
-                images: [uploadedImageUrl], // Use the stored image URL
-                category: category
+                images: [uploadedImageUrl],  // Image URL goes here
+                category: selectedCategory
             };
 
-            const postResponse = await fetch(RESTDB_COLLECTION_URL, {
+            // Submit listing to RestDB
+            let postResponse = await fetch(RESTDB_COLLECTION_URL, {
                 method: "POST",
                 headers: { "x-apikey": APIKEY, "Content-Type": "application/json" },
                 body: JSON.stringify(newListing)
             });
 
             if (postResponse.ok) {
-                alert("Listing successfully posted!");
+                alert("Listing posted successfully!");
                 window.location.reload();
             } else {
-                throw new Error('Failed to post listing');
+                throw new Error(`Failed to post: ${postResponse.statusText}`);
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("An error occurred. Please try again.");
+            alert("Error posting listing: " + error.message);
         }
     });
+
 });
 
 
+let searchBtn = document.getElementById("search-btn")
+if (searchBtn) {
+    searchBtn.addEventListener("click", () => {
+        const searchQuery = document.getElementById("search-bar").value;
+        if (searchQuery) {
+            alert("Searching for: " + searchQuery);
+        } else {
+            alert("Please enter something to search.");
+        }
+    });
+    
+}
 
-document.getElementById("search-btn").addEventListener("click", () => {
-    const searchQuery = document.getElementById("search-bar").value;
-    if (searchQuery) {
-        alert("Searching for: " + searchQuery);
-    } else {
-        alert("Please enter something to search.");
+//If user has not logged in, prevent access to certain functions
+function restrictAccess() {
+    const loggedInUser = localStorage.getItem("loggedInUser");
+
+    // Get all protected elements
+    const protectedLinks = document.querySelectorAll(".protected-link");
+    const sellButton = document.querySelector(".sell-btn");
+
+    if (!loggedInUser) {
+        // Disable protected links
+        protectedLinks.forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                alert("You must log in to access this feature.");
+            });
+            link.style.opacity = "0.5"; // Grey out for visibility
+        });
+
+        // Disable the sell button
+        if (sellButton) {
+            sellButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                alert("You must log in to sell items.");
+            });
+            sellButton.style.opacity = "0.5";
+        }
     }
-});
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-    const boardElement = document.getElementById("board");
-    const scoreElement = document.getElementById("score");
-    const bestScoreElement = document.getElementById("best-score");
-    let board = Array(4).fill().map(() => Array(4).fill(0));
-    let tileElements = {};
-    let score = 0;
-    let bestScore = localStorage.getItem("bestScore") || 0;
-    bestScoreElement.textContent = bestScore;
 
-    // Tile colors based on number
-    const tileColors = {
-        2: "#eee4da",
-        4: "#ede0c8",
-        8: "#f2b179",
-        16: "#f59563",
-        32: "#f67c5f",
-        64: "#f65e3b",
-        128: "#edcf72",
-        256: "#FFE600",
-        512: "#edc850",
-        1024: "#edc53f",
-        2048: "#edc22e",
-    };
+function openPopup() {
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
 
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+function sellToggleMenu() {
+    const sellMenu = document.getElementById("sellDropdownMenu");
+    sellMenu.style.display = sellMenu.style.display === "block" ? "none" : "block";
+}
+
+const sellCategoriesToggleBtn = document.querySelector(".sellcategories-toggle-btn");
+if (sellCategoriesToggleBtn) {
+    sellCategoriesToggleBtn.addEventListener("click", sellToggleMenu);
+}
+
+function selectCategory(name, imgSrc) {
+    // Update the button text to show the selected category
+    let selectedCategory = document.getElementById("selectedCategory");
+    selectedCategory.innerHTML = `<img src="${imgSrc}" class="dropdown-img"> ${name}`;
+    
+    // Hide the dropdown menu
+    document.getElementById("sellDropdownMenu").style.display = "none";
+};
+
+function goBack() {
+    window.history.back(); // This goes back to the previous page
+};
+
+    // Cloudinary upload function (triggered by UPLOAD BUTTON)
+    async function uploadImageToCloudinary() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert('Please select an image first.');
+            return;
+        }
+    
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'MokeSell');
+        
+        try {
+            const response = await fetch('https://api.cloudinary.com/v1_1/dciiczqs0/image/upload', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            if (data.secure_url) {
+                uploadedImageUrl = data.secure_url;
+                alert('Image uploaded successfully!');
+                closePopup(); // Close the upload window
+            } else {
+                throw new Error(data.error.message || 'Upload failed');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            alert('Image upload failed: ' + error.message);
+        }
+    }
 
     let voucherAwarded = false; // Prevent multiple popups
 
@@ -563,6 +627,32 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    const boardElement = document.getElementById("board");
+    const scoreElement = document.getElementById("score");
+    const bestScoreElement = document.getElementById("best-score");
+    let board = Array(4).fill().map(() => Array(4).fill(0));
+    let tileElements = {};
+    let score = 0;
+    if (bestScoreElement) {
+        const bestScore = localStorage.getItem("bestScore") || 0;
+        bestScoreElement.textContent = bestScore;
+    }
+
+    // Tile colors based on number
+    const tileColors = {
+        2: "#eee4da",
+        4: "#ede0c8",
+        8: "#f2b179",
+        16: "#f59563",
+        32: "#f67c5f",
+        64: "#f65e3b",
+        128: "#edcf72",
+        256: "#FFE600",
+        512: "#edc850",
+        1024: "#edc53f",
+        2048: "#edc22e",
+    };
 
     function updateTilePositions() {
         Object.entries(tileElements).forEach(([key, tile]) => {
@@ -688,67 +778,4 @@ document.addEventListener("DOMContentLoaded", () => {
         drawBoard();
     }
 
-    addRandomTile();
-    addRandomTile();
-    drawBoard();
-});
 
-
-//If user has not logged in, prevent access to certain functions
-function restrictAccess() {
-    const loggedInUser = localStorage.getItem("loggedInUser");
-
-    // Get all protected elements
-    const protectedLinks = document.querySelectorAll(".protected-link");
-    const sellButton = document.querySelector(".sell-btn");
-
-    if (!loggedInUser) {
-        // Disable protected links
-        protectedLinks.forEach(link => {
-            link.addEventListener("click", function (event) {
-                event.preventDefault();
-                alert("You must log in to access this feature.");
-            });
-            link.style.opacity = "0.5"; // Grey out for visibility
-        });
-
-        // Disable the sell button
-        if (sellButton) {
-            sellButton.addEventListener("click", function (event) {
-                event.preventDefault();
-                alert("You must log in to sell items.");
-            });
-            sellButton.style.opacity = "0.5";
-        }
-    }
-}
-
-
-function openPopup() {
-    document.getElementById('popup').style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
-}
-
-function closePopup() {
-    document.getElementById('popup').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
-}
-
-function sellToggleMenu() {
-    const sellMenu = document.getElementById("sellDropdownMenu");
-    sellMenu.style.display = sellMenu.style.display === "block" ? "none" : "block";
-}
-
-const sellCategoriesToggleBtn = document.querySelector(".sellcategories-toggle-btn");
-if (sellCategoriesToggleBtn) {
-    sellCategoriesToggleBtn.addEventListener("click", sellToggleMenu);
-}
-
-function selectCategory(name, imgSrc) {
-    // Update the button text to show the selected category
-    let selectedCategory = document.getElementById("selectedCategory");
-    selectedCategory.innerHTML = `<img src="${imgSrc}" class="dropdown-img"> ${name}`;
-    
-    // Hide the dropdown menu
-    document.getElementById("sellDropdownMenu").style.display = "none";
-}
