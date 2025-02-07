@@ -1,3 +1,4 @@
+let listing = {};
 document.addEventListener("DOMContentLoaded", function () {
     const APIKEY = "67932aa4270cfe68c9c3ceec";
 
@@ -386,8 +387,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     
-
-
     //listings
     const RESTDB_COLLECTION_URL = "https://mokeselldb-1246.restdb.io/rest/listings";
     
@@ -407,18 +406,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    let uploadedImageUrl = "";  // Define this variable globally or within the function that handles the image upload
-
     // Form submission handler
     document.getElementById("listingForm").addEventListener("submit", async function (event) {
         event.preventDefault();  // Prevent default form submission
 
-        console.log("Form submitted!"); // Debugging log
-
         let listingName = document.getElementById("listingname").value.trim();
         let description = document.getElementById("description").value.trim();
         let price = parseFloat(document.getElementById("price").value) || 0;
-        let selectedCategory = document.getElementById("selectedCategory").value; // Use .value to get selected option
+        let selectedCategory = listing.category;
+        
         
         // Ensure an image is uploaded before submission
         if (!uploadedImageUrl) {
@@ -455,6 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 images: [uploadedImageUrl],  // Image URL goes here
                 category: selectedCategory
             };
+
 
             // Submit listing to RestDB
             let postResponse = await fetch(RESTDB_COLLECTION_URL, {
@@ -544,11 +541,15 @@ if (sellCategoriesToggleBtn) {
 function selectCategory(name, imgSrc) {
     // Update the button text to show the selected category
     let selectedCategory = document.getElementById("selectedCategory");
-    selectedCategory.innerHTML = `<img src="${imgSrc}" class="dropdown-img"> ${name}`;
+    selectedCategory.innerHTML = `<img src="${imgSrc}" class="dropdown-img"> ${name}`;  // Update button text with category name and image
     
-    // Hide the dropdown menu
+    // Update the 'listing' object with the selected category
+    listing.category = name; // Ensure 'listing' is defined before using this
+
+    // Close the dropdown menu
     document.getElementById("sellDropdownMenu").style.display = "none";
-};
+}
+
 
 function goBack() {
     window.history.back(); // This goes back to the previous page
