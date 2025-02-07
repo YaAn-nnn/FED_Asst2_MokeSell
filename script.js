@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         email: email,
                         username: username,
                         password: password,
-                        profileImageUrl: "Images/Default_pfp.jpg", // Default profile picture URL
+                        profilePicture: "Images/Default_pfp.jpg", // Default profile picture URL
                     };
     
                     // Fetch options for the POST request
@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 
                 if (profilePicElement) {
-                    profilePicElement.src = user.profileImageUrl || "Images/Default_pfp.jpg"; // Default image if not found
+                    profilePicElement.src = user.profilePicture
                 }
             } else {
                 console.log("User not found");
@@ -501,7 +501,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
     
             let listings = await response.json();
-            console.log("Fetched Listings:", listings); // Debugging
     
             displayListings(listings); // Call function to display listings
         } catch (error) {
@@ -509,27 +508,77 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Error fetching listings: " + error.message);
         }
     }
-    function displayListings(listings) {
-        container.innerHTML = ""; // Clear previous content
+    async function displayListings(listings) {
 
-        listings.forEach(listing => {
-            let listingElement = document.createElement("div");
-            listingElement.className = "listing";
-
-            listingElement.innerHTML = `
-                <img src="${listing.image ? listing.image[0] : 'default.jpg'}" alt="Listing Image">
-                <div>
-                    <h3>${listing.title}</h3>
-                    <p>${listing.description}</p>
-                    <p>Price: $${listing.price}</p>
-                    <p>Category: ${listing.category}</p>
-                    <p>Posted on: ${listing.createdOn}</p>
-                </div>
-            `;
-
-            container.appendChild(listingElement);
-        });
+        const listingContainer = document.getElementById("listingcontainer");
+        if (!listingContainer) {
+            console.error("Listing container not found.");
+            return;
+        }
+    
+        listingContainer.innerHTML = ''; // Clear previous listings
+    
+        for (const listing of listings) {
+            try {
+                // Fetch user details based on sellerEmail
+                const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
+                const userResponse = await fetch(`https://mokeselldb-1246.restdb.io/rest/accounts?q=${emailQuery}`, {
+                    method: "GET",
+                    headers: { "x-apikey": APIKEY }
+                });
+                
+                const userData = await userResponse.json();
+    
+                const user = userData[0] || {}; // Get user data (if exists)
+                const profilePicture = user.profilePicture;
+                const sellerUsername = user.username;
+    
+                // Get listing image
+                const listingImage = listing.image?.[0];
+                const timeAgo = formatTimeAgo(listing.createdOn);
+    
+                // Main container
+                const container = document.createElement("div");
+                container.className = "container";
+    
+                // Profile + Username section
+                const userInfoDiv = document.createElement("div");
+                userInfoDiv.className = "user-info";
+                userInfoDiv.innerHTML = `
+                    <div class="profilepicture" style="background-image: url('${profilePicture}');"></div>
+                    <div class="username">
+                        <b>${sellerUsername}</b><br>
+                        <div class="time-ago">${timeAgo}</div>
+                    </div>
+                `;
+    
+                // Listing Image
+                const listingBox = document.createElement("div");
+                listingBox.className = "listingbox";
+                listingBox.style.backgroundImage = `url('${listingImage}')`;
+    
+                // Price Section
+                const priceDiv = document.createElement("div");
+                priceDiv.className = "itemmoney";
+                priceDiv.innerHTML = `
+                    <b>${listing.title || "No Title"}</b><br>
+                    <div class="price">$${listing.price?.toFixed(2) || "0.00"}</div>
+                `;
+    
+                // Assemble components
+                container.appendChild(userInfoDiv); // Profile + Username
+                container.appendChild(listingBox);  // Listing Image
+                container.appendChild(priceDiv);    // Price Section
+    
+                listingContainer.appendChild(container);
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+            }
+        }
     }
+    
+    
+    
 });
 
 
@@ -647,5 +696,18 @@ function goBack() {
         }
     }
 
-
+    function formatTimeAgo(timestamp) {
+        let createdTime = new Date(timestamp);
+        let now = new Date();
+        let diff = Math.floor((now - createdTime) / 1000); // Difference in seconds
+    
+        if (diff < 60) return `${diff} seconds ago`;
+        let minutes = Math.floor(diff / 60);
+        if (minutes < 60) return `${minutes} minutes ago`;
+        let hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours} hours ago`;
+        let days = Math.floor(hours / 24);
+        return `${days} days ago`;
+    }
+    
 
