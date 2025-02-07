@@ -32,9 +32,9 @@ body {
     border-bottom: 1px solid #D3D3D3;
 }
 
-/* Logo on the right */
+/* Logo on the left */
 .logo img {
-    width: 150px;
+    width: 30%;
 }
 
 .nav-links {
@@ -98,7 +98,6 @@ body {
 
 .icons img {
     width: 24px;
-    height: 24px;
     margin: 0 10px;
     cursor: pointer;
 }

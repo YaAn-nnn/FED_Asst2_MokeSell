@@ -391,95 +391,145 @@ document.addEventListener("DOMContentLoaded", function () {
     const RESTDB_COLLECTION_URL = "https://mokeselldb-1246.restdb.io/rest/listings";
     
     // Image preview handling
-    document.getElementById('fileInput').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        const preview = document.getElementById('preview');
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            preview.style.display = 'none';
-        }
-    });
+    let fileInput = document.getElementById('fileInput');
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('preview');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+    };
 
     // Form submission handler
-    document.getElementById("listingForm").addEventListener("submit", async function (event) {
-        event.preventDefault();  // Prevent default form submission
-
-        let listingName = document.getElementById("listingname").value.trim();
-        let description = document.getElementById("description").value.trim();
-        let price = parseFloat(document.getElementById("price").value) || 0;
-        let selectedCategory = listing.category;
-        
-        
-        // Ensure an image is uploaded before submission
-        if (!uploadedImageUrl) {
-            alert("Please upload an image before submitting.");
-            return;  // Stop submission if no image is uploaded
-        }
-
-        // Ensure a category is selected (not default "Categories")
-        if (selectedCategory === "Categories") {
-            alert("Please select a category before submitting.");
-            return;  // Stop submission if no category is selected
-        }
-
+    let listingForm = document.getElementById("listingForm");
+    if (listingForm) {
+        listingForm.addEventListener("submit", async function (event) {
+            event.preventDefault();  // Prevent default form submission
+    
+            let listingName = document.getElementById("listingname").value.trim();
+            let description = document.getElementById("description").value.trim();
+            let price = parseFloat(document.getElementById("price").value) || 0;
+            let selectedCategory = listing.category;
+            
+            
+            // Ensure an image is uploaded before submission
+            if (!uploadedImageUrl) {
+                alert("Please upload an image before submitting.");
+                return;  // Stop submission if no image is uploaded
+            }
+    
+            // Ensure a category is selected (not default "Categories")
+            if (selectedCategory === "Categories") {
+                alert("Please select a category before submitting.");
+                return;  // Stop submission if no category is selected
+            }
+    
+            try {
+                // Fetch the last listing ID to generate a new unique ID
+                const response = await fetch(`${RESTDB_COLLECTION_URL}?max=1&sort=listingID&dir=-1`, {
+                    method: "GET",
+                    headers: { "x-apikey": APIKEY, "Content-Type": "application/json" }
+                });
+    
+                let data = await response.json();
+                let newListingID = data.length > 0 ? data[0].listingID + 1 : 1;
+                let createdDate = new Date().toLocaleString("en-SG", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true,
+                    timeZone: "Asia/Singapore"
+                });
+                
+                // Construct new listing object
+                let newListing = {
+                    listingID: newListingID,
+                    title: listingName,
+                    description: description,
+                    price: price,
+                    sellerEmail: localStorage.getItem("loggedInUser"), // Ensure user is logged in
+                    status: "available",
+                    bumpStatus: "none",
+                    createdOn: createdDate,
+                    image: [uploadedImageUrl],  // Image URL goes here
+                    category: selectedCategory
+                };
+    
+                // Submit listing to RestDB
+                let postResponse = await fetch(RESTDB_COLLECTION_URL, {
+                    method: "POST",
+                    headers: { "x-apikey": APIKEY, "Content-Type": "application/json" },
+                    body: JSON.stringify(newListing)
+                });
+    
+                if (postResponse.ok) {
+                    alert("Listing posted successfully!");
+                    window.location.reload();
+                } else {
+                    throw new Error(`Failed to post: ${postResponse.statusText}`);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error posting listing: " + error.message);
+            }
+        });
+    }
+    let container = document.getElementById("listingcontainer");
+    if (container) {
+        fetchListings();
+    }
+    async function fetchListings() {
         try {
-            // Fetch the last listing ID to generate a new unique ID
-            const response = await fetch(`${RESTDB_COLLECTION_URL}?max=1&sort=listingID&dir=-1`, {
+            let response = await fetch("https://mokeselldb-1246.restdb.io/rest/listings", {
                 method: "GET",
                 headers: { "x-apikey": APIKEY, "Content-Type": "application/json" }
             });
-
-            let data = await response.json();
-            let newListingID = data.length > 0 ? data[0].listingID + 1 : 1;
-            let createdDate = new Date().toLocaleString("en-SG", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true,
-                timeZone: "Asia/Singapore"
-            });
-            
-            // Construct new listing object
-            let newListing = {
-                listingID: newListingID,
-                title: listingName,
-                description: description,
-                price: price,
-                sellerEmail: localStorage.getItem("loggedInUser"), // Ensure user is logged in
-                status: "available",
-                bumpStatus: "none",
-                createdOn: createdDate,
-                image: [uploadedImageUrl],  // Image URL goes here
-                category: selectedCategory
-            };
-
-            // Submit listing to RestDB
-            let postResponse = await fetch(RESTDB_COLLECTION_URL, {
-                method: "POST",
-                headers: { "x-apikey": APIKEY, "Content-Type": "application/json" },
-                body: JSON.stringify(newListing)
-            });
-
-            if (postResponse.ok) {
-                alert("Listing posted successfully!");
-                window.location.reload();
-            } else {
-                throw new Error(`Failed to post: ${postResponse.statusText}`);
+    
+            if (!response.ok) {
+                throw new Error(`Failed to fetch listings: ${response.statusText}`);
             }
+    
+            let listings = await response.json();
+            console.log("Fetched Listings:", listings); // Debugging
+    
+            displayListings(listings); // Call function to display listings
         } catch (error) {
             console.error("Error:", error);
-            alert("Error posting listing: " + error.message);
+            alert("Error fetching listings: " + error.message);
         }
-    });
+    }
+    function displayListings(listings) {
+        container.innerHTML = ""; // Clear previous content
 
+        listings.forEach(listing => {
+            let listingElement = document.createElement("div");
+            listingElement.className = "listing";
+
+            listingElement.innerHTML = `
+                <img src="${listing.image ? listing.image[0] : 'default.jpg'}" alt="Listing Image">
+                <div>
+                    <h3>${listing.title}</h3>
+                    <p>${listing.description}</p>
+                    <p>Price: $${listing.price}</p>
+                    <p>Category: ${listing.category}</p>
+                    <p>Posted on: ${listing.createdOn}</p>
+                </div>
+            `;
+
+            container.appendChild(listingElement);
+        });
+    }
 });
 
 
