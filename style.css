@@ -652,7 +652,7 @@ form label {
     border-radius: 10px;
     color: white;
     border: 0px;
-    z-index: 10;
+    z-index: 12;
 }
 .sell-containers {
     max-height: 10000px;
@@ -762,4 +762,17 @@ form label {
 .sell-btn {
     display: block;
     visibility: visible;
+}
+#try-again {
+    background-color: #f77;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+#try-again:hover {
+    background-color: #f55;
 }

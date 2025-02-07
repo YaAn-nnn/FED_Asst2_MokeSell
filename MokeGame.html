@@ -180,9 +180,7 @@
         </div>
         <div class="board" id="board"></div>
         <p>Use arrow keys to play.</p>
-        <button id="try-again" onclick="restartGame()" style="display:none; padding: 10px 20px; font-size: 16px; background: #f65e3b; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
-            Try Again
-        </button>
+        <button id="try-again" style="display: none;">Try Again</button>
     </div>
 
 
@@ -352,6 +350,8 @@
                 score = 0;
                 scoreElement.textContent = score;
                 tryAgainButton.style.display = "none"; // Hide button
+                addRandomTile();
+                addRandomTile();
                 drawBoard();
             }
 
