@@ -646,7 +646,7 @@ form label {
 .seller-btn{
     width: 200px;
     height: 200px;
-    margin-right: 10px;
+    margin-right: 50px;
     background-color: #5271FF;
     border-radius: 10px;
     color: white;
@@ -663,15 +663,15 @@ form label {
 }
 
 .sidelisting{
-    width: 700px;
+    width: 900px;
     max-height: 10000px;
-    margin-left:400px;
-    top:100px;
+    margin-left:300px;
+    top:-200px;
     display: flexbox;
-    position: fixed;
+    position: relative;
     align-items: center;
     justify-content: center;
-    z-index: 8;
+    z-index: 12;
 }
 
 .sellcategories-toggle-btn {
@@ -681,6 +681,7 @@ form label {
     color: white;
     border: none;
     border-radius: 10px;
+    margin-bottom: 150px;
     cursor: pointer;
     height:40px;
     width:200px;
@@ -691,9 +692,10 @@ form label {
 }
 
 .leftsidelisting{
-    width: 300px;
+    width: 200px;
     max-height: 10000px;
     margin-left:0px;
+    display: flex;
     position: relative;
     align-items: center;
     justify-content: center;
@@ -712,14 +714,17 @@ form label {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 12;
+    z-index: 15;
 }
 
 .sellbar{
     position: fixed;
     width:100%;
+    z-index: 2;
+    background-color: white;
+    height: 72px;
     font-family: 'Open Sans', sans-serif;
-    z-index: 10;
+    z-index: 13;
 }
 
 /* Profile Container */
@@ -774,4 +779,14 @@ form label {
 }
 #try-again:hover {
     background-color: #f55;
+}
+
+#description{
+    padding: 10px 5px 200px 10px;
+    text-align: left;
+}
+#description::-webkit-input-placeholder { 
+    position:absolute;
+    left: 10px;
+    top: 10px;
 }
