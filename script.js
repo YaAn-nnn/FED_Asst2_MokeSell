@@ -611,6 +611,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fetch listing details
     async function fetchListingDetails() {
+        await fetchFilteredListings();
         try {
             const response = await fetch(`https://mokeselldb4-6452.restdb.io/rest/listings/${listingId}`, {
                 method: "GET",
@@ -646,9 +647,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Call function to load listing details
     fetchListingDetails();
+    
+        // Add event listeners to category links
+    document.querySelectorAll('#dropdownMenu a').forEach(link => {
+        link.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const category = e.currentTarget.dataset.category;
+            await fetchFilteredListings(category);
+            toggleMenu(); // Close the dropdown after selection
+        });
+    });
 
-    
-    
+    // Modified fetch function with filtering
+    async function fetchFilteredListings(category = null) {
+        try {
+            let url = 'https://mokeselldb4-6452.restdb.io/rest/listings';
+            
+            // Add category filter if specified
+            if (category) {
+                const filterQuery = encodeURIComponent(JSON.stringify({ category }));
+                url += `?q=${filterQuery}`;
+            }
+
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { 
+                    "x-apikey": APIKEY, 
+                    "Content-Type": "application/json" 
+                }
+            });
+
+            if (!response.ok) throw new Error('Failed to fetch listings');
+            
+            const listings = await response.json();
+            displayListings(listings);
+            
+        } catch (error) {
+            console.error("Error fetching filtered listings:", error);
+            alert("Error loading listings: " + error.message);
+        }
+    }
+
+    // Update your existing fetchListings call to use this new function
+    async function fetchListings() {
+         // Get all listings when no category specified
+}
 });
 
 
@@ -723,7 +766,7 @@ function selectCategory(name, imgSrc) {
     selectedCategory.innerHTML = `<img src="${imgSrc}" class="dropdown-img"> ${name}`;  // Update button text with category name and image
     
     // Update the 'listing' object with the selected category
-    listing.category = name; // Ensure 'listing' is defined before using this
+    listing.category = name;
 
     selectedCategory = name;
 

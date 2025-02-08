@@ -69,7 +69,7 @@ body {
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: 80px;
+    top: 35px;
     left: 0;
     background-color: #5271FF;
     border-radius: 5px;
