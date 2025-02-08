@@ -246,16 +246,24 @@
     <div class="listing-details-container">
         <div class="listing-header">
             <h1 id="listing-title"></h1>
-            <p id="listing-price"></p>
+            <h2 id="listing-price"></h2>
         </div>
-        <div class="listing-image" id="listing-image"></div>
+        <div class="listing-image" id="listing-image" onclick="openModal(this.style.backgroundImage)"></div>
+        <!-- Modal (Hidden by Default) -->
+        <div id="imageModal" class="imgModal" onclick="closeModal()">
+            <span class="close">&times;</span>
+            <img class="img-modal-content" id="modalImage">
+        </div>
         <div class="listing-info">
-            <p><b>Seller:</b> <span id="seller-name"></span></p>
-            <p><b>Posted:</b> <span id="time-ago"></span></p>
+            <p><b>Listed: </b> <span id = "listing-time"></span></p>
             <p><b>Description:</b> <span id="listing-description"></span></p>
         </div>
+        <!-- Chat Button -->
+        <button id="chat-button" class="btn" onclick="startChat()">Chat with Seller</button>
+
+
     </div>
-    
+
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <script src="script.js"></script>
 </body>
