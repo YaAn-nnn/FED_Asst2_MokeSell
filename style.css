@@ -133,6 +133,7 @@ body {
     width:100%;
     z-index: 1;
     background-color: white;
+    margin-bottom: 10px;
 }
 
 .search-bar {
@@ -798,16 +799,14 @@ form label {
 
 /* Profile Container */
 .profile-container {
-    display: flexbox;
     justify-content: center;
-    background-color: #fff;
-    padding: 20px;
+    background-color: gray;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: 20%;
     width: 30%;
     align-items: center;
     margin-left: 2%;
-    height: 20%
 }
 
 /* Profile Picture */
@@ -829,7 +828,7 @@ form label {
 }
 
 #editProfileBtn:hover {
-    background-color: #3d56c5; /* Slightly darker on hover */
+    background-color: #3d56c5;
 }
 
 .sell-btn {
