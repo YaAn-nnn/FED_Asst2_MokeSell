@@ -498,6 +498,10 @@ form label {
     text-align: center;
 }
 
+.listing-title {
+    font-weight: bold;
+}
+
 .listing-image {
     width: 100%;
     height: 400px;
@@ -795,23 +799,32 @@ form label {
 }
 
 /* Profile Container */
-.profile-container {
+.parent-container-profile {
+    display: flex;
     justify-content: center;
-    background-color: gray;
+    align-items: center;
+    width: 100vw;
+}
+.profile-container {
+    display: flex;
+    justify-content: flex-start;
+    background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     height: 20%;
-    width: 30%;
+    width: 90%;
     align-items: center;
-    margin-left: 2%;
+    padding: 10px;
+    position: relative;  /* Use relative positioning */
+    top: 160px;
 }
 
 /* Profile Picture */
 .profile-pic {
-    width: 150px;
-    height: 150px; 
+    width: 130px;
+    height: 130px; 
     border-radius: 50%; 
-    margin-bottom: 20px;
+    margin-right: 20px;
 }
 
 /* Edit Button */
@@ -822,9 +835,28 @@ form label {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 10%;
+    position: absolute;
+    right: 7%;
 }
 
 #editProfileBtn:hover {
+    background-color: #3d56c5;
+}
+
+#followBtn {
+    padding: 10px 20px;
+    background-color: #5271FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 10%;
+    position: absolute;
+    right: 7%;
+}
+
+#followBtn:hover {
     background-color: #3d56c5;
 }
 
