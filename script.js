@@ -1046,34 +1046,9 @@ function goBack() {
         const updatedChat = await updateResponse.json();
         console.log('Chat updated:', updatedChat);
     }
-    async function loadMessages(chatID) {
-        const response = await fetch(`https://mokeselldb7-530b.restdb.io/rest/chats?q={"chatID":"${chatID}"}`, {
-            method: 'GET',
-            headers: {
-                'x-apikey': '67a77dde4d874444cf828042',
-                'Content-Type': 'application/json'
-            }
-        });
+
     
-        const data = await response.json();
-        const chat = data[0];  // Get the chat document
-    
-        // Display the messages in the chat
-        const messagesContainer = document.getElementById('messagesContainer');
-        messagesContainer.innerHTML = '';  // Clear current messages
-    
-        chat.messages.forEach(message => {
-            const messageElement = document.createElement('div');
-            messageElement.textContent = `${message.senderID}: ${message.content}`;
-            messagesContainer.appendChild(messageElement);
-        });
-    }
-    
-    // Fetch messages every 5 seconds (for real-time effect)
-    setInterval(() => {
-        const chatID = 'chat-12345';  // Replace with actual chatID
-        loadMessages(chatID);
-    }, 5000);
+
     async function displayChats() {
         const response = await fetch('https://mokeselldb7-530b.restdb.io/rest/chats', {
             method: 'GET',
