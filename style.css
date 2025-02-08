@@ -664,9 +664,9 @@ form label {
 }
 
 .sidelisting{
-    width: 900px;
+    width: 70%;
     max-height: 10000px;
-    margin-left:300px;
+    margin-left:25%;
     top:-200px;
     display: flexbox;
     position: relative;
@@ -693,10 +693,10 @@ form label {
 }
 
 .leftsidelisting{
-    width: 200px;
+    width: 20%;
     max-height: 10000px;
     margin-left:0px;
-    display: flex;
+    display: flexbox;
     position: relative;
     align-items: center;
     justify-content: center;
@@ -790,4 +790,18 @@ form label {
     position:absolute;
     left: 10px;
     top: 10px;
+}
+
+.file-Input{
+    Height:  100px;
+    Width: 150px;
+    Border-radius: 60px;
+    Border: 1px dashed #999;
+}
+.file-Input:hover {
+    Color: #de0611;
+    Border: 1px dashed #de0611;
+}
+#file{
+    Display: none;
 }
