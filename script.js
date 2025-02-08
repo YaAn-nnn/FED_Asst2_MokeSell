@@ -664,8 +664,9 @@ function goBack() {
 
     // Cloudinary upload function (triggered by UPLOAD BUTTON)
     async function uploadImageToCloudinary() {
-        const fileInput = document.getElementById('fileInput');
+        const fileInput = document.getElementById('file');
         const file = fileInput.files[0];
+
 
         if (!file) {
             alert('Please select an image first.');
