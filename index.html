@@ -110,14 +110,17 @@
     <!-- Search Bar Section -->
     <div class="search-container" style="padding-top: 90px;">
         <input type="text" id="search-bar" class="search-bar" placeholder="Search for something">
-        <!-- Location Filter Dropdown -->
-        <select id="location-filter" class="location-filter">
-            <option value="">All of Singapore</option>
-            <option value="North">North</option>
-            <option value="South">South</option>
-            <option value="East">East</option>
-            <option value="West">West</option>
-            <option value="West">Central</option>
+        <!-- Category Filter Dropdown -->
+        <select id="category-filter" class="category-filter">
+            <option value="">All Categories</option>
+            <option value="Free Items">Free Items</option>
+            <option value="Women's Fashion">Women's Fashion</option>
+            <option value="Men's Fashion">Men's Fashion</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Babies & Kids">Babies & Kids</option>
+            <option value="Learning & Enrichment">Learning & Enrichment</option>
+            <option value="Services">Services</option>
+            <option value="Others">Others</option>
         </select>
         <button id="search-btn" class="search-btn">Search</button>
     </div>
@@ -242,16 +245,12 @@
             <dotlottie-player id="login-success-animation" src="https://lottie.host/07d2015e-12bd-4b20-95b3-add530a01150/GJJ27JsCtB.lottie" background="transparent" speed="1" loop autoplay style="width: 200px; height: 200px;"></dotlottie-player>
         </div>
     </div>
-
-
     
     <div class="fullbody">
-        <h2>Trending now</h2>
         <div id="listingcontainer" class="listingcontainer">
         </div>
     </div>
     
-
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <script src="script.js"></script>
 </body>

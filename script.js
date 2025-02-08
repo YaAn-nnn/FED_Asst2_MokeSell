@@ -485,6 +485,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
     let container = document.getElementById("listingcontainer");
     if (container) {
         fetchListings();
@@ -510,99 +511,100 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     async function displayListings(listings) {
-    // Get the container element where listings will be rendered
-    const listingContainer = document.getElementById("listingcontainer");
-    if (!listingContainer) {
-        console.error("Listing container not found.");
-        return;
-    }
-
-    // Clear any previous content
-    listingContainer.innerHTML = '';
-
-    // Loop through each listing
-    for (const listing of listings) {
-        try {
-            // Build the query to fetch user details based on sellerEmail
-            const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
-            const userResponse = await fetch(`https://mokeselldb5-094f.restdb.io/rest/accounts?q=${emailQuery}`, {
-                method: "GET",
-                headers: { 
-                    "x-apikey": APIKEY, 
-                    "Content-Type": "application/json" 
-                },
-                mode: "cors"
-            });
-            
-            const userData = await userResponse.json();
-            const user = userData[0] || {};
-            
-            // Use the user profilePicture if available; otherwise, use a default (ensure correct relative path and case)
-            const profilePicture = (user.profilePicture && user.profilePicture.trim() !== "") 
-                ? user.profilePicture 
-                : "images/default_pfp.jpg";  
-            const sellerUsername = user.username || "Unknown User";
-            
-            // Get the listing image (use a placeholder if missing)
-            const listingImage = (listing.image && listing.image.length > 0) 
-                ? listing.image[0] 
-                : "https://dummyimage.com/220x220/cccccc/ffffff&text=No+Image";
-            const timeAgo = formatTimeAgo(listing.createdOn);
-
-            const container = document.createElement("a");
-            container.className = "container";
-            container.href = `listing-details.html?id=${listing._id}`;
-            container.style.textDecoration = "none"; // Remove underline
-
-            // Create the Profile + Username section (which will appear at the top)
-            const userInfoDiv = document.createElement("div");
-            userInfoDiv.className = "user-info";
-            userInfoDiv.innerHTML = `
-                <div class="profilepicture" style="
-                    background-image: url('${profilePicture}');
-                    background-size: cover;
-                    background-position: center;
-                    width: 45px;
-                    height: 45px;
-                    border-radius: 50%;
-                    display: inline-block;
-                    ">
-                </div>
-                <div class="username" style="display: inline-block; vertical-align: top; margin-left: 10px;">
-                    <b>${sellerUsername}</b><br>
-                    <div class="time-ago" style="font-size: small; font-weight: 100;">${timeAgo}</div>
-                </div>
-            `;
-
-            // Create the Listing Image section
-            const listingBox = document.createElement("div");
-            listingBox.className = "listingbox";
-            listingBox.style.backgroundImage = `url('${listingImage}')`;
-            listingBox.style.backgroundSize = "cover";
-            listingBox.style.backgroundPosition = "center";
-            // Ensure listingBox dimensions match your design (adjust if needed)
-            listingBox.style.width = "230px";
-            listingBox.style.height = "230px";
-            listingBox.style.marginTop = "5px";
-            listingBox.style.borderRadius = "5px";
-
-            // Create the Item Details section (listing title and price)
-            const priceDiv = document.createElement("div");
-            priceDiv.className = "itemmoney";
-            priceDiv.innerHTML = `
-                <div class="listing-title">${listing.title || "No Title"}</div>
-                <div class="price" style="font-size: small; font-weight: 100;">$${listing.price ? listing.price.toFixed(2) : "0.00"}</div>
-            `;
-
-            container.appendChild(userInfoDiv);
-            container.appendChild(listingBox);
-            container.appendChild(priceDiv);
-
-            listingContainer.appendChild(container);
-        } catch (error) {
-            console.error("Error fetching user details:", error);
+        // Get the container element where listings will be rendered
+        const listingContainer = document.getElementById("listingcontainer");
+        if (!listingContainer) {
+            console.error("Listing container not found.");
+            return;
         }
-    }};
+
+        // Clear any previous content
+        listingContainer.innerHTML = '';
+
+        // Loop through each listing
+        for (const listing of listings) {
+            try {
+                // Build the query to fetch user details based on sellerEmail
+                const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
+                const userResponse = await fetch(`https://mokeselldb5-094f.restdb.io/rest/accounts?q=${emailQuery}`, {
+                    method: "GET",
+                    headers: { 
+                        "x-apikey": APIKEY, 
+                        "Content-Type": "application/json" 
+                    },
+                    mode: "cors"
+                });
+                
+                const userData = await userResponse.json();
+                const user = userData[0] || {};
+                
+                // Use the user profilePicture if available; otherwise, use a default (ensure correct relative path and case)
+                const profilePicture = (user.profilePicture && user.profilePicture.trim() !== "") 
+                    ? user.profilePicture 
+                    : "images/default_pfp.jpg";  
+                const sellerUsername = user.username || "Unknown User";
+                
+                // Get the listing image (use a placeholder if missing)
+                const listingImage = (listing.image && listing.image.length > 0) 
+                    ? listing.image[0] 
+                    : "https://dummyimage.com/220x220/cccccc/ffffff&text=No+Image";
+                const timeAgo = formatTimeAgo(listing.createdOn);
+
+                const container = document.createElement("a");
+                container.className = "container";
+                container.href = `listing-details.html?id=${listing._id}`;
+                container.style.textDecoration = "none"; // Remove underline
+
+                // Create the Profile + Username section (which will appear at the top)
+                const userInfoDiv = document.createElement("div");
+                userInfoDiv.className = "user-info";
+                userInfoDiv.innerHTML = `
+                    <div class="profilepicture" style="
+                        background-image: url('${profilePicture}');
+                        background-size: cover;
+                        background-position: center;
+                        width: 45px;
+                        height: 45px;
+                        border-radius: 50%;
+                        display: inline-block;
+                        ">
+                    </div>
+                    <div class="username" style="display: inline-block; vertical-align: top; margin-left: 10px;">
+                        <b>${sellerUsername}</b><br>
+                        <div class="time-ago" style="font-size: small; font-weight: 100;">${timeAgo}</div>
+                    </div>
+                `;
+
+                // Create the Listing Image section
+                const listingBox = document.createElement("div");
+                listingBox.className = "listingbox";
+                listingBox.style.backgroundImage = `url('${listingImage}')`;
+                listingBox.style.backgroundSize = "cover";
+                listingBox.style.backgroundPosition = "center";
+                // Ensure listingBox dimensions match your design (adjust if needed)
+                listingBox.style.width = "230px";
+                listingBox.style.height = "230px";
+                listingBox.style.marginTop = "5px";
+                listingBox.style.borderRadius = "5px";
+
+                // Create the Item Details section (listing title and price)
+                const priceDiv = document.createElement("div");
+                priceDiv.className = "itemmoney";
+                priceDiv.innerHTML = `
+                    <div class="listing-title">${listing.title || "No Title"}</div>
+                    <div class="price" style="font-size: small; font-weight: 100;">$${listing.price ? listing.price.toFixed(2) : "0.00"}</div>
+                `;
+
+                container.appendChild(userInfoDiv);
+                container.appendChild(listingBox);
+                container.appendChild(priceDiv);
+
+                listingContainer.appendChild(container);
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+            }
+        }
+    };
     
 
     // Get the listing ID from the URL
@@ -611,7 +613,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fetch listing details
     async function fetchListingDetails() {
-        await fetchFilteredListings();
         try {
             const response = await fetch(`https://mokeselldb5-094f.restdb.io/rest/listings/${listingId}`, {
                 method: "GET",
@@ -688,25 +689,41 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Update your existing fetchListings call to use this new function
-    async function fetchListings() {
-         // Get all listings when no category specified
-}
-});
+    document.getElementById("search-btn").addEventListener("click", searchListings);
 
+    async function searchListings() {
+        const searchQuery = document.getElementById("search-bar").value.trim().toLowerCase();
+        const selectedCategory = document.getElementById("category-filter").value; // Get selected category
 
-let searchBtn = document.getElementById("search-btn")
-if (searchBtn) {
-    searchBtn.addEventListener("click", () => {
-        const searchQuery = document.getElementById("search-bar").value;
-        if (searchQuery) {
-            alert("Searching for: " + searchQuery);
-        } else {
-            alert("Please enter something to search.");
+        try {
+            // Fetch all listings from RestDB
+            const response = await fetch("https://mokeselldb5-094f.restdb.io/rest/listings", {
+                method: "GET",
+                headers: { "x-apikey": APIKEY }
+            });
+
+            let listings = await response.json();
+
+            // Filter listings by category if a category is selected
+            if (selectedCategory) {
+                listings = listings.filter(listing => listing.category === selectedCategory);
+            }
+
+            // Further filter by search query if there is input
+            if (searchQuery) {
+                listings = listings.filter(listing => 
+                    listing.title.toLowerCase().includes(searchQuery) || 
+                    listing.description.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            // Display filtered listings
+            displayListings(listings);
+        } catch (error) {
+            console.error("Error fetching listings:", error);
         }
-    });
-    
-}
+    }
+});
 
 //If user has not logged in, prevent access to certain functions
 function restrictAccess() {
