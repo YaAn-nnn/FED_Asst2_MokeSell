@@ -983,94 +983,54 @@ function goBack() {
     function closeModal() {
         document.getElementById("imageModal").style.display = "none";
     }
-    async function createChat() {
-        const chatData = {
-            chatID: "",
-            buyerID: "",
-            sellerID: "",
-            messages: [
-                {
-                    senderID: "buyer@example.com",  // Buyer sends first message
-                    content: "Is this item still available?",  // Message content
-                    timestamp: new Date().toISOString()  // Current timestamp
-                }
-            ]
-        };
-    
-        const response = await fetch('https://mokeselldb8-ca3e.restdb.io/rest/chats', {
-            method: 'POST',
-            headers: {
-                'x-apikey': '67a7aab193d83b5d72235223',  
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(chatData)
-        });
-    
-        const data = await response.json();
-        console.log('Chat created:', data);
-    }
 
-    const mockApi = {
-        chats: [
-            {
-                chatID: "123",
-                buyerId: "buyer1",
-                sellerID: "seller1",
-                messages: [
-                    {
-                        senderId: "buyer1",
-                        content: "Hello!",
-                        timestamp: "2023-10-01T12:00:00Z"
-                    },
-                    {
-                        senderId: "seller1",
-                        content: "Hi, how can I help you?",
-                        timestamp: "2023-10-01T12:01:00Z"
-                    }
-                ]
-            }
-        ],
 
-        // Simulate fetching messages for a chat
-        fetchMessages(chatID) {
-            return new Promise((resolve) => {
-                const chat = this.chats.find(chat => chat.chatID === chatID);
-                setTimeout(() => resolve(chat ? chat.messages : []), 500); // Simulate network delay
-            });
-        },
-
-        // Simulate sending a message
-        sendMessage(chatID, message) {
-            return new Promise((resolve) => {
-                const chat = this.chats.find(chat => chat.chatID === chatID);
-                if (chat) {
-                    chat.messages.push(message);
-                    setTimeout(() => resolve(message), 500); // Simulate network delay
-                } else {
-                    setTimeout(() => resolve(null), 500);
-                }
-            });
-        }
-    };
+    const RESTDB_API_KEY = '67a7aab193d83b5d72235223';
+    const RESTDB_BASE_URL = 'https://mokeselldb8-ca3e.restdb.io/rest'; 
+    const CHATS_COLLECTION = 'chats'; // Replace with your chats collection name
 
     // Chat configuration
-    const chatID = "123"; // Replace with dynamic chat ID
-    const buyerId = "buyer1"; // Replace with dynamic buyer ID
-    const sellerID = "seller1"; // Replace with dynamic seller ID
-    const currentUserId = buyerId; // Assume the current user is the buyer
+    const chatID = 6; // Unique chat ID
+    const buyerId = "buyer1"; // Replace with dynamic buyer ID if needed
+    const sellerID = "seller1"; // Replace with dynamic seller ID if needed
 
-    // Fetch and display messages when the page loads
-    window.onload = async () => {
-        await fetchMessages();
-    };
+    // Check if API key is present
+    if (!RESTDB_API_KEY || RESTDB_API_KEY === 'your-restdb-api-key') {
+        displayError("API key is missing or invalid. Please check your configuration.");
+    } else {
+        // Fetch and display messages when the page loads
+        window.onload = async () => {
+            await fetchMessages();
+        };
+    }
 
-    // Fetch messages from the mock API
+    // Display an error message
+    function displayError(message) {
+        const errorMessageElement = document.getElementById('error-message');
+        errorMessageElement.textContent = message;
+    }
+
+    // Fetch messages from the chats collection
     async function fetchMessages() {
         try {
-            const messages = await mockApi.fetchMessages(chatID);
-            displayMessages(messages);
+            const response = await fetch(`${RESTDB_BASE_URL}/${CHATS_COLLECTION}?q={"chatID":"${chatID}"}`, {
+                headers: {
+                    'x-apikey': RESTDB_API_KEY
+                }
+            });
+            if (!response.ok) {
+                throw new Error("Failed to fetch messages. Please check your API key and network connection.");
+            }
+            const chats = await response.json();
+            if (chats.length > 0) {
+                const messages = chats[0].messages || []; // Handle missing messages array
+                displayMessages(messages);
+            } else {
+                console.error("No chat found with the given ID.");
+            }
         } catch (error) {
             console.error("Error fetching messages:", error);
+            displayError(error.message);
         }
     }
 
@@ -1079,13 +1039,21 @@ function goBack() {
         const chatMessages = document.getElementById('chat-messages');
         chatMessages.innerHTML = ''; // Clear previous messages
 
-        messages.forEach(message => {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.classList.add(message.senderId === currentUserId ? 'sent' : 'received');
-            messageElement.textContent = `${message.content} (${new Date(message.timestamp).toLocaleTimeString()})`;
-            chatMessages.appendChild(messageElement);
-        });
+        if (messages.length === 0) {
+            // Display a message if there are no messages
+            const noMessagesElement = document.createElement('div');
+            noMessagesElement.textContent = "No messages yet. Start the conversation!";
+            chatMessages.appendChild(noMessagesElement);
+        } else {
+            // Display each message
+            messages.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.classList.add(message.senderId === buyerId ? 'sent' : 'received');
+                messageElement.textContent = `${message.content} (${new Date(message.timestamp).toLocaleTimeString()})`;
+                chatMessages.appendChild(messageElement);
+            });
+        }
 
         // Scroll to the bottom of the chat container
         const chatContainer = document.getElementById('chat-container');
@@ -1099,23 +1067,71 @@ function goBack() {
 
         if (content !== '') {
             const newMessage = {
-                senderId: currentUserId,
+                senderId: buyerId,
                 content: content,
                 timestamp: new Date().toISOString()
             };
 
             try {
-                // Send the message to the mock API
-                const sentMessage = await mockApi.sendMessage(chatID, newMessage);
-                if (sentMessage) {
-                    // Clear the input field and fetch updated messages
-                    messageInput.value = '';
-                    await fetchMessages();
-                } else {
-                    console.error("Failed to send message");
+                // Fetch the existing chat
+                const chatResponse = await fetch(`${RESTDB_BASE_URL}/${CHATS_COLLECTION}?q={"chatID":"${chatID}"}`, {
+                    headers: {
+                        'x-apikey': RESTDB_API_KEY
+                    }
+                });
+                if (!chatResponse.ok) {
+                    throw new Error("Failed to fetch chat data. Please check your API key and network connection.");
                 }
+                const chats = await chatResponse.json();
+                let chat = chats.length > 0 ? chats[0] : null;
+
+                if (!chat) {
+                    // Create a new chat if it doesn't exist
+                    const createChatResponse = await fetch(`${RESTDB_BASE_URL}/${CHATS_COLLECTION}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-apikey': RESTDB_API_KEY
+                        },
+                        body: JSON.stringify({
+                            chatID,
+                            buyerId,
+                            sellerID,
+                            messages: [newMessage] // Initialize with the first message
+                        })
+                    });
+                    if (!createChatResponse.ok) {
+                        throw new Error("Failed to create chat. Please check your API key and network connection.");
+                    }
+                    chat = await createChatResponse.json();
+                } else {
+                    // Update the existing chat with the new message
+                    if (!chat.messages) {
+                        chat.messages = []; // Initialize messages array if it doesn't exist
+                    }
+                    chat.messages.push(newMessage);
+                    const updateChatResponse = await fetch(`${RESTDB_BASE_URL}/${CHATS_COLLECTION}/${chat._id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-apikey': RESTDB_API_KEY
+                        },
+                        body: JSON.stringify({
+                            messages: chat.messages // Update only the messages array
+                        })
+                    });
+                    if (!updateChatResponse.ok) {
+                        throw new Error("Failed to update chat. Please check your API key and network connection.");
+                    }
+                    await updateChatResponse.json();
+                }
+
+                // Clear the input field and refresh the chat
+                messageInput.value = '';
+                await fetchMessages();
             } catch (error) {
                 console.error("Error sending message:", error);
+                displayError(error.message);
             }
         }
     }
