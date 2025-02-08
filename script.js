@@ -702,6 +702,8 @@ if (sellCategoriesToggleBtn) {
     sellCategoriesToggleBtn.addEventListener("click", sellToggleMenu);
 }
 
+let selectedCategory = null; // Store the selected category globally
+
 function selectCategory(name, imgSrc) {
     // Update the button text to show the selected category
     let selectedCategory = document.getElementById("selectedCategory");
@@ -710,8 +712,21 @@ function selectCategory(name, imgSrc) {
     // Update the 'listing' object with the selected category
     listing.category = name; // Ensure 'listing' is defined before using this
 
+    selectedCategory = name;
+
     // Close the dropdown menu
     document.getElementById("sellDropdownMenu").style.display = "none";
+}
+
+// Add a check when submitting or proceeding to ensure a category is selected
+function checkCategoryBeforeProceeding() {
+    if (!selectedCategory) {
+        alert("Please select a category before proceeding!");
+        return false; // Prevent further action if no category is selected
+    }
+
+    // Proceed with the form submission or next step
+    return true;
 }
 
 
@@ -741,6 +756,7 @@ function goBack() {
             });
             
             const data = await response.json();
+            console.log("Cloudinary Response:", data); // Debugging
             if (data.secure_url) {
                 uploadedImageUrl = data.secure_url;
                 alert('Image uploaded successfully!');
@@ -752,12 +768,14 @@ function goBack() {
             } else {
                 throw new Error(data.error.message || 'Upload failed');
             }
+            if (checkCategoryBeforeProceeding()) {
+                // Proceed with form submission or further logic
+            }            
         } catch (error) {
             console.error('Upload error:', error);
             alert('Image upload failed: ' + error.message);
         }
     }
-
     function formatTimeAgo(timestamp) {
         let createdTime = new Date(timestamp);
         let now = new Date();
@@ -771,5 +789,5 @@ function goBack() {
         let days = Math.floor(hours / 24);
         return `${days} days ago`;
     }
-    
+
 

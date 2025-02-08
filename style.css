@@ -68,7 +68,7 @@ body {
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: 40px;
+    top: 80px;
     left: 0;
     background-color: #5271FF;
     border-radius: 5px;
@@ -675,7 +675,7 @@ form label {
     width: 70%;
     max-height: 10000px;
     margin-left:25%;
-    top:-190px;
+    top:-230px;
     display: flexbox;
     position: relative;
     align-items: center;
@@ -692,7 +692,7 @@ form label {
     border-radius: 10px;
     margin-bottom: 150px;
     cursor: pointer;
-    height:40px;
+    height:80px;
     width:200px;
 }
 
