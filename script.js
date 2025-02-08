@@ -985,9 +985,9 @@ function goBack() {
     }
     async function createChat() {
         const chatData = {
-            chatID: "chat-12345",  // Unique chat identifier
-            buyerID: "buyer@example.com",  // Buyer ID
-            sellerID: "seller@example.com",  // Seller ID
+            chatID: "",
+            buyerID: "",
+            sellerID: "",
             messages: [
                 {
                     senderID: "buyer@example.com",  // Buyer sends first message
@@ -1010,96 +1010,112 @@ function goBack() {
         console.log('Chat created:', data);
     }
 
-    async function sendMessage(chatID, senderID, content) {
-        // Fetch the chat document by chatID
-        const response = await fetch(`https://mokeselldb8-ca3e.restdb.io/rest/chats?q={"chatID":"${chatID}"}`, {
-            method: 'GET',
-            headers: {
-                'x-apikey': '67a7aab193d83b5d72235223',
-                'Content-Type': 'application/json'
+    const mockApi = {
+        chats: [
+            {
+                chatID: "123",
+                buyerId: "buyer1",
+                sellerID: "seller1",
+                messages: [
+                    {
+                        senderId: "buyer1",
+                        content: "Hello!",
+                        timestamp: "2023-10-01T12:00:00Z"
+                    },
+                    {
+                        senderId: "seller1",
+                        content: "Hi, how can I help you?",
+                        timestamp: "2023-10-01T12:01:00Z"
+                    }
+                ]
             }
-        });
-        
-        const data = await response.json();
-        const chat = data[0];  // Assume we get a valid chat document
-    
-        // Create the new message object
-        const newMessage = {
-            senderID,
-            content,
-            timestamp: new Date().toISOString()
-        };
-    
-        // Add the new message to the messages array
-        chat.messages.push(newMessage);
-    
-        // Update the chat document in the database
-        const updateResponse = await fetch(`https://mokeselldb8-ca3e.restdb.io/rest/chats/${chat._id}`, {
-            method: 'PUT',
-            headers: {
-                'x-apikey': '67a7aab193d83b5d72235223',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(chat)
-        });
-    
-        const updatedChat = await updateResponse.json();
-        console.log('Chat updated:', updatedChat);
+        ],
+
+        // Simulate fetching messages for a chat
+        fetchMessages(chatID) {
+            return new Promise((resolve) => {
+                const chat = this.chats.find(chat => chat.chatID === chatID);
+                setTimeout(() => resolve(chat ? chat.messages : []), 500); // Simulate network delay
+            });
+        },
+
+        // Simulate sending a message
+        sendMessage(chatID, message) {
+            return new Promise((resolve) => {
+                const chat = this.chats.find(chat => chat.chatID === chatID);
+                if (chat) {
+                    chat.messages.push(message);
+                    setTimeout(() => resolve(message), 500); // Simulate network delay
+                } else {
+                    setTimeout(() => resolve(null), 500);
+                }
+            });
+        }
+    };
+
+    // Chat configuration
+    const chatID = "123"; // Replace with dynamic chat ID
+    const buyerId = "buyer1"; // Replace with dynamic buyer ID
+    const sellerID = "seller1"; // Replace with dynamic seller ID
+    const currentUserId = buyerId; // Assume the current user is the buyer
+
+    // Fetch and display messages when the page loads
+    window.onload = async () => {
+        await fetchMessages();
+    };
+
+    // Fetch messages from the mock API
+    async function fetchMessages() {
+        try {
+            const messages = await mockApi.fetchMessages(chatID);
+            displayMessages(messages);
+        } catch (error) {
+            console.error("Error fetching messages:", error);
+        }
     }
-    async function loadMessages(chatID) {
-        const response = await fetch(`https://mokeselldb8-ca3e.restdb.io/rest/chats?q={"chatID":"${chatID}"}`, {
-            method: 'GET',
-            headers: {
-                'x-apikey': '67a7aab193d83b5d72235223',
-                'Content-Type': 'application/json'
-            }
-        });
-    
-        const data = await response.json();
-        const chat = data[0];  // Get the chat document
-    
-        // Display the messages in the chat
-        const messagesContainer = document.getElementById('messagesContainer');
-        messagesContainer.innerHTML = '';  // Clear current messages
-    
-        chat.messages.forEach(message => {
+
+    // Display messages in the chat container
+    function displayMessages(messages) {
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.innerHTML = ''; // Clear previous messages
+
+        messages.forEach(message => {
             const messageElement = document.createElement('div');
-            messageElement.textContent = `${message.senderID}: ${message.content}`;
-            messagesContainer.appendChild(messageElement);
+            messageElement.classList.add('message');
+            messageElement.classList.add(message.senderId === currentUserId ? 'sent' : 'received');
+            messageElement.textContent = `${message.content} (${new Date(message.timestamp).toLocaleTimeString()})`;
+            chatMessages.appendChild(messageElement);
         });
+
+        // Scroll to the bottom of the chat container
+        const chatContainer = document.getElementById('chat-container');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     }
-    
-    // Fetch messages every 5 seconds (for real-time effect)
-    setInterval(() => {
-        const chatID = 'chat-12345';  // Replace with actual chatID
-        loadMessages(chatID);
-    }, 5000);
-    async function displayChats() {
-        const response = await fetch('https://mokeselldb8-ca3e.restdb.io/rest/chats', {
-            method: 'GET',
-            headers: {
-                'x-apikey': '67a7aab193d83b5d72235223',
-                'Content-Type': 'application/json'
+
+    // Send a new message
+    async function sendMessage() {
+        const messageInput = document.getElementById('message-input');
+        const content = messageInput.value.trim();
+
+        if (content !== '') {
+            const newMessage = {
+                senderId: currentUserId,
+                content: content,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // Send the message to the mock API
+                const sentMessage = await mockApi.sendMessage(chatID, newMessage);
+                if (sentMessage) {
+                    // Clear the input field and fetch updated messages
+                    messageInput.value = '';
+                    await fetchMessages();
+                } else {
+                    console.error("Failed to send message");
+                }
+            } catch (error) {
+                console.error("Error sending message:", error);
             }
-        });
-    
-        const chats = await response.json();
-        
-        const chatsTable = document.getElementById('chatsTable');
-        chats.forEach(chat => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${chat.chatID}</td>
-                <td>${chat.buyerID}</td>
-                <td>${chat.sellerID}</td>
-                <td><button onclick="openChat('${chat.chatID}')">Open</button></td>
-            `;
-            chatsTable.appendChild(row);
-        });
+        }
     }
-    
-    // Open a specific chat
-    function openChat(chatID) {
-        window.location.href = `chat.html?chatID=${chatID}`;
-    }
-        
