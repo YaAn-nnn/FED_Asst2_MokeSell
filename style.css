@@ -656,8 +656,7 @@ form label {
     padding-left:10%;
     padding-right:10%;
 }
-.message {
-    padding: 8px; border-radius: 5px; margin: 5px 0; max-width: 80%; }
+
 .sender {
     background-color: #007bff;
     color: white;
@@ -673,10 +672,7 @@ form label {
     color: gray;
     margin-top: 3px;
 }
-#messages {
-    display: flex;
-    flex-direction: column;
-}
+
 .chat-bar {
     position: fixed;
     padding: 10px;
@@ -690,6 +686,7 @@ form label {
     width:100%;
     height: 100px;
     border: 1px solid #9e9e9e;
+    z-index: 13;
 
 }
 .chatsbody{
@@ -876,4 +873,22 @@ form label {
 }
 #file{
     Display: none;
+}
+#messages { max-width: 500px; margin: auto; text-align: left; }
+
+.message { padding: 10px; border-bottom: 1px solid #ddd; }
+
+#messageInput{
+    margin-left: 10%;
+    width: 70%;
+    padding: 10px;
+    border-radius: 5px; 
+}
+
+.chatbutton { 
+    padding: 10px;
+    background-color: #007bff;
+    color:white;
+    border:0;
+    border-radius: 5px;
 }

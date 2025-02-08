@@ -868,18 +868,26 @@ function goBack() {
             headers: { "x-apikey": "67a7601e4d8744f8e3828028" }
         });
         const listing = await response.json();
+
+        const sellerEmail = listing.sellerEmail;
+        const userEmail = localStorage.getItem("userEmail"); // Assuming user email is stored
+
+        if (!userEmail) {
+            alert("Please log in to start a chat.");
+            return;
+        }
         const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
-            const userResponse = await fetch(`https://mokeselldb5-094f.restdb.io/rest/accounts?q=${emailQuery}`, {
-                method: "GET",
-                headers: { 
-                    "x-apikey": "67a7601e4d8744f8e3828028", 
-                    "Content-Type": "application/json" 
-                },
-                mode: "cors"
-            });
+        const userResponse = await fetch(`https://mokeselldb5-094f.restdb.io/rest/accounts?q=${emailQuery}`, {
+            method: "GET",
+            headers: { 
+                "x-apikey": "67a7601e4d8744f8e3828028", 
+                "Content-Type": "application/json" 
+            },
+            mode: "cors"
+        });
             
-            const userData = await userResponse.json();
-            const user = userData[0] || {};
+        const userData = await userResponse.json();
+        const user = userData[0] || {};
 
         const sellerName = user.innerText;
     
