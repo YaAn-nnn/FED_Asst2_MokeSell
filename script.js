@@ -751,7 +751,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const listings = await response.json();
 
                 // Call the function to display only the listing data
-                displayListingsWOuser(listings);
+                displayListingsForUser(listings);
 
             } catch (error) {
                 console.error("Error fetching listings:", error);
@@ -784,7 +784,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const listings = await response.json();
 
             // Call the function to display only the listing data
-            displayListingsWOuser(listings);
+            displayListingsForMe(listings);
 
         } catch (error) {
             console.error("Error fetching listings:", error);
@@ -797,7 +797,42 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchMyListings();
     };
 
-    function displayListingsWOuser(listings) {
+    function displayListingsForUser(listings) {
+        const listingContainer = document.getElementById("listingContainerWOuser");
+        if (!listingContainer) {
+            console.error("Listing container not found.");
+            return;
+        }
+    
+        // Clear any previous listings
+        listingContainer.innerHTML = '';
+    
+        listings.forEach(listing => {
+            const listingBox = document.createElement("div");
+            listingBox.className = "listingbox";
+            listingBox.style.backgroundImage = `url('${listing.image && listing.image[0] || "https://dummyimage.com/220x220/cccccc/ffffff&text=No+Image"}')`;
+            listingBox.style.backgroundSize = "cover";
+            listingBox.style.backgroundPosition = "center";
+            listingBox.style.width = "230px";
+            listingBox.style.height = "230px";
+            listingBox.style.marginTop = "5px";
+            listingBox.style.borderRadius = "5px";
+    
+            const priceDiv = document.createElement("div");
+            priceDiv.className = "itemmoney";
+            priceDiv.innerHTML = `
+                <div class="listing-title">${listing.title || "No Title"}</div>
+                <div class="price" style="font-size: small; font-weight: 100;">
+                    $${listing.price ? listing.price.toFixed(2) : "0.00"}
+                </div>
+            `;
+    
+            listingContainer.appendChild(listingBox);
+            listingContainer.appendChild(priceDiv);
+        });
+    } 
+
+    function displayListingsForMe(listings) {
         const listingContainer = document.getElementById("listingContainerWOuser");
         if (!listingContainer) {
             console.error("Listing container not found.");
