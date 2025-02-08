@@ -23,39 +23,39 @@
                         <span class="hamburger">&#9776;</span> Categories
                     </button>
                     <div id="dropdownMenu" class="dropdown-menu">
-                        <a href="#">
+                        <a href="#" data-category="Free Items">
                             <img src="Images/free.png" alt="Free Items" class="dropdown-img">
                             Free Items
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Women's Fashion">
                             <img src="Images/women_fashion.png" alt="Women's Fashion" class="dropdown-img">
                             Women's Fashion
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Men's Fashion">
                             <img src="Images/men_fashion.png" alt="Men's Fashion" class="dropdown-img">
                             Men's Fashion
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Beauty & Health">
                             <img src="Images/cosmetics.png" alt="Beauty & Health" class="dropdown-img">
                             Beauty & Health
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Electronics">
                             <img src="Images/gadgets.png" alt="Electronics" class="dropdown-img">
                             Electronics
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Babies & Kids">
                             <img src="Images/baby.png" alt="Babies & Kids" class="dropdown-img">
                             Babies & Kids
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Learning & Enrichment">
                             <img src="Images/learning.png" alt="Learning & Enrichment" class="dropdown-img">
                             Learning & Enrichment
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Services">
                             <img src="Images/services.png" alt="Services" class="dropdown-img">
                             Services
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Others">
                             <img src="Images/application.png" alt="Others" class="dropdown-img">
                             Others
                         </a>
@@ -110,14 +110,17 @@
     <!-- Search Bar Section -->
     <div class="search-container" style="padding-top: 90px;">
         <input type="text" id="search-bar" class="search-bar" placeholder="Search for something">
-        <!-- Location Filter Dropdown -->
-        <select id="location-filter" class="location-filter">
-            <option value="">All of Singapore</option>
-            <option value="North">North</option>
-            <option value="South">South</option>
-            <option value="East">East</option>
-            <option value="West">West</option>
-            <option value="West">Central</option>
+        <!-- Category Filter Dropdown -->
+        <select id="category-filter" class="category-filter">
+            <option value="">All Categories</option>
+            <option value="Free Items">Free Items</option>
+            <option value="Women's Fashion">Women's Fashion</option>
+            <option value="Men's Fashion">Men's Fashion</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Babies & Kids">Babies & Kids</option>
+            <option value="Learning & Enrichment">Learning & Enrichment</option>
+            <option value="Services">Services</option>
+            <option value="Others">Others</option>
         </select>
         <button id="search-btn" class="search-btn">Search</button>
     </div>
@@ -145,17 +148,6 @@
                 <!-- Sign In Button -->
                 <button type="submit" class="btn">Sign In</button>
             </form>
-            
-            <!-- Divider -->
-            <div class="divider">
-                <span>OR</span>
-            </div>
-            
-            <!-- Google Sign In -->
-            <button class="google-btn">
-                <img src="Images/google.png" alt="Google Icon">
-                Sign In with Google
-            </button>
             
             <!-- Create Account -->
             <p class="create-account">
@@ -196,16 +188,6 @@
             
                 <button type="submit" id="contact-submit" class="btn">Sign Up</button>
             </form>
-            
-
-            <div class="divider">
-                <span>OR</span>
-            </div>
-
-            <button class="google-btn">
-                <img src="Images/google.png" alt="Google Icon">
-                Sign Up with Google
-            </button>
             
             <p class="login-account">
                 Already have an account? <a href="#" id="loginAccountLink" class="login-account-link">Login Account</a>
