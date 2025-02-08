@@ -650,13 +650,7 @@ form label {
     border-radius: 2px;
     border-color: #555;
 }
-.chat-container {
-    width: 100%;
-    height: 600px;
-    padding-top: 600px;
-    padding-left:10%;
-    padding-right:10%;
-}
+
 
 .sender {
     background-color: #007bff;
@@ -873,21 +867,33 @@ form label {
 #file{
     Display: none;
 }
-#messages { max-width: 500px; margin: auto; text-align: left; }
-
-.message { padding: 10px; border-bottom: 1px solid #ddd; }
-
-#messageInput{
-    margin-left: 10%;
-    width: 70%;
-    padding: 10px;
-    border-radius: 5px; 
+.chat-container {
+    margin-bottom: 20px;
+    padding-top: 150px;
 }
-
-.chatbutton { 
+.messages {
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
     padding: 10px;
-    background-color: #007bff;
-    color:white;
-    border:0;
-    border-radius: 5px;
+}
+.message {
+    margin-bottom: 10px;
+}
+.message span {
+    font-weight: bold;
+}
+.message-content {
+    margin-left: 10px;
+}
+.input-container {
+    display: flex;
+    margin-top: 20px;
+}
+.input-container input {
+    flex: 1;
+    padding: 10px;
+}
+.input-container button {
+    padding: 10px;
 }
