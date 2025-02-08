@@ -997,10 +997,10 @@ function goBack() {
             ]
         };
     
-        const response = await fetch('https://your-database-name.restdb.io/rest/chats', {
+        const response = await fetch('https://mokeselldb7-530b.restdb.io/rest/chats', {
             method: 'POST',
             headers: {
-                'x-apikey': 'your-api-key',  // Replace with your RestDB API key
+                'x-apikey': '67a77dde4d874444cf828042',  
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(chatData)
@@ -1012,10 +1012,10 @@ function goBack() {
 
     async function sendMessage(chatID, senderID, content) {
         // Fetch the chat document by chatID
-        const response = await fetch(`https://your-database-name.restdb.io/rest/chats?q={"chatID":"${chatID}"}`, {
+        const response = await fetch(`https://mokeselldb7-530b.restdb.io/rest/chats?q={"chatID":"${chatID}"}`, {
             method: 'GET',
             headers: {
-                'x-apikey': 'your-api-key',
+                'x-apikey': '67a77dde4d874444cf828042',
                 'Content-Type': 'application/json'
             }
         });
@@ -1034,10 +1034,10 @@ function goBack() {
         chat.messages.push(newMessage);
     
         // Update the chat document in the database
-        const updateResponse = await fetch(`https://your-database-name.restdb.io/rest/chats/${chat._id}`, {
+        const updateResponse = await fetch(`https://mokeselldb7-530b.restdb.io/rest/chats/${chat._id}`, {
             method: 'PUT',
             headers: {
-                'x-apikey': 'your-api-key',
+                'x-apikey': '67a77dde4d874444cf828042',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(chat)
@@ -1047,10 +1047,10 @@ function goBack() {
         console.log('Chat updated:', updatedChat);
     }
     async function loadMessages(chatID) {
-        const response = await fetch(`https://your-database-name.restdb.io/rest/chats?q={"chatID":"${chatID}"}`, {
+        const response = await fetch(`https://mokeselldb7-530b.restdb.io/rest/chats?q={"chatID":"${chatID}"}`, {
             method: 'GET',
             headers: {
-                'x-apikey': 'your-api-key',
+                'x-apikey': '67a77dde4d874444cf828042',
                 'Content-Type': 'application/json'
             }
         });
@@ -1075,10 +1075,10 @@ function goBack() {
         loadMessages(chatID);
     }, 5000);
     async function displayChats() {
-        const response = await fetch('https://your-database-name.restdb.io/rest/chats', {
+        const response = await fetch('https://mokeselldb7-530b.restdb.io/rest/chats', {
             method: 'GET',
             headers: {
-                'x-apikey': 'your-api-key',
+                'x-apikey': '67a77dde4d874444cf828042',
                 'Content-Type': 'application/json'
             }
         });
