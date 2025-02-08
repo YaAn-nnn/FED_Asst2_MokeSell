@@ -483,6 +483,7 @@ form label {
     display: flex; 
     flex-wrap: wrap;
     justify-content:center; 
+    margin-bottom: 15px;
 }
 
 .listing-details-container {
@@ -558,10 +559,6 @@ form label {
     border: 1px solid #304BB8;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-}
-
-.itemmoney{
-    margin-right: 80px;
 }
 
 .container .username,
@@ -878,8 +875,8 @@ form label {
     margin-left:20%;
 }
 .file-Input:hover {
-    Color: #de0611;
-    Border: 1px dashed #de0611;
+    Color: #304BB8;
+    Border: 1px dashed #304BB8;
 }
 #file{
     Display: none;
