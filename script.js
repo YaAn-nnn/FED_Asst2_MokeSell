@@ -549,9 +549,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 : "https://dummyimage.com/220x220/cccccc/ffffff&text=No+Image";
             const timeAgo = formatTimeAgo(listing.createdOn);
 
-            // Create the main container div for the listing
-            const container = document.createElement("div");
+            const container = document.createElement("a");
             container.className = "container";
+            container.href = `listing-details.html?id=${listing._id}`;
+            container.style.textDecoration = "none"; // Remove underline
 
             // Create the Profile + Username section (which will appear at the top)
             const userInfoDiv = document.createElement("div");
@@ -580,8 +581,8 @@ document.addEventListener("DOMContentLoaded", function () {
             listingBox.style.backgroundSize = "cover";
             listingBox.style.backgroundPosition = "center";
             // Ensure listingBox dimensions match your design (adjust if needed)
-            listingBox.style.width = "220px";
-            listingBox.style.height = "220px";
+            listingBox.style.width = "230px";
+            listingBox.style.height = "230px";
             listingBox.style.marginTop = "5px";
             listingBox.style.borderRadius = "5px";
 
@@ -603,6 +604,36 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }};
     
+
+    // Get the listing ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const listingId = urlParams.get("id");
+
+    // Fetch listing details
+    async function fetchListingDetails() {
+        try {
+            const response = await fetch(`https://mokeselldb2-c92a.restdb.io/rest/listings/${listingId}`, {
+                method: "GET",
+                headers: { "x-apikey": APIKEY }
+            });
+            
+            const listing = await response.json();
+
+            // Display listing details
+            document.getElementById("listing-title").innerText = listing.title;
+            document.getElementById("listing-price").innerText = `$${listing.price?.toFixed(2) || "0.00"}`;
+            document.getElementById("listing-image").style.backgroundImage = `url('${listing.image?.[0]}')`;
+            document.getElementById("seller-name").innerText = listing.sellerUsername || "Unknown";
+            document.getElementById("time-ago").innerText = formatTimeAgo(listing.createdOn);
+            document.getElementById("listing-description").innerText = listing.description || "No description provided.";
+        } catch (error) {
+            console.error("Error fetching listing details:", error);
+        }
+    }
+
+    // Call function to load listing details
+    fetchListingDetails();
+
     
     
 });

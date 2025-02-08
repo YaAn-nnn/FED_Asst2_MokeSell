@@ -463,14 +463,6 @@ form label {
     background-size: cover;
 }
 
-.container{
-    display: flex; 
-    flex-wrap: wrap;
-    width:220px;
-    height:350px;
-    margin:10px;
-}
-
 .username{
     padding-left: 5px;
     padding-top: 10px;
@@ -492,13 +484,29 @@ form label {
     justify-content:center; 
 }
 
+.container {
+    position: relative;
+    overflow: hidden;
+    padding: 5px;
+    border: 1px solid transparent;
+}
+
+.container:hover {
+    border: 1px solid #304BB8;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
 .itemmoney{
     margin-right: 80px;
 }
 
-.containers {
-    text-align: center;
+.container .username,
+.container .time-ago,
+.container .itemmoney {
+    color: black;
 }
+
 .scoreboard {
     display: flex;
     justify-content: space-between;
