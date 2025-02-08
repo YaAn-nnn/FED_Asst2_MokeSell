@@ -983,38 +983,123 @@ function goBack() {
     function closeModal() {
         document.getElementById("imageModal").style.display = "none";
     }
-   
-    async function startChat() {
-        const listingId = new URLSearchParams(window.location.search).get("id");
-        const response = await fetch(`https://mokeselldb7-530b.restdb.io/rest/listings/${listingId}`, {
-            method: "GET",
-            headers: { "x-apikey": "67a79a964d87445e6d82805f" }
-        });
-        const listing = await response.json();
-
-        const sellerEmail = listing.sellerEmail;
-        const userEmail = localStorage.getItem("userEmail"); // Assuming user email is stored
-
-        if (!userEmail) {
-            alert("Please log in to start a chat.");
-            return;
-        }
-        const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
-            const userResponse = await fetch(`https://mokeselldb7-530b.restdb.io/rest/accounts?q=${emailQuery}`, {
-                method: "GET",
-                headers: { 
-                    "x-apikey": "67a79a964d87445e6d82805f", 
-                    "Content-Type": "application/json" 
-                },
-                mode: "cors"
-            });
-            
-        const userData = await userResponse.json();
-        const user = userData[0] || {};
-
-        const sellerName = user.innerText;
+    async function createChat() {
+        const chatData = {
+            chatID: "chat-12345",  // Unique chat identifier
+            buyerID: "buyer@example.com",  // Buyer ID
+            sellerID: "seller@example.com",  // Seller ID
+            messages: [
+                {
+                    senderID: "buyer@example.com",  // Buyer sends first message
+                    content: "Is this item still available?",  // Message content
+                    timestamp: new Date().toISOString()  // Current timestamp
+                }
+            ]
+        };
     
-        // Redirect to a chat page with seller info (or open chat modal)
-        window.location.href = `chat.html?seller=${encodeURIComponent(sellerName)}&listing=${listingId}`;
+        const response = await fetch('https://your-database-name.restdb.io/rest/chats', {
+            method: 'POST',
+            headers: {
+                'x-apikey': 'your-api-key',  // Replace with your RestDB API key
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(chatData)
+        });
+    
+        const data = await response.json();
+        console.log('Chat created:', data);
+    }
+
+    async function sendMessage(chatID, senderID, content) {
+        // Fetch the chat document by chatID
+        const response = await fetch(`https://your-database-name.restdb.io/rest/chats?q={"chatID":"${chatID}"}`, {
+            method: 'GET',
+            headers: {
+                'x-apikey': 'your-api-key',
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        const chat = data[0];  // Assume we get a valid chat document
+    
+        // Create the new message object
+        const newMessage = {
+            senderID,
+            content,
+            timestamp: new Date().toISOString()
+        };
+    
+        // Add the new message to the messages array
+        chat.messages.push(newMessage);
+    
+        // Update the chat document in the database
+        const updateResponse = await fetch(`https://your-database-name.restdb.io/rest/chats/${chat._id}`, {
+            method: 'PUT',
+            headers: {
+                'x-apikey': 'your-api-key',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(chat)
+        });
+    
+        const updatedChat = await updateResponse.json();
+        console.log('Chat updated:', updatedChat);
+    }
+    async function loadMessages(chatID) {
+        const response = await fetch(`https://your-database-name.restdb.io/rest/chats?q={"chatID":"${chatID}"}`, {
+            method: 'GET',
+            headers: {
+                'x-apikey': 'your-api-key',
+                'Content-Type': 'application/json'
+            }
+        });
+    
+        const data = await response.json();
+        const chat = data[0];  // Get the chat document
+    
+        // Display the messages in the chat
+        const messagesContainer = document.getElementById('messagesContainer');
+        messagesContainer.innerHTML = '';  // Clear current messages
+    
+        chat.messages.forEach(message => {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `${message.senderID}: ${message.content}`;
+            messagesContainer.appendChild(messageElement);
+        });
     }
     
+    // Fetch messages every 5 seconds (for real-time effect)
+    setInterval(() => {
+        const chatID = 'chat-12345';  // Replace with actual chatID
+        loadMessages(chatID);
+    }, 5000);
+    async function displayChats() {
+        const response = await fetch('https://your-database-name.restdb.io/rest/chats', {
+            method: 'GET',
+            headers: {
+                'x-apikey': 'your-api-key',
+                'Content-Type': 'application/json'
+            }
+        });
+    
+        const chats = await response.json();
+        
+        const chatsTable = document.getElementById('chatsTable');
+        chats.forEach(chat => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${chat.chatID}</td>
+                <td>${chat.buyerID}</td>
+                <td>${chat.sellerID}</td>
+                <td><button onclick="openChat('${chat.chatID}')">Open</button></td>
+            `;
+            chatsTable.appendChild(row);
+        });
+    }
+    
+    // Open a specific chat
+    function openChat(chatID) {
+        window.location.href = `chat.html?chatID=${chatID}`;
+    }
+        
