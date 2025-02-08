@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
                 // Successful login
                 localStorage.setItem("loggedInUser", user.email); // Store login state
-                localStorage.setItem("profileImageUrl", user.profileImageUrl || "Images/Default_pfp.jpg"); // Store profile picture URL
+                localStorage.setItem("profileImageUrl", user.profilePicture); // Store profile picture URL
                 document.getElementById("loginSuccessModal").style.display = "block";
                 setTimeout(function () {
                     document.getElementById("loginModal").style.display = "none"; // Hide the login modal
@@ -508,74 +508,100 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Error fetching listings: " + error.message);
         }
     }
-    async function displayListings(listings) {
 
-        const listingContainer = document.getElementById("listingcontainer");
-        if (!listingContainer) {
-            console.error("Listing container not found.");
-            return;
-        }
-    
-        listingContainer.innerHTML = ''; // Clear previous listings
-    
-        for (const listing of listings) {
-            try {
-                // Fetch user details based on sellerEmail
-                const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
-                const userResponse = await fetch(`https://mokeselldb2-c92a.restdb.io/rest/accounts?q=${emailQuery}`, {
-                    method: "GET",
-                    headers: { "x-apikey": APIKEY }
-                });
-                
-                const userData = await userResponse.json();
-    
-                const user = userData[0] || {}; // Get user data (if exists)
-                const profilePicture = user.profilePicture;
-                const sellerUsername = user.username;
-    
-                // Get listing image
-                const listingImage = listing.image?.[0];
-                const timeAgo = formatTimeAgo(listing.createdOn);
-    
-                // Main container
-                const container = document.createElement("div");
-                container.className = "container";
-    
-                // Profile + Username section
-                const userInfoDiv = document.createElement("div");
-                userInfoDiv.className = "user-info";
-                userInfoDiv.innerHTML = `
-                    <div class="profilepicture" style="background-image: url('${profilePicture}');"></div>
-                    <div class="username">
-                        <b>${sellerUsername}</b><br>
-                        <div class="time-ago">${timeAgo}</div>
-                    </div>
-                `;
-    
-                // Listing Image
-                const listingBox = document.createElement("div");
-                listingBox.className = "listingbox";
-                listingBox.style.backgroundImage = `url('${listingImage}')`;
-    
-                // Price Section
-                const priceDiv = document.createElement("div");
-                priceDiv.className = "itemmoney";
-                priceDiv.innerHTML = `
-                    <b>${listing.title || "No Title"}</b><br>
-                    <div class="price">$${listing.price?.toFixed(2) || "0.00"}</div>
-                `;
-    
-                // Assemble components
-                container.appendChild(userInfoDiv); // Profile + Username
-                container.appendChild(listingBox);  // Listing Image
-                container.appendChild(priceDiv);    // Price Section
-    
-                listingContainer.appendChild(container);
-            } catch (error) {
-                console.error("Error fetching user details:", error);
-            }
-        }
+    async function displayListings(listings) {
+    // Get the container element where listings will be rendered
+    const listingContainer = document.getElementById("listingcontainer");
+    if (!listingContainer) {
+        console.error("Listing container not found.");
+        return;
     }
+
+    // Clear any previous content
+    listingContainer.innerHTML = '';
+
+    // Loop through each listing
+    for (const listing of listings) {
+        try {
+            // Build the query to fetch user details based on sellerEmail
+            const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
+            const userResponse = await fetch(`https://mokeselldb2-c92a.restdb.io/rest/accounts?q=${emailQuery}`, {
+                method: "GET",
+                headers: { 
+                    "x-apikey": APIKEY, 
+                    "Content-Type": "application/json" 
+                },
+                mode: "cors"
+            });
+            
+            const userData = await userResponse.json();
+            const user = userData[0] || {};
+            
+            // Use the user profilePicture if available; otherwise, use a default (ensure correct relative path and case)
+            const profilePicture = (user.profilePicture && user.profilePicture.trim() !== "") 
+                ? user.profilePicture 
+                : "images/default_pfp.jpg";  
+            const sellerUsername = user.username || "Unknown User";
+            
+            // Get the listing image (use a placeholder if missing)
+            const listingImage = (listing.image && listing.image.length > 0) 
+                ? listing.image[0] 
+                : "https://dummyimage.com/220x220/cccccc/ffffff&text=No+Image";
+            const timeAgo = formatTimeAgo(listing.createdOn);
+
+            // Create the main container div for the listing
+            const container = document.createElement("div");
+            container.className = "container";
+
+            // Create the Profile + Username section (which will appear at the top)
+            const userInfoDiv = document.createElement("div");
+            userInfoDiv.className = "user-info";
+            userInfoDiv.innerHTML = `
+                <div class="profilepicture" style="
+                    background-image: url('${profilePicture}');
+                    background-size: cover;
+                    background-position: center;
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                    display: inline-block;
+                    ">
+                </div>
+                <div class="username" style="display: inline-block; vertical-align: top; margin-left: 10px;">
+                    <b>${sellerUsername}</b><br>
+                    <div class="time-ago" style="font-size: small; font-weight: 100;">${timeAgo}</div>
+                </div>
+            `;
+
+            // Create the Listing Image section
+            const listingBox = document.createElement("div");
+            listingBox.className = "listingbox";
+            listingBox.style.backgroundImage = `url('${listingImage}')`;
+            listingBox.style.backgroundSize = "cover";
+            listingBox.style.backgroundPosition = "center";
+            // Ensure listingBox dimensions match your design (adjust if needed)
+            listingBox.style.width = "220px";
+            listingBox.style.height = "220px";
+            listingBox.style.marginTop = "5px";
+            listingBox.style.borderRadius = "5px";
+
+            // Create the Item Details section (listing title and price)
+            const priceDiv = document.createElement("div");
+            priceDiv.className = "itemmoney";
+            priceDiv.innerHTML = `
+                <div class="listing-title">${listing.title || "No Title"}</div>
+                <div class="price" style="font-size: small; font-weight: 100;">$${listing.price ? listing.price.toFixed(2) : "0.00"}</div>
+            `;
+
+            container.appendChild(userInfoDiv);
+            container.appendChild(listingBox);
+            container.appendChild(priceDiv);
+
+            listingContainer.appendChild(container);
+        } catch (error) {
+            console.error("Error fetching user details:", error);
+        }
+    }};
     
     
     
