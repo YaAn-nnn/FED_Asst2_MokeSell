@@ -1,6 +1,6 @@
 let listing = {};
 document.addEventListener("DOMContentLoaded", function () {
-    const APIKEY = "67a79a964d87445e6d82805f";
+    const APIKEY = "67a7aab193d83b5d72235223";
 
     checkLoginStatus();
 
@@ -634,6 +634,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const userData = await userResponse.json();
             const user = userData[0] || {};
             
+            console.log(listing);
             
             // Display listing details
             document.getElementById("listing-title").innerText = listing.title;
@@ -652,9 +653,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Call function to load listing details
-    fetchListingDetails();
-    
+    if (listingId) {
+        fetchListingDetails();
+    };
+
         // Add event listeners to category links
     document.querySelectorAll('#dropdownMenu a').forEach(link => {
         link.addEventListener('click', async (e) => {
@@ -749,7 +751,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const listings = await response.json();
 
                 // Call the function to display only the listing data
-                displayListings(listings);
+                displayListingsWOuser(listings);
 
             } catch (error) {
                 console.error("Error fetching listings:", error);
@@ -782,7 +784,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const listings = await response.json();
 
             // Call the function to display only the listing data
-            displayListings(listings);
+            displayListingsWOuser(listings);
 
         } catch (error) {
             console.error("Error fetching listings:", error);
@@ -795,8 +797,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchMyListings();
     };
 
-    function displayListings(listings) {
-        const listingContainer = document.getElementById("listingcontainer");
+    function displayListingsWOuser(listings) {
+        const listingContainer = document.getElementById("listingContainerWOuser");
         if (!listingContainer) {
             console.error("Listing container not found.");
             return;
@@ -1060,9 +1062,13 @@ function goBack() {
     const currentUserId = buyerId; // Assume the current user is the buyer
 
     // Fetch and display messages when the page loads
-    window.onload = async () => {
-        await fetchMessages();
-    };
+    chatContainer = document.getElementById("chat-container")
+    if (chatContainer) {
+        window.onload = async () => {
+            await fetchMessages();
+        };
+    }
+
 
     // Fetch messages from the mock API
     async function fetchMessages() {
