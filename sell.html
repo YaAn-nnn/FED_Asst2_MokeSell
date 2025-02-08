@@ -140,7 +140,6 @@
         </div>
     </div>
     <div class="sell-containers">
-        <h1>Sell</h1>
         <div class="leftsidelisting">
             <div class="nav-links">
                 <div class="categories-btn">
@@ -183,9 +182,27 @@
         </div>
         <div class="sidelisting">
             <div>
-                <input type="file" id="file" />
-                <label for="file" class="file-Input">Upload File</label>
-                <img id="preview" src="" alt="Image Preview" style="display: none;">
+                <button class="seller-btn" id="seller-btn" onclick="openPopup()">
+                    <img src="Images/camera.png" id="seller-btn-img" style="height: 100px;">
+                    <br><br>Upload Photo
+                </button>
+    
+                <!-- Overlay Background -->
+                <div class="overlay" id="overlay" onclick="closePopup()"></div>
+            
+                <!-- Popup Container -->
+                <div class="modal" id="popup">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="closePopup()">&times;</span>
+
+                        <h2>Upload a Photo</h2>
+                        <input type="file" id="file" />
+                        <label for="file" class="file-Input">Upload File</label>
+                        <br>
+                        <button type="button" class="btn" onclick="uploadImageToCloudinary()">Upload</button>
+                        <img id="preview" src="" alt="Image Preview" style="display: none;">
+                    </div>
+                </div>
             </div>
             <form id = "listingForm">
                 <!-- Product name -->
