@@ -225,11 +225,18 @@
         </div>
     </div>
 
-    <div class="chatsbody">
-        <a href="chat.html"><div class="chatsboxing">
-            <div id="chatsprofilepicture"><p id="chatname">Name</p></div>
-        </div></a>
-    </div>
+    <table id="chatsTable">
+        <thead>
+            <tr>
+                <th>Chat ID</th>
+                <th>Buyer ID</th>
+                <th>Seller ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Chat entries will be populated here -->
+        </tbody>
 
     <script src="script.js"></script>
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
