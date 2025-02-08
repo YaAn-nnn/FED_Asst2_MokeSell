@@ -616,15 +616,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "GET",
                 headers: { "x-apikey": APIKEY }
             });
-            
+
             const listing = await response.json();
 
+            const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
+            const userResponse = await fetch(`https://mokeselldb3-816e.restdb.io/rest/accounts?q=${emailQuery}`, {
+                method: "GET",
+                headers: { 
+                    "x-apikey": APIKEY, 
+                    "Content-Type": "application/json" 
+                },
+                mode: "cors"
+            });
+            
+            const userData = await userResponse.json();
+            const user = userData[0] || {};
+            
+            
             // Display listing details
             document.getElementById("listing-title").innerText = listing.title;
             document.getElementById("listing-price").innerText = `$${listing.price?.toFixed(2) || "0.00"}`;
             document.getElementById("listing-image").style.backgroundImage = `url('${listing.image?.[0]}')`;
-            document.getElementById("seller-name").innerText = listing.sellerUsername || "Unknown";
-            document.getElementById("time-ago").innerText = formatTimeAgo(listing.createdOn);
+            document.getElementById("listing-time").innerText = `${formatTimeAgo(listing.createdOn)} by ${user.username}`;
             document.getElementById("listing-description").innerText = listing.description || "No description provided.";
         } catch (error) {
             console.error("Error fetching listing details:", error);
@@ -772,4 +785,44 @@ function goBack() {
         return `${days} days ago`;
     }
     
+    function openModal(imageUrl) {
+        const modal = document.getElementById("imageModal");
+        const modalImage = document.getElementById("modalImage");
+    
+        // Extract URL from background-image (removes `url("")` wrapping)
+        imageUrl = imageUrl.replace('url("', '').replace('")', '');
+        
+        modalImage.src = imageUrl; // Set the modal image source
+        modal.style.display = "flex"; // Show modal
+    }
+    
+    function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+   
+    async function startChat() {
+        const listingId = new URLSearchParams(window.location.search).get("id");
+        const response = await fetch(`https://mokeselldb3-816e.restdb.io/rest/listings/${listingId}`, {
+            method: "GET",
+            headers: { "x-apikey": "67a7219f4d87443a97827ffe" }
+        });
+        const listing = await response.json();
+        const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
+            const userResponse = await fetch(`https://mokeselldb3-816e.restdb.io/rest/accounts?q=${emailQuery}`, {
+                method: "GET",
+                headers: { 
+                    "x-apikey": "67a7219f4d87443a97827ffe", 
+                    "Content-Type": "application/json" 
+                },
+                mode: "cors"
+            });
+            
+            const userData = await userResponse.json();
+            const user = userData[0] || {};
 
+        const sellerName = user.innerText;
+    
+        // Redirect to a chat page with seller info (or open chat modal)
+        window.location.href = `chat.html?seller=${encodeURIComponent(sellerName)}&listing=${listingId}`;
+    }
+    
