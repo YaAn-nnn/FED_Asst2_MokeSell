@@ -23,39 +23,39 @@
                         <span class="hamburger">&#9776;</span> Categories
                     </button>
                     <div id="dropdownMenu" class="dropdown-menu">
-                        <a href="#">
+                        <a href="#" data-category="Free Items">
                             <img src="Images/free.png" alt="Free Items" class="dropdown-img">
                             Free Items
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Women's Fashion">
                             <img src="Images/women_fashion.png" alt="Women's Fashion" class="dropdown-img">
                             Women's Fashion
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Men's Fashion">
                             <img src="Images/men_fashion.png" alt="Men's Fashion" class="dropdown-img">
                             Men's Fashion
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Beauty & Health">
                             <img src="Images/cosmetics.png" alt="Beauty & Health" class="dropdown-img">
                             Beauty & Health
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Electronics">
                             <img src="Images/gadgets.png" alt="Electronics" class="dropdown-img">
                             Electronics
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Babies & Kids">
                             <img src="Images/baby.png" alt="Babies & Kids" class="dropdown-img">
                             Babies & Kids
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Learning & Enrichment">
                             <img src="Images/learning.png" alt="Learning & Enrichment" class="dropdown-img">
                             Learning & Enrichment
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Services">
                             <img src="Images/services.png" alt="Services" class="dropdown-img">
                             Services
                         </a>
-                        <a href="#">
+                        <a href="#" data-category="Others">
                             <img src="Images/application.png" alt="Others" class="dropdown-img">
                             Others
                         </a>
@@ -63,24 +63,27 @@
                 </div>
 
                 <div class="icons">
-                    <a href="following.html">
+                    <a href="following.html" class="protected-link">
                         <img src="Images/add-friend.png" alt="Favourites">
                     </a>
-                    <a href="favourites.html">
+                    <a href="favourites.html" class="protected-link">
                         <img src="Images/favourites.png" alt="Favourites">
                     </a>
-                    <button onclick="showNotification()" style="border: 0; background-color: white;"><img src="Images/notification.png"></button>
+                    
+                    <button class="notificationBtn" style="border: 0; background-color: white;">
+                        <img src="Images/notification.png">
+                    </button>
 
-
-                    <!-- 🔹 Slide-Out Notification -->
+                    <!--  Slide-Out Notification -->
                     <div id="notificationBar">
                         <span class="close-button" onclick="hideNotification()"><img src="Images/close.png"></span>
                         <p><strong>Notification</strong></p>
                     </div>
-                    <a href="chats.html">
+
+                    <a href="chats.html" class="protected-link">
                         <img src="Images/messages.png" alt="Chats">
                     </a>
-                    <a href="MokeGame.html">
+                    <a href="MokeGame.html" class="protected-link">
                         <img src="Images/game.png" alt="MokeFarm" style="width:40px;height:40px;">
                     </a>
                 </div>
@@ -88,7 +91,17 @@
 
                 <div class="auth-buttons">
                     <button id="openModalBtn" class="login-btn">Login</button>
-                    <button class="sell-btn">Sell</button>
+
+                    <div id="profilePicContainer" style="display: none; align-items: center;">
+                        <img id="profilePic" src="" alt="Profile Picture" />
+                        <div id="profileDropdownMenu" class="dropdown-menu" style="display: none;">
+                            <a href="profile.html">Profile</a>
+                            <a href="settings.html">Settings</a>
+                            <a href="logout.html" id="logoutLink">Logout</a>
+                        </div>
+                    </div>
+                              
+                    <a href="sell.html"><button class="sell-btn">Sell</button></a>
                 </div>
             </div>
         </nav>
@@ -97,14 +110,17 @@
     <!-- Search Bar Section -->
     <div class="search-container" style="padding-top: 90px;">
         <input type="text" id="search-bar" class="search-bar" placeholder="Search for something">
-        <!-- Location Filter Dropdown -->
-        <select id="location-filter" class="location-filter">
-            <option value="">All of Singapore</option>
-            <option value="North">North</option>
-            <option value="South">South</option>
-            <option value="East">East</option>
-            <option value="West">West</option>
-            <option value="West">Central</option>
+        <!-- Category Filter Dropdown -->
+        <select id="category-filter" class="category-filter">
+            <option value="">All Categories</option>
+            <option value="Free Items">Free Items</option>
+            <option value="Women's Fashion">Women's Fashion</option>
+            <option value="Men's Fashion">Men's Fashion</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Babies & Kids">Babies & Kids</option>
+            <option value="Learning & Enrichment">Learning & Enrichment</option>
+            <option value="Services">Services</option>
+            <option value="Others">Others</option>
         </select>
         <button id="search-btn" class="search-btn">Search</button>
     </div>
@@ -119,7 +135,7 @@
             <h2>Login</h2>
             
             <!-- Form -->
-            <form>
+            <form id = "loginForm">
                 <!-- Email Address -->
                 <label for="email">Email Address:</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -133,23 +149,24 @@
                 <button type="submit" class="btn">Sign In</button>
             </form>
             
-            <!-- Divider -->
-            <div class="divider">
-                <span>OR</span>
-            </div>
-            
-            <!-- Google Sign In -->
-            <button class="google-btn">
-                <img src="Images/google.png" alt="Google Icon">
-                Sign In with Google
-            </button>
-            
             <!-- Create Account -->
             <p class="create-account">
                 Don't have an account yet? <a href="#" id="createAccountLink" class="create-account-link">Create Account</a>
             </p>        
         </div>
     </div>
+
+    <!-- Login Successful Modal (pop-up) -->
+    <div id="loginSuccessModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeLoginSuccessModal">&times;</span>
+            <h2>Login Successful!</h2>
+            
+            <!-- Lottie Animation for Successful Login -->
+            <dotlottie-player id="login-success-animation" src="https://lottie.host/07d2015e-12bd-4b20-95b3-add530a01150/GJJ27JsCtB.lottie" background="transparent" speed="1" loop autoplay style="width: 200px; height: 200px;"></dotlottie-player>
+        </div>
+    </div>
+
 
     <!-- Register Modal (popup) -->
     <div id="registerModal" class="modal">
@@ -158,34 +175,57 @@
             <h2>Register</h2>
             <form id="add-contact-form">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                <input type="text" id="signupusername" name="username" placeholder="Enter your username" required>
                 
                 <label for="register-email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <input type="email" id="signupemail" name="email" placeholder="Enter your email" required>
                 
                 <label for="register-password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <input type="password" id="signuppassword" name="password" placeholder="Enter your password" required>
                 
                 <label for="confirm-password">Confirm Password</label>
                 <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
             
                 <button type="submit" id="contact-submit" class="btn">Sign Up</button>
             </form>
-
-            <div class="divider">
-                <span>OR</span>
-            </div>
-
-            <button class="google-btn">
-                <img src="Images/google.png" alt="Google Icon">
-                Sign Up with Google
-            </button>
             
             <p class="login-account">
                 Already have an account? <a href="#" id="loginAccountLink" class="login-account-link">Login Account</a>
             </p>     
         </div>
     </div>
+
+    <!-- Logout Modal -->
+    <div id="logoutConfirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeLogoutConfirmModal">&times;</span>
+            <h2>Are you sure you want to log out?</h2>
+            <p>Do you really really really want to logout T^T</p>
+            
+            <!-- Buttons for confirming or canceling logout -->
+            <div class="button-container">
+                <button id="confirmLogoutBtn" class="confirm-btn">Log Out</button>
+                <button id="cancelLogoutBtn" class="cancel-btn">Return</button>
+            </div>
+        </div>
+        <!-- Lottie Animation for Logout -->
+        <div class="lottie-container">
+            <dotlottie-player id="logout-success-animation" src="https://lottie.host/e3b62f0f-8633-4ec0-bbc5-90d056caa7ab/TRpEZMtPA6.lottie" background="transparent" speed="1" loop autoplay style="width: 100px; height: 100px;"></dotlottie-player>
+        </div>
+    </div>
+
+    <!-- Log Out Successful Modal (pop-up) -->
+    <div id="logoutSuccessModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeLogOutSuccessModal">&times;</span>
+            <h2>Log Out Successful!</h2>
+            
+            <!-- Lottie Animation for Successful Log Out -->
+            <dotlottie-player id="login-success-animation" src="https://lottie.host/07d2015e-12bd-4b20-95b3-add530a01150/GJJ27JsCtB.lottie" background="transparent" speed="1" loop autoplay style="width: 200px; height: 200px;"></dotlottie-player>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </body>
 </html>
