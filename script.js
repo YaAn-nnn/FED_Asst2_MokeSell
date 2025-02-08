@@ -1,6 +1,6 @@
 let listing = {};
 document.addEventListener("DOMContentLoaded", function () {
-    const APIKEY = "67a79a964d87445e6d82805f";
+    const APIKEY = "67a7aab193d83b5d72235223";
 
     checkLoginStatus();
 
@@ -634,6 +634,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const userData = await userResponse.json();
             const user = userData[0] || {};
             
+            console.log(listing);
             
             // Display listing details
             document.getElementById("listing-title").innerText = listing.title;
@@ -652,9 +653,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Call function to load listing details
-    fetchListingDetails();
-    
+    if (listingId) {
+        fetchListingDetails();
+    };
+
         // Add event listeners to category links
     document.querySelectorAll('#dropdownMenu a').forEach(link => {
         link.addEventListener('click', async (e) => {
@@ -749,7 +751,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const listings = await response.json();
 
                 // Call the function to display only the listing data
-                displayListings(listings);
+                displayListingsForUser(listings);
 
             } catch (error) {
                 console.error("Error fetching listings:", error);
@@ -782,7 +784,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const listings = await response.json();
 
             // Call the function to display only the listing data
-            displayListings(listings);
+            displayListingsForMe(listings);
 
         } catch (error) {
             console.error("Error fetching listings:", error);
@@ -795,8 +797,43 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchMyListings();
     };
 
-    function displayListings(listings) {
-        const listingContainer = document.getElementById("listingcontainer");
+    function displayListingsForUser(listings) {
+        const listingContainer = document.getElementById("listingContainerWOuser");
+        if (!listingContainer) {
+            console.error("Listing container not found.");
+            return;
+        }
+    
+        // Clear any previous listings
+        listingContainer.innerHTML = '';
+    
+        listings.forEach(listing => {
+            const listingBox = document.createElement("div");
+            listingBox.className = "listingbox";
+            listingBox.style.backgroundImage = `url('${listing.image && listing.image[0] || "https://dummyimage.com/220x220/cccccc/ffffff&text=No+Image"}')`;
+            listingBox.style.backgroundSize = "cover";
+            listingBox.style.backgroundPosition = "center";
+            listingBox.style.width = "230px";
+            listingBox.style.height = "230px";
+            listingBox.style.marginTop = "5px";
+            listingBox.style.borderRadius = "5px";
+    
+            const priceDiv = document.createElement("div");
+            priceDiv.className = "itemmoney";
+            priceDiv.innerHTML = `
+                <div class="listing-title">${listing.title || "No Title"}</div>
+                <div class="price" style="font-size: small; font-weight: 100;">
+                    $${listing.price ? listing.price.toFixed(2) : "0.00"}
+                </div>
+            `;
+    
+            listingContainer.appendChild(listingBox);
+            listingContainer.appendChild(priceDiv);
+        });
+    } 
+
+    function displayListingsForMe(listings) {
+        const listingContainer = document.getElementById("listingContainerWOuser");
         if (!listingContainer) {
             console.error("Listing container not found.");
             return;
@@ -990,25 +1027,15 @@ function goBack() {
     const CHATS_COLLECTION = 'chats'; // Replace with your chats collection name
 
     // Chat configuration
-    const chatID = 6; // Unique chat ID
-    const buyerId = "buyer1"; // Replace with dynamic buyer ID if needed
-    const sellerID = "seller1"; // Replace with dynamic seller ID if needed
+    const chatID = "123"; // Replace with dynamic chat ID
+    const buyerId = "buyer1"; // Replace with dynamic buyer ID
+    const sellerID = "seller1"; // Replace with dynamic seller ID
+    const currentUserId = buyerId; // Assume the current user is the buyer
 
-    // Check if API key is present
-    if (!RESTDB_API_KEY || RESTDB_API_KEY === 'your-restdb-api-key') {
-        displayError("API key is missing or invalid. Please check your configuration.");
-    } else {
-        // Fetch and display messages when the page loads
-        window.onload = async () => {
-            await fetchMessages();
-        };
-    }
-
-    // Display an error message
-    function displayError(message) {
-        const errorMessageElement = document.getElementById('error-message');
-        errorMessageElement.textContent = message;
-    }
+    // Fetch and display messages when the page loads
+    window.onload = async () => {
+        await fetchMessages();
+    };
 
     // Fetch messages from the chats collection
     async function fetchMessages() {
