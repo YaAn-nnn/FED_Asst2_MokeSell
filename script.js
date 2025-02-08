@@ -744,6 +744,10 @@ function goBack() {
             if (data.secure_url) {
                 uploadedImageUrl = data.secure_url;
                 alert('Image uploaded successfully!');
+                 // Replace the seller-btn content with the uploaded image
+                const sellerBtn = document.getElementById("seller-btn");
+                sellerBtn.innerHTML = `<img src="${uploadedImageUrl}" style="height: 200px; width: auto; border-radius: 10px;">`;
+
                 closePopup(); // Close the upload window
             } else {
                 throw new Error(data.error.message || 'Upload failed');
