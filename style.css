@@ -35,13 +35,13 @@ body {
 
 /* Logo on the left */
 .logo img {
-    width: 30%;
+    width: 150px;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
-    margin-left: auto;
+    width: auto;
     gap: 1vw;
 }
 
@@ -61,7 +61,7 @@ body {
     align-items: center;
     background-color: transparent;
     color: black;
-    font-size: 1.2vw;
+    font-size: 20px;
     border: none;
     cursor: pointer;
 }
@@ -829,7 +829,7 @@ form label {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 10%;
+    width: auto;
     position: absolute;
     right: 7%;
 }
