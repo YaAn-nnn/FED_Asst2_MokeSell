@@ -132,4 +132,6 @@ The photos used in this site were obtained from flaticon.
 Acknowledgements
 We received inspiration for this project from Carousell
 
+# Submission
 Github: https://github.com/YaAn-nnn/FED_Asst2_MokeSell
+Video Pitch: https://drive.google.com/file/d/18CW28aCasB41BP6LrjGci9v1dWmnr1C7/view?usp=sharing
