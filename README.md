@@ -12,9 +12,39 @@ Our project can help them to find interested buyers who can look through each ca
 
 Figma link - https://www.figma.com/design/i1yE4cbTLNxjG9KM1hL8Q2/FED-Asst-2?node-id=0-1&t=rAICVt7YVDQy8t6Q-1
 
+# Design Rationale
+
+Primary Color: White
+- Provides a clean, modern backdrop for clarity and readability.
+- Creates a professional and minimalistic aesthetic.
+
+Accent Color: #5271FF (Blue)
+- Used for buttons, links, and interactive elements.
+- Conveys trust, reliability, and enhances brand recognition.
+- Draws attention to key actions.
+
+Simplicity and Straightforwardness
+- Clean and easy-to-navigate layout.
+- Focuses on content and functionality, avoiding clutter.
+
+Hover Effects
+- Enhances user interactivity by providing feedback.
+- Improves the overall user experience with subtle transitions.
+
+Visual Hierarchy
+- White as a neutral background and blue for emphasis on key elements.
+- Ensures a cohesive and easy-to-follow layout.
+
+Brand Confidence
+- Blue, a color associated with security, instills trust in users.
+
+User-Centric Experience
+- Designed for accessibility, clarity, and intuitive navigation.
+- Smooth interactions for a pleasant user journey.
+
 # Features
 
-Existing Features
+### Existing Features
 
 Sell listing - It allows users to upload a picture of the product they wish to sell and picka  category that the product will fall under. User also is required to fill out the name of the product, the description of the product, such as the dimensions, size, colour, whether it was well used or barely used, and whatever the user sees fit. The price is set by the user as well, the user only needs to enter in the float and not the dollar sign in front as the amount the user inputs will be converted into currency via our program. 
 
@@ -30,6 +60,17 @@ User profile - User can see their own profile and listings by clicking on their 
 
 Logout - By clicking on the user's profile and clicking "Log out", the program will double check on whether user wants to log out or not. Once user clicks yes again, user will be successfully logged out. Once logged out, user will no longer have access to sell, games, following and favourites.
 
+### Features Left to Implement
+
+Seller profile - User can see the seller's profile by clicking on the seller's username on listing details, which will then lead to a page where user can see all the seller's listing and choose whether they want to follow them.
+
+Following - User can see the listings of the people the user followed.
+
+Favourites - User can see the listings which has been liked before.
+
+Bumping Listings - User can get the voucher from playing the game to get a discount on listing bumps. Once the listing is bumped, it will be prioritized on the listings page to gain more viewers.
+
+Settings - User can edit their profile, which can change their username, profile picture and password.
 
 # Technologies Used
 
