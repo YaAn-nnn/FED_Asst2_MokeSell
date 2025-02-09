@@ -31,17 +31,6 @@ Hover Effects
 - Enhances user interactivity by providing feedback.
 - Improves the overall user experience with subtle transitions.
 
-Visual Hierarchy
-- White as a neutral background and blue for emphasis on key elements.
-- Ensures a cohesive and easy-to-follow layout.
-
-Brand Confidence
-- Blue, a color associated with security, instills trust in users.
-
-User-Centric Experience
-- Designed for accessibility, clarity, and intuitive navigation.
-- Smooth interactions for a pleasant user journey.
-
 # Features
 
 ### Existing Features
