@@ -488,6 +488,14 @@ form label {
     gap: 10px;  /* Space between items */
     align-items: flex-start;  /* Aligns items at the top */
 }
+.listingboxProfile {
+    border: 1px solid transparent;
+}
+.listingboxProfile:hover {
+    border: 1px solid #304BB8;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
 
 .listingcontainerWHeader {
     display: flex;

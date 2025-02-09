@@ -792,7 +792,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function displayListingsForUser(listings) {
-        const listingContainer = document.getElementById("myListings");
+        const listingContainer = document.getElementById("userListings");
         if (!listingContainer) {
             console.error("Listing container not found.");
             return;
@@ -803,7 +803,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
         listings.forEach(listing => {
             const listingBox = document.createElement("div");
-            listingBox.className = "listingbox";
+            listingBox.className = "listingboxProfile";
             listingBox.style.backgroundImage = `url('${listing.image && listing.image[0] || "https://dummyimage.com/220x220/cccccc/ffffff&text=No+Image"}')`;
             listingBox.style.backgroundSize = "cover";
             listingBox.style.backgroundPosition = "center";
@@ -840,7 +840,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const listingItem = document.createElement("div");
             listingItem.className = "listing-item"; // Wrapper for each listing
             const listingBox = document.createElement("div");
-            listingBox.className = "listingbox";
+            listingBox.className = "listingboxProfile";
             listingBox.style.backgroundImage = `url('${listing.image && listing.image[0] || "https://dummyimage.com/220x220/cccccc/ffffff&text=No+Image"}')`;
             listingBox.style.backgroundSize = "cover";
             listingBox.style.backgroundPosition = "center";
