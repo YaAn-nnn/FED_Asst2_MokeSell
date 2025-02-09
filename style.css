@@ -481,11 +481,33 @@ form label {
 }
 
 /* Container to wrap boxes */
+#listingContainerWOuser {
+    display: flex; 
+    flex-wrap: wrap;
+    margin-top: 15px;
+    justify-content: flex-start;
+    padding-left: 20px;
+    padding-top: 150px;
+}
+#myListings {
+    margin-left: 20px;
+}
+
 .listingcontainer {
     display: flex; 
     flex-wrap: wrap;
     margin-top: 15px;
+    justify-content: flex-start;
 }
+
+.listing-item {
+    display: flex;
+    flex-direction: column; /* Title & price stay below image */
+    align-items: center;
+    text-align: center;
+    width: 230px; /* Same width as listingBox */
+}
+
 
 .listing-details-container {
     width: 80%;

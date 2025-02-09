@@ -1,6 +1,6 @@
 let listing = {};
 document.addEventListener("DOMContentLoaded", function () {
-    const APIKEY = "67a7e66593d83bc642235238";
+    const APIKEY = "67a85df84dfa0cb54731a413";
 
     checkLoginStatus();
 
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     },
                 };
     
-                const response = await fetch(`https://mokeselldb9-d2e7.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, settings);
+                const response = await fetch(`https://mokeselldb10-552a.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, settings);
                 const data = await response.json();
                 return data;
             }
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
     
                     // Send the data to RestDB
-                    const response = await fetch("https://mokeselldb9-d2e7.restdb.io/rest/accounts", settings);
+                    const response = await fetch("https://mokeselldb10-552a.restdb.io/rest/accounts", settings);
                     alert("Account registered successfully!");
                     document.getElementById("add-contact-form").reset();
                     document.getElementById("registerModal").style.display = "none";
@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
             try {
                 const filter = `{"email": "${email}"}`;
-                const response = await fetch(`https://mokeselldb9-d2e7.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, {
+                const response = await fetch(`https://mokeselldb10-552a.restdb.io/rest/accounts?q=${encodeURIComponent(filter)}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const userEmail = localStorage.getItem("loggedInUser"); // Get email from localStorage
 
     if (userEmail) {
-        const url = `https://mokeselldb9-d2e7.restdb.io/rest/accounts?q={"email":"${userEmail}"}`;
+        const url = `https://mokeselldb10-552a.restdb.io/rest/accounts?q={"email":"${userEmail}"}`;
     
         fetch(url, {
             method: "GET",
@@ -388,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //listings
-    const RESTDB_COLLECTION_URL = "https://mokeselldb9-d2e7.restdb.io/rest/listings";
+    const RESTDB_COLLECTION_URL = "https://mokeselldb10-552a.restdb.io/rest/listings";
     
     // Image preview handling
     let fileInput = document.getElementById('fileInput');
@@ -486,7 +486,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     async function fetchListings() {
         try {
-            let response = await fetch("https://mokeselldb9-d2e7.restdb.io/rest/listings", {
+            let response = await fetch("https://mokeselldb10-552a.restdb.io/rest/listings", {
                 method: "GET",
                 headers: { "x-apikey": APIKEY, "Content-Type": "application/json" }
             });
@@ -520,7 +520,7 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
                 // Build the query to fetch user details based on sellerEmail
                 const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
-                const userResponse = await fetch(`https://mokeselldb9-d2e7.restdb.io/rest/accounts?q=${emailQuery}`, {
+                const userResponse = await fetch(`https://mokeselldb10-552a.restdb.io/rest/accounts?q=${emailQuery}`, {
                     method: "GET",
                     headers: { 
                         "x-apikey": APIKEY, 
@@ -608,7 +608,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fetch listing details
     async function fetchListingDetails() {
         try {
-            const response = await fetch(`https://mokeselldb9-d2e7.restdb.io/rest/listings/${listingId}`, {
+            const response = await fetch(`https://mokeselldb10-552a.restdb.io/rest/listings/${listingId}`, {
                 method: "GET",
                 headers: { "x-apikey": APIKEY }
             });
@@ -616,7 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const listing = await response.json();
 
             const emailQuery = encodeURIComponent(`{"email": "${listing.sellerEmail}"}`);
-            const userResponse = await fetch(`https://mokeselldb9-d2e7.restdb.io/rest/accounts?q=${emailQuery}`, {
+            const userResponse = await fetch(`https://mokeselldb10-552a.restdb.io/rest/accounts?q=${emailQuery}`, {
                 method: "GET",
                 headers: { 
                     "x-apikey": APIKEY, 
@@ -664,7 +664,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Modified fetch function with filtering
     async function fetchFilteredListings(category = null) {
         try {
-            let url = 'https://mokeselldb9-d2e7.restdb.io/rest/listings';
+            let url = 'https://mokeselldb10-552a.restdb.io/rest/listings';
             
             // Add category filter if specified
             if (category) {
@@ -699,7 +699,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             // Fetch all listings from RestDB
-            const response = await fetch("https://mokeselldb9-d2e7.restdb.io/rest/listings", {
+            const response = await fetch("https://mokeselldb10-552a.restdb.io/rest/listings", {
                 method: "GET",
                 headers: { "x-apikey": APIKEY }
             });
@@ -730,10 +730,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // Fetch listings for the user
         async function fetchUserListings() {
             try {
-                const response = await fetch(`https://mokeselldb9-d2e7.restdb.io/rest/listings?q={"sellerEmail":"${sellerEmail}"}`, {
+                const response = await fetch(`https://mokeselldb10-552a.restdb.io/rest/listings?q={"sellerEmail":"${sellerEmail}"}`, {
                     method: "GET",
                     headers: {
-                        "x-apikey": "67a77dde4d874444cf828042",
+                        "x-apikey": "67a85df84dfa0cb54731a413",
                         "Content-Type": "application/json"
                     }
                 });
@@ -763,7 +763,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fetch the user's listings
     async function fetchMyListings() {
         try {
-            const response = await fetch(`https://mokeselldb9-d2e7.restdb.io/rest/listings?q={"sellerEmail":"${userEmail}"}`, {
+            const response = await fetch(`https://mokeselldb10-552a.restdb.io/rest/listings?q={"sellerEmail":"${userEmail}"}`, {
                 method: "GET",
                 headers: {
                     "x-apikey": APIKEY,
@@ -837,6 +837,8 @@ document.addEventListener("DOMContentLoaded", function () {
         listingContainer.innerHTML = '';
     
         listings.forEach(listing => {
+            const listingItem = document.createElement("div");
+            listingItem.className = "listing-item"; // Wrapper for each listing
             const listingBox = document.createElement("div");
             listingBox.className = "listingbox";
             listingBox.style.backgroundImage = `url('${listing.image && listing.image[0] || "https://dummyimage.com/220x220/cccccc/ffffff&text=No+Image"}')`;
@@ -855,9 +857,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     $${listing.price ? listing.price.toFixed(2) : "0.00"}
                 </div>
             `;
-    
-            listingContainer.appendChild(listingBox);
-            listingContainer.appendChild(priceDiv);
+            
+            listingItem.appendChild(listingBox);
+            listingItem.appendChild(priceDiv);
+
+            listingContainer.appendChild(listingItem);
         });
     } 
 });
@@ -1001,8 +1005,8 @@ function goBack() {
     }
 
 
-    const RESTDB_API_KEY = '67a7aab193d83b5d72235223';
-    const RESTDB_BASE_URL = 'https://mokeselldb9-d2e7.restdb.io/rest'; 
+    const RESTDB_API_KEY = '67a85df84dfa0cb54731a413';
+    const RESTDB_BASE_URL = 'https://mokeselldb10-552a.restdb.io/rest'; 
     const CHATS_COLLECTION = 'chats'; // Replace with your chats collection name
 
     // Chat configuration
