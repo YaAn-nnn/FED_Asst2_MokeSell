@@ -1,6 +1,6 @@
 let listing = {};
 document.addEventListener("DOMContentLoaded", function () {
-    const APIKEY = "67a7aab193d83b5d72235223";
+    const APIKEY = "67a7e66593d83bc642235238";
 
     checkLoginStatus();
 
@@ -388,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //listings
-    const RESTDB_COLLECTION_URL = "https://mokeselldb9-d2e7.restdb.io/rest/listingss";
+    const RESTDB_COLLECTION_URL = "https://mokeselldb9-d2e7.restdb.io/rest/listings";
     
     // Image preview handling
     let fileInput = document.getElementById('fileInput');
@@ -425,12 +425,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!uploadedImageUrl) {
                 alert("Please upload an image before submitting.");
                 return;  // Stop submission if no image is uploaded
-            }
-    
-            // Ensure a category is selected (not default "Categories")
-            if (selectedCategory === "Categories") {
-                alert("Please select a category before submitting.");
-                return;  // Stop submission if no category is selected
             }
     
             try {
@@ -934,18 +928,6 @@ function selectCategory(name, imgSrc) {
     document.getElementById("sellDropdownMenu").style.display = "none";
 }
 
-// Add a check when submitting or proceeding to ensure a category is selected
-function checkCategoryBeforeProceeding() {
-    if (!selectedCategory) {
-        alert("Please select a category before proceeding!");
-        return false; // Prevent further action if no category is selected
-    }
-
-    // Proceed with the form submission or next step
-    return true;
-}
-
-
 function goBack() {
     window.history.back(); // This goes back to the previous page
 };
@@ -983,10 +965,7 @@ function goBack() {
                 closePopup(); // Close the upload window
             } else {
                 throw new Error(data.error.message || 'Upload failed');
-            }
-            if (checkCategoryBeforeProceeding()) {
-                // Proceed with form submission or further logic
-            }            
+            }      
         } catch (error) {
             console.error('Upload error:', error);
             alert('Image upload failed: ' + error.message);
@@ -1033,9 +1012,13 @@ function goBack() {
     const currentUserId = buyerId; // Assume the current user is the buyer
 
     // Fetch and display messages when the page loads
-    window.onload = async () => {
-        await fetchMessages();
+    let chatContainer = document.getElementById("chat-container")
+    if (chatContainer) {
+        window.onload = async () => {
+            await fetchMessages();
+        };
     };
+
 
     // Fetch messages from the chats collection
     async function fetchMessages() {
