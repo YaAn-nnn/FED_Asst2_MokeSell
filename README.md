@@ -43,6 +43,8 @@ Game - Our game allows users to play and gain points. Once the user hits a certa
 
 Categories - This allows users to find products under a certain category by selecting their desired category. 
 
+Search - This allow users to find product based on the search query and categories which is default to all if user did not choose one.
+
 Listing details - By clicking on one of the listings that you are interested in, you can get a more indepth view of the product. In the main page, you are only able to see the listings, their prices and when it was posted by who but when you click on it, it gives the full description of the product and allows you to chat with the seller if you are interested in buying the product.
 
 User profile - User can see their own profile and listings by clicking on their profile icon and clicking on "Profile".
