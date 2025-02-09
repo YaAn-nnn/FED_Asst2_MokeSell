@@ -792,7 +792,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function displayListingsForUser(listings) {
-        const listingContainer = document.getElementById("listingContainerWOuser");
+        const listingContainer = document.getElementById("myListings");
         if (!listingContainer) {
             console.error("Listing container not found.");
             return;
