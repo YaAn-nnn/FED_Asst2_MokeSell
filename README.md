@@ -1,3 +1,4 @@
+\
 # Mokesell - A gamified marketplace
 
 Our marketplace allows people to sell whatever they no longer want or need at their desired prices. Buyers can chat with the sellers to either negotiate the price or organise a meetup to obtain the product. This allows for easy communication between both parties so that meetups and selling can happen quickly and easily. We also have a game that gives vouchers to our users to help them sell their products. 
@@ -49,10 +50,16 @@ LottieFiles
 The project uses Lottie animations for the success message once user is successfully loggen in or logged out.
 https://lottiefiles.com/
 
+Cloudinary
+The project uses cloudinary to be able to upload photos that were input by the user by getting the image url and uploading it into our database and on the website.
+https://cloudinary.com/
+
 # Assistive AI
 Listing API: Deepseek was used to help with the implementation of the Listing API.
 ![a9e4a7ff-462b-47f5-9c41-974055196cd4](https://github.com/user-attachments/assets/c35f37cb-1067-41e6-8c96-7bcb95b14885)
 
+Chat API: Deepseek was used to help with the implementation of the Chat API
+![Screenshot 2025-02-09 181419](https://github.com/user-attachments/assets/6ca75e24-a2cc-49e7-988d-dd3424faffa9)
 
 
 # Testing
@@ -65,6 +72,7 @@ Login:
 
 Logout
 1. Click the Profile 
+
 2. Click "Logout"
 3. Affirm that you want to log out and check for a success message
 
@@ -75,11 +83,20 @@ Listing
 4. Enter title, description and price
 5. If posted successfullly, a success message should appear at the top
 
-Credits
+Search bar
+1. Click on the search bar
+2. Type in whatever you are looking for
+3. The listings that are similar to what has been searched should appear
+
+Categories
+1. Click on Categories
+2. Choose desired category
+3. The listings under that category should appear
+
+# Credits
 
 Media
 The photos used in this site were obtained from flaticon.
 
 Acknowledgements
-
 We received inspiration for this project from Carousell
