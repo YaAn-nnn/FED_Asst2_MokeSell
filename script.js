@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
                     // Send the data to RestDB
                     const response = await fetch("https://mokeselldb11-beb9.restdb.io/rest/accounts", settings);
-                    alert("Account registered successfully!");
+                    document.getElementById("registerSuccessModal").style.display = "block";
                     document.getElementById("add-contact-form").reset();
                     document.getElementById("registerModal").style.display = "none";
                     document.getElementById("loginModal").style.display = "block";
