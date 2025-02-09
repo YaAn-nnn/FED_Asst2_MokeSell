@@ -1,4 +1,3 @@
-\
 # Mokesell - A gamified marketplace
 
 Our marketplace allows people to sell whatever they no longer want or need at their desired prices. Buyers can chat with the sellers to either negotiate the price or organise a meetup to obtain the product. This allows for easy communication between both parties so that meetups and selling can happen quickly and easily. We also have a game that gives vouchers to our users to help them sell their products. 
